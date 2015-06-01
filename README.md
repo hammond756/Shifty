@@ -1,6 +1,9 @@
 # Shifty
 My submission for the course Programming Project 2015.
 
+###### Language disclaimer
+This proposal and all other documentation will be written in English. However, the UI of the app will be in Dutch. For this reason, sometimes Dutch words will appear in either the code, the comments and the documentation. I will be consistent and do my best to distinguish them from the rest as good as possible.
+
 ## The idea ##
 Shifty is a marketplace for shifts whithin small businesses. The app alows employees to view each others scheduele and post request for shifts that they want to be filled in by others or volunteer to work a certain shift. All this information will be available to all relevant employees at the company. This idea came to mind because I work at a restaurant where all servers are part-timers that study/have a life on the side. All this (trading shifts) is currently done via What's-app and there is no overview of all the activity, which is cause for disputes from time to time.
 
