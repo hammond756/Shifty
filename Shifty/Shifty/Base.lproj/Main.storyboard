@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--RequestsView-->
+        <!--GezochtView-->
         <scene sceneID="paP-3M-0tO">
             <objects>
-                <viewController title="RequestsView" id="R1y-AO-mYc" sceneMemberID="viewController">
+                <viewController title="GezochtView" id="R1y-AO-mYc" customClass="GezochtViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Er0-4o-DEU"/>
                         <viewControllerLayoutGuide type="bottom" id="qQM-xa-lEX"/>
@@ -35,10 +35,10 @@
             </objects>
             <point key="canvasLocation" x="287" y="371"/>
         </scene>
-        <!--VolunteerView-->
+        <!--AangebodenView-->
         <scene sceneID="Hgn-7H-jDe">
             <objects>
-                <viewController title="VolunteerView" id="QH0-0u-KEX" sceneMemberID="viewController">
+                <viewController title="AangebodenView" id="QH0-0u-KEX" customClass="AangebodenViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Dac-FO-0IU"/>
                         <viewControllerLayoutGuide type="bottom" id="x0Q-QX-3eb"/>
@@ -66,10 +66,10 @@
             </objects>
             <point key="canvasLocation" x="287" y="1060"/>
         </scene>
-        <!--PersonalScheduleView-->
+        <!--RoosterView-->
         <scene sceneID="4HD-PW-RMQ">
             <objects>
-                <viewController title="PersonalScheduleView" id="dnF-eu-6cI" sceneMemberID="viewController">
+                <viewController title="RoosterView" id="dnF-eu-6cI" customClass="RoosterViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xnS-xa-r0E"/>
                         <viewControllerLayoutGuide type="bottom" id="RoK-rY-lzF"/>
