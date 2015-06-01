@@ -11,7 +11,7 @@ Shifty is a marketplace for shifts whithin small businesses. The app alows emplo
 - Overview of submitted requests
 
 ## Possible complications ##
-For this App to be usefull, it must have networking functionality. This is something that is new to me, but very willing to figure out. However, this may proof itself to be more complicated than expected.  
+For this app to be usefull, it must have networking functionality. This is something that is new to me, but very willing to figure out. However, this may proof itself to be more complicated than expected.  
 A real world issue is that the app will only be available on iOS devices and it won't reach it's full potential until the data can be shared between all (or the most common) platforms. In the future, I will write a web based application to compliment the by existing iOS app and overcome this problem.
 
 ## Planning ##
@@ -26,7 +26,7 @@ A real world issue is that the app will only be available on iOS devices and it 
 ## Sketches ##
 
 ##### Log in/Sign up
-This is provided by the Parse framework. New users can sign up via the "SIGN UP" button. The left screen is a sketch of the sign up screen (minimum info required). A returning user can log in.  
+This is provided by the Parse framework. New users can sign up via the "SIGN UP" button. The right screen is a sketch of the sign up screen (minimum info required). A returning user can log in.  
 ![Log in](/doc/login.png)
 
 ##### Main view
