@@ -18,9 +18,10 @@ A real world issue is that the app will only be available on iOS devices and it 
 
 | Week | Goal | Description |
 |:------:|:------:|---------|
-|1     | Interface | Implement a working interface in the Xcode storyboard. Working segues (with hard-coded content) |
+|1     | Interface and documentations | Proposal + Design document. And also implement a working interface in the Xcode storyboard. Working segues (with hard-coded content) |
 |2     | User profiles | Let new users create a profile and fill in their weekly schedule |
 |3     | Interaction | User can engage with the weekly schedule and reply to requests |
+|4     | Refactoring | Clean up de code and optimize performance and interaction |
 
 ## Sketches ##
 
