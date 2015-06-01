@@ -44,7 +44,7 @@ In the *Rooster* tab, shifts that sent to the market place will be highlighted i
 ![Main view](/doc/tab_view.png)
 
 If their is no schedule known, the *Rooster* subview will show a text to let the user know it has to submit their fixed schedule.  
-![Empty schedule](/doc/empty.png) ![New schedule](doc/nieuw_rooster.png)
+<img src="doc/empty.png" height=300px/> <img src="doc/nieuw_rooster.png" height=300px/>
 
 ##### Options
 To send or reply to a request, the user has to swipe left on a table cell. This wil cause a button to appear that can be tapped to preform the approprate action. For now, this is either sending (left) or accepting (right) a request.
