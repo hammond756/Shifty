@@ -25,3 +25,22 @@ A real world issue is that the app will only be available on iOS devices and it 
 
 ## Sketches ##
 
+##### Log in/Sign up
+This is provided by the Parse framework. New users can sign up via the "SIGN UP" button. The left screen is a sketch of the sign up screen (minimum info required). A returning user can log in.  
+![Log in](/doc/login.png)
+
+##### Main view
+This is where all the app functionality takes place. The main view consists of a tab controller with three subviews. *Rooster* where the user's personal schedule can be viewed (left). From here the user can send requests to the marketplace. The market place is split up into two sections: *Gezocht* (middle) and *Aangeboden* (right). In these sections a user can view requests from either poeple who are looking for a replacement and volunteering to fill-in shifts respectively.
+In the *Rooster* tab, shifts that sent to the market place will be highlighted in a particular color. Shifts that are owned by the user (fixed, or taken from a colleague) are not.
+- Red: opend request
+- Orange: awaiting approval
+- Green: approved  
+![Main view](/doc/tab_view.png)
+
+If their is no schedule known, the *Rooster* subview will show a text to let the user know it has to submit their fixed schedule.  
+![Empty schedule](/doc/empty.png)
+
+##### Options
+To send or reply to a request, the user has to swipe left on a table cell. This wil cause a button to appear that can be tapped to preform the approprate action. For now, this is either sending (left) or accepting (right) a request.
+![Swipe options](/doc/swipe_options.png)
+
