@@ -31,10 +31,13 @@ This is provided by the Parse framework. New users can sign up via the "SIGN UP"
 
 ##### Main view
 This is where all the app functionality takes place. The main view consists of a tab controller with three subviews. *Rooster* where the user's personal schedule can be viewed (left). From here the user can send requests to the marketplace. The market place is split up into two sections: *Gezocht* (middle) and *Aangeboden* (right). In these sections a user can view requests from either poeple who are looking for a replacement and volunteering to fill-in shifts respectively.
-In the *Rooster* tab, shifts that sent to the market place will be highlighted in a particular color. Shifts that are owned by the user (fixed, or taken from a colleague) are not.
-- Red: opend request
-- Orange: awaiting approval
-- Green: approved  
+In the *Rooster* tab, shifts that sent to the market place will be highlighted in a particular color. Shifts that are owned by the user (fixed, or taken from a colleague) are not.  
+
+| Color | Status |
+|-------|--------|
+| Orange| Open request |
+| Green | Awaiting approval |
+
 ![Main view](/doc/tab_view.png)
 
 If their is no schedule known, the *Rooster* subview will show a text to let the user know it has to submit their fixed schedule.  
