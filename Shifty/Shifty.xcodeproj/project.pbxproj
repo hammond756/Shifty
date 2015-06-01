@@ -77,11 +77,8 @@
 		9C2EF5591B1CB1E20067F689 /* Shifty */ = {
 			isa = PBXGroup;
 			children = (
-				9C2EF55C1B1CB1E30067F689 /* AppDelegate.swift */,
 				9C2EF55E1B1CB1E30067F689 /* ViewController.swift */,
 				9C2EF5601B1CB1E30067F689 /* Main.storyboard */,
-				9C2EF5631B1CB1E30067F689 /* Images.xcassets */,
-				9C2EF5651B1CB1E30067F689 /* LaunchScreen.xib */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
 			);
 			path = Shifty;
@@ -90,6 +87,9 @@
 		9C2EF55A1B1CB1E20067F689 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				9C2EF55C1B1CB1E30067F689 /* AppDelegate.swift */,
+				9C2EF5631B1CB1E30067F689 /* Images.xcassets */,
+				9C2EF5651B1CB1E30067F689 /* LaunchScreen.xib */,
 				9C2EF55B1B1CB1E30067F689 /* Info.plist */,
 			);
 			name = "Supporting Files";
