@@ -4,99 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
-        <!--GezochtView-->
-        <scene sceneID="paP-3M-0tO">
-            <objects>
-                <viewController title="GezochtView" id="R1y-AO-mYc" customClass="GezochtViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Er0-4o-DEU"/>
-                        <viewControllerLayoutGuide type="bottom" id="qQM-xa-lEX"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="m3g-ff-lGU">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gezocht" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xdX-db-FRd">
-                                <rect key="frame" x="268" y="289" width="65" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="xdX-db-FRd" secondAttribute="centerX" constant="-0.5" id="IZj-eq-Jvy"/>
-                            <constraint firstAttribute="centerY" secondItem="xdX-db-FRd" secondAttribute="centerY" constant="0.5" id="r2z-Zv-Jma"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Gezocht" id="GVa-NY-OnI"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="s4A-J7-O3R" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="287" y="371"/>
-        </scene>
-        <!--AangebodenView-->
-        <scene sceneID="Hgn-7H-jDe">
-            <objects>
-                <viewController title="AangebodenView" id="QH0-0u-KEX" customClass="AangebodenViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Dac-FO-0IU"/>
-                        <viewControllerLayoutGuide type="bottom" id="x0Q-QX-3eb"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="5s4-en-SHa">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Aangeboden" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dss-VM-l8A">
-                                <rect key="frame" x="251" y="289" width="98" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Dss-VM-l8A" secondAttribute="centerX" id="8x7-14-eCO"/>
-                            <constraint firstAttribute="centerY" secondItem="Dss-VM-l8A" secondAttribute="centerY" constant="0.5" id="auI-5t-TZA"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Aangeboden" id="7Gh-r8-qrS"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HQx-5q-nnk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="287" y="1060"/>
-        </scene>
-        <!--RoosterView-->
-        <scene sceneID="4HD-PW-RMQ">
-            <objects>
-                <viewController title="RoosterView" id="dnF-eu-6cI" customClass="RoosterViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="xnS-xa-r0E"/>
-                        <viewControllerLayoutGuide type="bottom" id="RoK-rY-lzF"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="hjZ-Hb-igl">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rooster" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qri-U9-VG5">
-                                <rect key="frame" x="270" y="289" width="61" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerX" secondItem="Qri-U9-VG5" secondAttribute="centerX" constant="-0.5" id="7cp-n0-B0q"/>
-                            <constraint firstAttribute="centerY" secondItem="Qri-U9-VG5" secondAttribute="centerY" constant="0.5" id="Kwh-tZ-g9g"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Rooster" id="8ac-WI-5iC"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Asm-FT-5fE" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="287" y="-316"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="VB4-4s-iH5">
             <objects>
@@ -108,14 +15,152 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="dnF-eu-6cI" kind="relationship" relationship="viewControllers" id="9ml-pX-Wsn"/>
-                        <segue destination="R1y-AO-mYc" kind="relationship" relationship="viewControllers" id="5Ir-WS-ZRK"/>
-                        <segue destination="QH0-0u-KEX" kind="relationship" relationship="viewControllers" id="z6S-yr-Uf2"/>
+                        <segue destination="9Sm-da-Ca6" kind="relationship" relationship="viewControllers" id="yYE-Pe-WfS"/>
+                        <segue destination="NQi-Gz-uFD" kind="relationship" relationship="viewControllers" id="bod-Xy-Keo"/>
+                        <segue destination="S1m-Te-fhB" kind="relationship" relationship="viewControllers" id="9Ld-OV-ZW8"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="phb-7u-U6T" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-389" y="371"/>
+            <point key="canvasLocation" x="-549" y="371"/>
+        </scene>
+        <!--Rooster-->
+        <scene sceneID="bDK-pd-CwK">
+            <objects>
+                <tableViewController id="b1W-B8-N86" customClass="RoosterViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="mZC-M3-avP">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Shift" id="78a-uG-5ua">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="78a-uG-5ua" id="c2T-CX-bqj">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="b1W-B8-N86" id="mKg-TE-NbJ"/>
+                            <outlet property="delegate" destination="b1W-B8-N86" id="guG-ad-OEW"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Rooster" id="W2E-tv-Y3y"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cIN-9L-xYX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1060" y="-288"/>
+        </scene>
+        <!--Gezocht-->
+        <scene sceneID="bdE-iJ-5UE">
+            <objects>
+                <tableViewController id="Yfp-jp-Y3X" customClass="GezochtViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="rPD-ki-DIE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Shift" id="18q-Fm-B2k">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="18q-Fm-B2k" id="BbK-fH-cPu">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Yfp-jp-Y3X" id="ywX-Nd-p9T"/>
+                            <outlet property="delegate" destination="Yfp-jp-Y3X" id="7l7-yc-jTa"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Gezocht" id="CdO-SI-y2X"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pCR-Qm-5Wc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1060" y="371"/>
+        </scene>
+        <!--Aangeboden-->
+        <scene sceneID="nyk-63-aYw">
+            <objects>
+                <tableViewController id="9qf-KU-Xp7" customClass="AangebodenViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Yrx-2H-Fbu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Shift" id="zOU-Fr-3aV">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zOU-Fr-3aV" id="NjV-vM-Xp4">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="9qf-KU-Xp7" id="KsD-sm-C0e"/>
+                            <outlet property="delegate" destination="9qf-KU-Xp7" id="KXy-y2-wMW"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Aangeboden" id="mo0-4p-fk4"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TPh-0u-38g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1060" y="1026"/>
+        </scene>
+        <!--Rooster-->
+        <scene sceneID="gh0-x5-gDa">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9Sm-da-Ca6" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Rooster" id="lVx-Ec-ifv"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="fB7-wI-ra8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="b1W-B8-N86" kind="relationship" relationship="rootViewController" id="BC0-9Q-4wJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bch-9X-s7K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="248" y="-288"/>
+        </scene>
+        <!--Gezocht-->
+        <scene sceneID="AhI-9I-xFz">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NQi-Gz-uFD" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Gezocht" id="JsH-gG-4To"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4wU-HM-vJC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Yfp-jp-Y3X" kind="relationship" relationship="rootViewController" id="mO0-GW-0lT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fdv-ue-rTS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="248" y="371"/>
+        </scene>
+        <!--Aangeboden-->
+        <scene sceneID="ggx-bJ-Cqe">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="S1m-Te-fhB" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Aangeboden" id="9Zc-vV-exa"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bg8-yE-CtL">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="9qf-KU-Xp7" kind="relationship" relationship="rootViewController" id="v7J-lq-5SN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R0c-yv-7si" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="248" y="1026"/>
         </scene>
     </scenes>
 </document>

@@ -15,6 +15,7 @@
 		9C2EF57F1B1CF1270067F689 /* RoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF57E1B1CF1270067F689 /* RoosterViewController.swift */; };
 		9C2EF5811B1CF13E0067F689 /* GezochtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */; };
 		9C2EF5831B1CF1550067F689 /* AangebodenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */; };
+		9C7780941B1DB9B600C9D6A6 /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7780931B1DB9B600C9D6A6 /* Shift.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		9C2EF57E1B1CF1270067F689 /* RoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoosterViewController.swift; sourceTree = "<group>"; };
 		9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GezochtViewController.swift; sourceTree = "<group>"; };
 		9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AangebodenViewController.swift; sourceTree = "<group>"; };
+		9C7780931B1DB9B600C9D6A6 /* Shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */,
 				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
+				9C7780931B1DB9B600C9D6A6 /* Shift.swift */,
 			);
 			path = Shifty;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				9C2EF55D1B1CB1E30067F689 /* AppDelegate.swift in Sources */,
 				9C2EF57F1B1CF1270067F689 /* RoosterViewController.swift in Sources */,
 				9C2EF5811B1CF13E0067F689 /* GezochtViewController.swift in Sources */,
+				9C7780941B1DB9B600C9D6A6 /* Shift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,6 +423,7 @@
 				9C2EF5781B1CB1E30067F689 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		9C2EF5791B1CB1E30067F689 /* Build configuration list for PBXNativeTarget "ShiftyTests" */ = {
 			isa = XCConfigurationList;
@@ -427,6 +432,7 @@
 				9C2EF57B1B1CB1E30067F689 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
