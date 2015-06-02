@@ -10,7 +10,7 @@ import UIKit
 
 class RoosterViewController: UITableViewController
 {
-    var shifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 10, month: 6, year: 2015, time: (18,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0))]
+    var shifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 10, month: 6, year: 2015, time: (18,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0)), Shift(day: 30, month: 6, year: 2015, time: (15,0))]
     
     var sectionsInTable = [String]()
     
@@ -18,13 +18,14 @@ class RoosterViewController: UITableViewController
     {
         super.viewDidLoad()
         
-        let sections = NSSet(array: sectionsInTable)
-        
         for shift in shifts
         {
-            if !sections.containsObject(shift.getWeekOfYear())
+            let weekOfYear = shift.getWeekOfYear()
+            let sections = NSSet(array: sectionsInTable)
+            
+            if !sections.containsObject(weekOfYear)
             {
-                sectionsInTable.append(shift.getWeekOfYear())
+                sectionsInTable.append(weekOfYear)
             }
         }
     }
@@ -63,6 +64,7 @@ class RoosterViewController: UITableViewController
         timeLabel.sizeToFit()
         
         cell.accessoryView = timeLabel
+        cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         return cell
     }

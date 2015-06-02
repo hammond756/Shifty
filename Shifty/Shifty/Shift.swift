@@ -33,8 +33,6 @@ class Shift
         dateObject = calendar.dateFromComponents(dateComponents)!
         dateString = dateFormatter.stringFromDate(dateObject)
         timeString = timeFormatter.stringFromDate(dateObject)
-        
-        println(dateString)
     }
     
     func getWeekOfYear() -> String
