@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import ParseUI
+import Parse
 
-class RoosterViewController: UITableViewController
+class RoosterViewController: UITableViewController, PFLogInViewControllerDelegate
 {
     var shifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 10, month: 6, year: 2015, time: (18,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0)), Shift(day: 30, month: 6, year: 2015, time: (15,0))]
     
@@ -28,6 +30,7 @@ class RoosterViewController: UITableViewController
                 sectionsInTable.append(weekOfYear)
             }
         }
+        
     }
     
     func getSectionItems(section: Int) -> [Shift]
