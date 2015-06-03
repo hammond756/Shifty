@@ -2,20 +2,25 @@
 //  RoosterViewController.swift
 //  Shifty
 //
-//  Created by Aron Hammond on 01/06/15.
+//  Created by Aron Hammond on 03/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
 
 import UIKit
-import ParseUI
-import Parse
 
-class RoosterViewController: UITableViewController, PFLogInViewControllerDelegate
+class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
-    var shifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 10, month: 6, year: 2015, time: (18,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0)), Shift(day: 30, month: 6, year: 2015, time: (15,0))]
+    @IBOutlet weak var tableView: UITableView!
     
+//    var shifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 10, month: 6, year: 2015, time: (18,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0)), Shift(day: 30, month: 6, year: 2015, time: (15,0))]
+    var shifts: [Shift] = []
     var sectionsInTable = [String]()
     
+    @IBAction func sumbitNewRooster()
+    {
+        println("segue")
+    }
+
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -29,8 +34,23 @@ class RoosterViewController: UITableViewController, PFLogInViewControllerDelegat
             {
                 sectionsInTable.append(weekOfYear)
             }
+            
+            println(sectionsInTable)
         }
         
+        if shifts.count == 0
+        {
+            self.tableView.hidden = true
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if let tbl = tableView
+        {
+            tbl.hidden = true
+        }
     }
     
     func getSectionItems(section: Int) -> [Shift]
@@ -44,21 +64,19 @@ class RoosterViewController: UITableViewController, PFLogInViewControllerDelegat
                 sectionItems.append(shift)
             }
         }
-        
+                
         return sectionItems
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return getSectionItems(section).count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
         let sectionItems = getSectionItems(indexPath.section)
-        
-        cell.textLabel?.text = sectionItems[indexPath.row].dateString
         
         var timeLabel = UILabel()
         timeLabel.font = UIFont.systemFontOfSize(14)
@@ -66,18 +84,19 @@ class RoosterViewController: UITableViewController, PFLogInViewControllerDelegat
         timeLabel.text = sectionItems[indexPath.row].timeString
         timeLabel.sizeToFit()
         
+        cell.textLabel?.text = sectionItems[indexPath.row].dateString
         cell.accessoryView = timeLabel
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return sectionsInTable[section]
     }
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return sectionsInTable.count
     }

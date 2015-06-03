@@ -28,6 +28,8 @@ class GezochtViewController: UITableViewController
                 sectionsInTable.append(weekOfYear)
             }
         }
+        
+        tableView.hidden = true
     }
     
     func getSectionItems(section: Int) -> [Shift]

@@ -12,7 +12,6 @@
 		9C2EF5641B1CB1E30067F689 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C2EF5631B1CB1E30067F689 /* Images.xcassets */; };
 		9C2EF5671B1CB1E30067F689 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9C2EF5651B1CB1E30067F689 /* LaunchScreen.xib */; };
 		9C2EF5731B1CB1E30067F689 /* ShiftyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF5721B1CB1E30067F689 /* ShiftyTests.swift */; };
-		9C2EF57F1B1CF1270067F689 /* RoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF57E1B1CF1270067F689 /* RoosterViewController.swift */; };
 		9C2EF5811B1CF13E0067F689 /* GezochtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */; };
 		9C2EF5831B1CF1550067F689 /* AangebodenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */; };
 		9C7780941B1DB9B600C9D6A6 /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7780931B1DB9B600C9D6A6 /* Shift.swift */; };
@@ -33,6 +32,7 @@
 		9C7780BC1B1E290500C9D6A6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7780BB1B1E290500C9D6A6 /* libsqlite3.dylib */; };
 		9CBA579C1B1E308900B1F708 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CBA579B1B1E308900B1F708 /* ParseUI.framework */; };
 		9CBA579E1B1E362900B1F708 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA579D1B1E362900B1F708 /* LogInViewController.swift */; };
+		9CBA57A71B1F099400B1F708 /* RoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA57A61B1F099400B1F708 /* RoosterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,7 +55,6 @@
 		9C2EF56C1B1CB1E30067F689 /* ShiftyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShiftyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C2EF5711B1CB1E30067F689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C2EF5721B1CB1E30067F689 /* ShiftyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShiftyTests.swift; sourceTree = "<group>"; };
-		9C2EF57E1B1CF1270067F689 /* RoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoosterViewController.swift; sourceTree = "<group>"; };
 		9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GezochtViewController.swift; sourceTree = "<group>"; };
 		9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AangebodenViewController.swift; sourceTree = "<group>"; };
 		9C7780931B1DB9B600C9D6A6 /* Shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
@@ -76,6 +75,7 @@
 		9C7780BB1B1E290500C9D6A6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9CBA579B1B1E308900B1F708 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		9CBA579D1B1E362900B1F708 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		9CBA57A61B1F099400B1F708 /* RoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoosterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				9C2EF5601B1CB1E30067F689 /* Main.storyboard */,
-				9C2EF57E1B1CF1270067F689 /* RoosterViewController.swift */,
+				9CBA57A61B1F099400B1F708 /* RoosterViewController.swift */,
 				9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */,
 				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
@@ -296,10 +296,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CBA57A71B1F099400B1F708 /* RoosterViewController.swift in Sources */,
 				9C2EF5831B1CF1550067F689 /* AangebodenViewController.swift in Sources */,
 				9C2EF55D1B1CB1E30067F689 /* AppDelegate.swift in Sources */,
 				9CBA579E1B1E362900B1F708 /* LogInViewController.swift in Sources */,
-				9C2EF57F1B1CF1270067F689 /* RoosterViewController.swift in Sources */,
 				9C2EF5811B1CF13E0067F689 /* GezochtViewController.swift in Sources */,
 				9C7780941B1DB9B600C9D6A6 /* Shift.swift in Sources */,
 			);
