@@ -11,19 +11,23 @@ import UIKit
 class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var submitButton: UIButton!
     
 //    var shifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 10, month: 6, year: 2015, time: (18,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0)), Shift(day: 30, month: 6, year: 2015, time: (15,0))]
     var shifts: [Shift] = []
     var sectionsInTable = [String]()
     
-    @IBAction func sumbitNewRooster()
+    @IBAction func goToSubmitView()
     {
-        println("segue")
+        performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        submitButton.layer.cornerRadius = 10
+        submitButton.clipsToBounds = true
         
         for shift in shifts
         {
