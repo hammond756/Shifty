@@ -13,29 +13,79 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
-    
-//    var shifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 10, month: 6, year: 2015, time: (18,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0)), Shift(day: 30, month: 6, year: 2015, time: (15,0))]
+
+    let rooster = Rooster()
     var shifts: [Shift] = []
     var sectionsInTable = [String]()
-    
+
     @IBAction func goToSubmitView()
     {
         performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
-
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        requestFixedRooster()
+        
+        if shifts.count == 0
+        {
+            println("shifts == 0")
+            self.tableView.hidden = true
+        }
+        else
+        {
+            getSections(shifts)
+            self.tableView.reloadData()
+            self.tableView.hidden = false
+        }
+    }
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        let testObject = PFObject(className: "TestObject")
-        testObject["foo"] = "bar"
-        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
-            println("Object has been saved.")
-        }
-        
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
+
+    }
+    
+    func requestFixedRooster()
+    {
+        var currentUser = PFUser.currentUser()
+        let userID = currentUser?.objectId
+        let query = PFQuery(className: "Shifts")
+        query.whereKey("Owner", equalTo: userID!)
         
+        query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
+
+            
+            if error == nil
+            {
+                println("hooray")
+                
+                if let objects = objects as? [PFObject]
+                {
+                    for object in objects
+                    {
+                        let hour = object["Hour"] as! Int
+                        let minute = object["Minute"] as! Int
+                        let day = object["Day"] as! String
+                        println("in loop")
+                        let rooster = Rooster()
+                        rooster.addRecurringShift(day, hour: hour, minute: minute)
+                        
+                        println("about to assign shifts")
+                        self.shifts = rooster.recurringShifts
+                    }
+                }
+            }
+            
+        }
+        
+    }
+    
+    // everything to do with the table view
+    private func getSections(shifts: [Shift])
+    {
         for shift in shifts
         {
             let weekOfYear = shift.getWeekOfYear()
@@ -45,26 +95,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             {
                 sectionsInTable.append(weekOfYear)
             }
-            
-            println(sectionsInTable)
         }
         
-        if shifts.count == 0
-        {
-            self.tableView.hidden = true
-        }
+        println(sectionsInTable)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        if let tbl = tableView
-        {
-            tbl.hidden = true
-        }
-    }
-    
-    func getSectionItems(section: Int) -> [Shift]
+    private func getSectionItems(section: Int) -> [Shift]
     {
         var sectionItems = [Shift]()
         
@@ -75,7 +111,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 sectionItems.append(shift)
             }
         }
-                
+        println(sectionItems)
         return sectionItems
     }
     

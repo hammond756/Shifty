@@ -12,7 +12,7 @@ import ParseUI
 
 class LogInViewController: UIViewController, PFLogInViewControllerDelegate
 {
-    var logInSucceeded = true
+    var logInSucceeded = false
     
     override func viewDidAppear(animated: Bool)
     {
@@ -20,9 +20,9 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate
         
         if !logInSucceeded
         {
-        var loginController = PFLogInViewController()
-        loginController.delegate = self
-        presentViewController(loginController, animated: true, completion: nil)
+            var loginController = PFLogInViewController()
+            loginController.delegate = self
+            presentViewController(loginController, animated: true, completion: nil)
         }
         else
         {

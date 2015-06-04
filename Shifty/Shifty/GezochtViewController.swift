@@ -8,10 +8,11 @@
 
 import UIKit
 import Parse
+import SwiftDate
 
 class GezochtViewController: UITableViewController
 {
-    let wantedShifts: [Shift] = [Shift(day: 3, month: 6, year: 2015, time: (18,0)), Shift(day: 3, month: 6, year: 2015, time: (15,0)), Shift(day: 5, month: 6, year: 2015, time: (17,0)), Shift(day: 10, month: 6, year: 2015, time: (16,30)), Shift(day: 12, month: 6, year: 2015, time: (17,0)), Shift(day: 13, month: 6, year: 2015, time: (17,0)), Shift(day: 16, month: 6, year: 2015, time: (18,0)), Shift(day: 23, month: 6, year: 2015, time: (17,0)), Shift(day: 29, month: 6, year: 2015, time: (18,0)), Shift(day: 3, month: 7, year: 2015, time: (17,0)), Shift(day: 17, month: 7, year: 2015, time: (17,0))]
+    var wantedShifts: [Shift] = [Shift(date: NSDate())]
     
     var sectionsInTable = [String]()
     
@@ -29,8 +30,6 @@ class GezochtViewController: UITableViewController
                 sectionsInTable.append(weekOfYear)
             }
         }
-        
-        tableView.hidden = true
     }
     
     func getSectionItems(section: Int) -> [Shift]

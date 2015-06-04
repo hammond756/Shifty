@@ -45,6 +45,45 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func submitRooster()
+    {
+        var textFieldSets = [
+            [dagField1, tijdField1],
+            [dagField2, tijdField2],
+            [dagField3, tijdField3]
+        ]
+        
+        let dag1 = dagField1.text
+        let tijd1 = tijdField1.text
+        
+        let shift = PFObject(className: "Shifts")
+        shift["Day"] = dag1
+        shift["Hour"] = extractTimeComponents(tijd1).0
+        shift["Minute"] = extractTimeComponents(tijd1).1
+        shift["Owner"] = PFUser.currentUser()?.objectId
+        
+        shift.saveInBackgroundWithBlock { (succes: Bool, error: NSError?) -> Void in
+            if succes
+            {
+                println("done")
+            }
+            else
+            {
+                println(error?.description)
+            }
+        }
+    }
+    
+    func extractTimeComponents(time: String) -> (Int, Int)
+    {
+        let timeArray = split(time) { $0 == ":" }
+        var timeComponents: (Int, Int)
+        
+        timeComponents.0 = timeArray[0].toInt()!
+        timeComponents.1 = timeArray[1].toInt()!
+        
+        return timeComponents
+    }
     func updateTextField(tag: Int)
     {
         var textFieldSets = [

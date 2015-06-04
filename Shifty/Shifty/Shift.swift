@@ -20,7 +20,7 @@ class Shift
     {
         dateObject = NSDate.date(refDate: nil, year: year, month: month, day: day, hour: hour, minute: minute, second: 0, tz: nil)
         
-        dateString = dateObject.toString(format: DateFormat.Custom("EEE dd MMM"))
+        dateString = dateObject.toString(format: DateFormat.Custom("EEEE dd MMM"))
         timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
     }
     
@@ -28,7 +28,7 @@ class Shift
     {
         dateObject = date
         
-        dateString = dateObject.toString(format: DateFormat.Custom("EEE dd MMM"))
+        dateString = dateObject.toString(format: DateFormat.Custom("EEEE dd MMM"))
         timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
     }
     

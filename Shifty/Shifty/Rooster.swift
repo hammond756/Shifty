@@ -16,32 +16,31 @@ class Rooster
     let amountOfRecurringWeeks = 8
     var recurringShifts = [Shift]()
     
-    func addRecurringShift(day: String, time: String)
+    func addRecurringShift(day: String, hour: Int, minute: Int)
     {
-        let timeObject = time.toDate(format: DateFormat.Custom("HH:mm"))
+        println("entered bla")
         let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag:": 7, "Zondag": 1]
         
-        let firstOccurenceDate = nextOccurenceOfDay(dayDict[day]!)
-        firstOccurenceDate.set("hour", value: timeObject?.hour)
-        firstOccurenceDate.set("mintue", value: timeObject?.minute)
+        var firstOccurrenceDate = nextOccurenceOfDay(dayDict[day]!).set(componentsDict: ["hour": hour, "minute": minute])
         
-        for weeks in 1...amountOfRecurringWeeks
+        for week in 0..<amountOfRecurringWeeks
         {
-            let date = firstOccurenceDate + (7 * weeks).day
+            let date = firstOccurrenceDate! + (7 * week).day
+            println("bla")
             recurringShifts.append(Shift(date: date))
         }
+        
     }
     
-    func nextOccurenceOfDay(day: Int) -> NSDate
+    private func nextOccurenceOfDay(day: Int) -> NSDate
     {
-        let today = NSDate.today()
+        let today = NSDate()
         var daysAhead = day - today.weekday
         
         if daysAhead < 0
         {
             daysAhead = daysAhead + 7
         }
-        
         return today + daysAhead.day
     }
 }

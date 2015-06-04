@@ -8,10 +8,11 @@
 
 import UIKit
 import Parse
+import SwiftDate
 
 class AangebodenViewController: UITableViewController {
 
-    let suppliedShifts = [Shift(day: 24, month: 6, year: 2015, time: (18,0)), Shift(day: 5, month: 7, year: 2015, time: (18,0)), Shift(day: 25, month: 6, year: 2015, time: (18,0)), ]
+    let suppliedShifts = [Shift(date: NSDate.today())]
     
     var sectionsInTable = [String]()
     
