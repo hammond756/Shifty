@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
@@ -25,6 +26,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        let testObject = PFObject(className: "TestObject")
+        testObject["foo"] = "bar"
+        testObject.saveInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
+            println("Object has been saved.")
+        }
         
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true

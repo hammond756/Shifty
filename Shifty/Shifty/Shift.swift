@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftDate
+import Parse
 
 class Shift
 {
@@ -15,9 +16,17 @@ class Shift
     var timeString: String
     var dateObject: NSDate
     
-    init(day: Int, month: Int, year: Int, time: (Int, Int))
+    init(day: Int, month: Int, year: Int, hour: Int, minute: Int)
     {
-        dateObject = NSDate.date(refDate: nil, year: year, month: month, day: day, hour: time.0, minute: time.1, second: 0, tz: nil)
+        dateObject = NSDate.date(refDate: nil, year: year, month: month, day: day, hour: hour, minute: minute, second: 0, tz: nil)
+        
+        dateString = dateObject.toString(format: DateFormat.Custom("EEE dd MMM"))
+        timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
+    }
+    
+    init(date: NSDate)
+    {
+        dateObject = date
         
         dateString = dateObject.toString(format: DateFormat.Custom("EEE dd MMM"))
         timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
