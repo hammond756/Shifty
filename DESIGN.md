@@ -3,7 +3,7 @@
 ##### Introduction
 
 My will consist of five view controller. The LoginViewController, RoosterViewController, GezochtViewController, AangebodenViewController
-and the SubmitRoosterViewController. The three main views (Rooster, Gezocht and Aangeboden) are embedden in a TableView. But the indiviual views
+and the SubmitRoosterViewController. The three main views (Rooster, Gezocht and Aangeboden) are embedded in a TableView. But the indiviual views
 are also embedded in a NavigationView. That is a workaround to have a titlebar in each view.
 
 ##### ViewControllers
@@ -23,7 +23,7 @@ This is where all de user specific information will be displayed.
 
 * All shifts that are put on the marketplace by users
 
-###### GezochtVies
+###### GezochtView
 ![GezochtView](doc/GezochtViewController.png)
 
 * All shifts users volunteered to work
