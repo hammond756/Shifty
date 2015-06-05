@@ -38,12 +38,14 @@ This is where all de user specific information will be displayed.
 ##### Classes
 * Rooster  
   * Generates a fixed schedule for a given set of shifts (specified by date and time)
+  * Should handle communication with the database
+  * Stores all data that is 
 
 * Shift
   * Represents a shift. Consists of a NSDate() and two variables representing the Date and the Time of the shift.
 
 ##### API's
-Up untill now, the only APIs uses are SwiftDate to manage the dates and their calculations and Parse to handle login and data management.
+Up untill now, the only APIs used are SwiftDate (to manage the dates and their calculations) and Parse to handle login and data management.
 
 ##### Minimum Viable Product
 * Overview of fixed schedule
