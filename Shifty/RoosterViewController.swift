@@ -23,11 +23,30 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
     
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//        requestFixedRooster()
+//        
+//        if shifts.count == 0
+//        {
+//            println("shifts == 0")
+//            self.tableView.hidden = true
+//        }
+//        else
+//        {
+//            getSections(shifts)
+//            self.tableView.reloadData()
+//            self.tableView.hidden = false
+//        }
+//    }
+//    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
         requestFixedRooster()
+        
+        
         
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
@@ -50,10 +69,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 
                 if let objects = objects as? [PFObject]
                 {
-                    if objects.count == 0
-                    {
-                        self.tableView.hidden = true
-                    }
                     for object in objects
                     {
                         let hour = object["Hour"] as! Int
@@ -66,18 +81,13 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                         println("about to assign shifts")
                         self.shifts = rooster.recurringShifts
                         
-                        self.getSections(self.shifts)
-                        self.tableView.reloadData()
+                        getSections(shifts)
                         
-//                        if self.shifts.count != 0
-//                        {
-//                            self.tableView.hidden = false
-//                            self.tableView.reloadData()
-//                        }
-//                        else
-//                        {
-//                            self.tableView.hidden = true
-//                        }
+                        if self.shifts != 0
+                        {
+                            self.tableView.hidden = false
+                            self.tableView.reloadData()
+                        }
                     }
                 }
             }
@@ -125,15 +135,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        if shifts.count == 0
-        {
-            self.tableView.hidden = true
-        }
-        else
-        {
-            self.tableView.hidden = false
-        }
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
         let sectionItems = getSectionItems(indexPath.section)
         

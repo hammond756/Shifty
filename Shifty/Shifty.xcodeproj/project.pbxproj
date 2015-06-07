@@ -33,8 +33,8 @@
 		9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */; };
 		9CBA579C1B1E308900B1F708 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CBA579B1B1E308900B1F708 /* ParseUI.framework */; };
 		9CBA579E1B1E362900B1F708 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA579D1B1E362900B1F708 /* LogInViewController.swift */; };
-		9CBA57A71B1F099400B1F708 /* RoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA57A61B1F099400B1F708 /* RoosterViewController.swift */; };
 		9CFB6DE91B2072EF0010393E /* Rooster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFB6DE81B2072EF0010393E /* Rooster.swift */; };
+		9CFB6DEB1B23B1910010393E /* RoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */; };
 		B4347C39CF7E8140F69D9DE9 /* Pods_Shifty.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522CDEC5F1F741F7B49AE007 /* Pods_Shifty.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -81,8 +81,8 @@
 		9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitRoosterViewController.swift; sourceTree = "<group>"; };
 		9CBA579B1B1E308900B1F708 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		9CBA579D1B1E362900B1F708 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
-		9CBA57A61B1F099400B1F708 /* RoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoosterViewController.swift; sourceTree = "<group>"; };
 		9CFB6DE81B2072EF0010393E /* Rooster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rooster.swift; sourceTree = "<group>"; };
+		9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoosterViewController.swift; sourceTree = "<group>"; };
 		F4AF02456956214B0D6C8E72 /* Pods-Shifty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shifty.release.xcconfig"; path = "Pods/Target Support Files/Pods-Shifty/Pods-Shifty.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -154,7 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				9C2EF5601B1CB1E30067F689 /* Main.storyboard */,
-				9CBA57A61B1F099400B1F708 /* RoosterViewController.swift */,
+				9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */,
 				9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */,
 				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
@@ -369,10 +369,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9CBA57A71B1F099400B1F708 /* RoosterViewController.swift in Sources */,
 				9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */,
 				9C2EF5831B1CF1550067F689 /* AangebodenViewController.swift in Sources */,
 				9C2EF55D1B1CB1E30067F689 /* AppDelegate.swift in Sources */,
+				9CFB6DEB1B23B1910010393E /* RoosterViewController.swift in Sources */,
 				9CBA579E1B1E362900B1F708 /* LogInViewController.swift in Sources */,
 				9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */,
 				9CFB6DE91B2072EF0010393E /* Rooster.swift in Sources */,
