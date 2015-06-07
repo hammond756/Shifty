@@ -29,7 +29,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         
-        var textFieldArray = [dagField1, tijdField1, dagField2, tijdField2, dagField3, tijdField3]
+        var textFieldArray = [dagField1, tijdField1]
         
         shiftPicker.delegate = self
         shiftPicker.dataSource = self
@@ -47,12 +47,6 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     @IBAction func submitRooster()
     {
-        var textFieldSets = [
-            [dagField1, tijdField1],
-            [dagField2, tijdField2],
-            [dagField3, tijdField3]
-        ]
-        
         let dag1 = dagField1.text
         let tijd1 = tijdField1.text
         
@@ -72,6 +66,9 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
                 println(error?.description)
             }
         }
+        
+        dagField1.text = ""
+        tijdField1.text = ""
     }
     
     func extractTimeComponents(time: String) -> (Int, Int)
@@ -84,16 +81,11 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         
         return timeComponents
     }
-    func updateTextField(tag: Int)
+    
+    func updateTextField()
     {
-        var textFieldSets = [
-            [dagField1, tijdField1],
-            [dagField2, tijdField2],
-            [dagField3, tijdField3]
-        ]
-        
-        textFieldSets[tag][0].text = pickerData[0][shiftPicker.selectedRowInComponent(0)]
-        textFieldSets[tag][1].text = pickerData[1][shiftPicker.selectedRowInComponent(1)]
+        dagField1.text = pickerData[0][shiftPicker.selectedRowInComponent(0)]
+        tijdField1.text = pickerData[1][shiftPicker.selectedRowInComponent(1)]
     }
     
     
@@ -116,12 +108,11 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         return pickerData[component][row]
     }
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        updateTextField(textFieldSetBeingEdited!)
+        updateTextField()
     }
     
-    func textFieldDidBeginEditing(textField: UITextField) {
-        textFieldSetBeingEdited = textField.tag
-        
+    func textFieldDidBeginEditing(textField: UITextField)
+    {
         let animation = CABasicAnimation(keyPath: "position")
         animation.duration = 0.05
         animation.repeatCount = 2

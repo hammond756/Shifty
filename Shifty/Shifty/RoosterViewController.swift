@@ -47,6 +47,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             if error == nil
             {
                 println("hooray")
+                let rooster = Rooster()
                 
                 if let objects = objects as? [PFObject]
                 {
@@ -60,25 +61,14 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                         let minute = object["Minute"] as! Int
                         let day = object["Day"] as! String
                         println("in loop")
-                        let rooster = Rooster()
                         rooster.addRecurringShift(day, hour: hour, minute: minute)
                         
                         println("about to assign shifts")
                         self.shifts = rooster.recurringShifts
-                        
-                        self.getSections(self.shifts)
-                        self.tableView.reloadData()
-                        
-//                        if self.shifts.count != 0
-//                        {
-//                            self.tableView.hidden = false
-//                            self.tableView.reloadData()
-//                        }
-//                        else
-//                        {
-//                            self.tableView.hidden = true
-//                        }
                     }
+                    
+                    self.getSections(self.shifts)
+                    self.tableView.reloadData()
                 }
             }
             
@@ -114,7 +104,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 sectionItems.append(shift)
             }
         }
-        println(sectionItems)
         return sectionItems
     }
     

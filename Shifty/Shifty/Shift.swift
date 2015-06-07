@@ -15,6 +15,7 @@ class Shift
     var dateString: String
     var timeString: String
     var dateObject: NSDate
+    var status: String
     
     init(day: Int, month: Int, year: Int, hour: Int, minute: Int)
     {
@@ -22,6 +23,8 @@ class Shift
         
         dateString = dateObject.toString(format: DateFormat.Custom("EEEE dd MMM"))
         timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
+        
+        status = "None"
     }
     
     init(date: NSDate)
@@ -30,6 +33,8 @@ class Shift
         
         dateString = dateObject.toString(format: DateFormat.Custom("EEEE dd MMM"))
         timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
+        
+        status = "None"
     }
     
     func getWeekOfYear() -> String
