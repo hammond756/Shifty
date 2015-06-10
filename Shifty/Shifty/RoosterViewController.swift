@@ -8,7 +8,6 @@
 
 import UIKit
 import Parse
-import SWTableViewCell
 
 class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate
 {
@@ -124,6 +123,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             self.tableView.hidden = false
         }
         
+        println("Reloading")
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
         let sectionItems = getSectionItems(indexPath.section)
@@ -138,9 +139,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.accessoryView = timeLabel
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
-        if sectionItems[indexPath.row].status == "Supplied"
+        switch sectionItems[indexPath.row].status
         {
-            cell.backgroundColor = UIColor.orangeColor()
+            case "Supplied": cell.backgroundColor = UIColor.redColor()
+            case "Awaitting Approval": cell.backgroundColor = UIColor.orangeColor()
+            case "Approved": cell.backgroundColor = UIColor.greenColor()
+        default: break
         }
         
         return cell
@@ -165,7 +169,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         var supplyAction = UITableViewRowAction(style: .Normal, title: "->") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             
-            let swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
+            var swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
             println(swipedShift.dateString)
             
             let query = PFQuery(className: "Shifts")
@@ -177,9 +181,11 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 else if let shift = shift
                 {
                     shift["Status"] = "Supplied"
+                    swipedShift.status = "Supplied"
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         if succes
                         {
+                            println("succes")
                             self.tableView.reloadData()
                         }
                         else

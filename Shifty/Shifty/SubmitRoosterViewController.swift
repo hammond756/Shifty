@@ -48,6 +48,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBAction func submitRooster()
     {
         let day = dagField1.text
+        
         if let time = extractTimeComponents(tijdField1.text)
         {
             let hour = time.0
@@ -56,13 +57,15 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
             rooster.addRecurringShift(day, hour: hour, minute: minute)
         }
         
+
+
         dagField1.text = ""
         tijdField1.text = ""
     }
     
     func extractTimeComponents(time: String) -> (Int, Int)?
     {
-        if time == ""
+        if time != ""
         {
             let timeArray = split(time) { $0 == ":" }
             var timeComponents: (Int, Int)

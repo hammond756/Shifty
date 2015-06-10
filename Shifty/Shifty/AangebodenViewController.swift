@@ -119,5 +119,47 @@ class AangebodenViewController: UITableViewController {
     {
         return sectionsInTable.count
     }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        
+    }
+    
+    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?
+    {
+        var supplyAction = UITableViewRowAction(style: .Normal, title: "✓") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+            
+            let swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
+            println(swipedShift.dateString)
+            
+            let query = PFQuery(className: "Shifts")
+            query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+                if error != nil
+                {
+                    println(error)
+                }
+                else if let shift = shift
+                {
+                    shift["Status"] = "Awaitting Approval"
+                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        if succes
+                        {
+                            println("succes")
+                            self.tableView.reloadData()
+                        }
+                        else
+                        {
+                            println(error?.description)
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        supplyAction.backgroundColor = UIColor.greenColor()
+        
+        return [supplyAction]
+    }
 
 }

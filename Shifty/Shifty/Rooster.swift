@@ -25,7 +25,6 @@ class Rooster
         for week in 0..<amountOfRecurringWeeks
         {
             let date = firstOccurrenceDate! + (7 * week).day
-            
             let shift = PFObject(className: "Shifts")
             shift["Date"] = date
             shift["Status"] = "idle"
