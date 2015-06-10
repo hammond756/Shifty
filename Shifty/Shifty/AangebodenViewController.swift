@@ -12,15 +12,20 @@ import SwiftDate
 
 class AangebodenViewController: UITableViewController {
 
-    let suppliedShifts = [Shift(date: NSDate.today())]
+    var suppliedShifts: [Shift] = []
     
     var sectionsInTable = [String]()
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
-        for shift in suppliedShifts
+        requestSuppliedShifts()
+    }
+    
+    func getSections(shifts: [Shift])
+    {
+        println("getting sections")
+        for shift in shifts
         {
             let weekOfYear = shift.getWeekOfYear()
             let sections = NSSet(array: sectionsInTable)
@@ -32,8 +37,43 @@ class AangebodenViewController: UITableViewController {
         }
     }
     
+    func requestSuppliedShifts()
+    {
+        println("Request supplied")
+        var query = PFQuery(className: "Shifts")
+        query.whereKey("Status", equalTo: "Supplied")
+        
+        query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
+            if error == nil
+            {
+                println("no error")
+                if let objects = objects as? [PFObject]
+                {
+                    println("objects as pfobject")
+                    println(objects.count)
+                    for object in objects
+                    {
+                        let date = object["Date"] as! NSDate
+                        let objectID = object.objectId
+                        let status = object["Status"] as! String
+                        
+                        println("Appending")
+                        self.suppliedShifts.append(Shift(date: date, stat: status, objectID: objectID!))
+                    }
+                    
+                    self.suppliedShifts.sort() { $0.dateObject < $1.dateObject }
+
+                    self.getSections(self.suppliedShifts)
+                    self.tableView.reloadData()
+
+                }
+            }
+        }
+    }
+    
     func getSectionItems(section: Int) -> [Shift]
     {
+        println("getting section items")
         var sectionItems = [Shift]()
         
         for shift in suppliedShifts

@@ -18,7 +18,6 @@ class Rooster
     
     func addRecurringShift(day: String, hour: Int, minute: Int)
     {
-        println("entered bla")
         let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag:": 7, "Zondag": 1]
         
         var firstOccurrenceDate = nextOccurenceOfDay(dayDict[day]!).set(componentsDict: ["hour": hour, "minute": minute])
@@ -26,8 +25,22 @@ class Rooster
         for week in 0..<amountOfRecurringWeeks
         {
             let date = firstOccurrenceDate! + (7 * week).day
-            println("bla")
-            recurringShifts.append(Shift(date: date))
+            
+            let shift = PFObject(className: "Shifts")
+            shift["Date"] = date
+            shift["Status"] = "idle"
+            shift["Owner"] = PFUser.currentUser()?.objectId
+
+            shift.saveInBackgroundWithBlock { (succes: Bool, error: NSError?) -> Void in
+                if succes
+                {
+                    println("shift saved")
+                }
+                else
+                {
+                    println(error?.description)
+                }
+            }
         }
         
     }

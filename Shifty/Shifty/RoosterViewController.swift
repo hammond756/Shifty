@@ -8,8 +8,9 @@
 
 import UIKit
 import Parse
+import SWTableViewCell
 
-class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
@@ -26,9 +27,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
         requestFixedRooster()
-        
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         
@@ -46,27 +45,30 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             
             if error == nil
             {
-                println("hooray")
-                let rooster = Rooster()
-                
                 if let objects = objects as? [PFObject]
                 {
                     if objects.count == 0
                     {
                         self.tableView.hidden = true
                     }
-                    for object in objects
+                    else
                     {
-                        let hour = object["Hour"] as! Int
-                        let minute = object["Minute"] as! Int
-                        let day = object["Day"] as! String
-                        println("in loop")
-                        rooster.addRecurringShift(day, hour: hour, minute: minute)
-                        
-                        println("about to assign shifts")
-                        self.shifts = rooster.recurringShifts
+                        self.tableView.hidden = false
                     }
                     
+                    for object in objects
+                    {
+                        let date = object["Date"] as? NSDate
+                        let status = object["Status"] as? String
+                        let objectID = object.objectId
+                        let shift = Shift(date: date!, stat: status!, objectID: objectID!)
+                        
+                        self.shifts.append(shift)
+
+                    }
+                    
+                    self.shifts.sort() { $0.dateObject < $1.dateObject }
+                    println(self.shifts.count)
                     self.getSections(self.shifts)
                     self.tableView.reloadData()
                 }
@@ -89,8 +91,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 sectionsInTable.append(weekOfYear)
             }
         }
-        
-        println(sectionsInTable)
     }
     
     private func getSectionItems(section: Int) -> [Shift]
@@ -104,6 +104,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 sectionItems.append(shift)
             }
         }
+        
         return sectionItems
     }
     
@@ -124,6 +125,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
+        cell.backgroundColor = UIColor.clearColor()
         let sectionItems = getSectionItems(indexPath.section)
         
         var timeLabel = UILabel()
@@ -135,6 +137,11 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.textLabel?.text = sectionItems[indexPath.row].dateString
         cell.accessoryView = timeLabel
         cell.textLabel?.textAlignment = NSTextAlignment.Center
+        
+        if sectionItems[indexPath.row].status == "Supplied"
+        {
+            cell.backgroundColor = UIColor.orangeColor()
+        }
         
         return cell
     }
@@ -148,4 +155,46 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         return sectionsInTable.count
     }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    {
+        
+    }
+    
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?
+    {
+        var supplyAction = UITableViewRowAction(style: .Normal, title: "->") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+            
+            let swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
+            println(swipedShift.dateString)
+            
+            let query = PFQuery(className: "Shifts")
+            query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+                if error != nil
+                {
+                    println(error)
+                }
+                else if let shift = shift
+                {
+                    shift["Status"] = "Supplied"
+                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        if succes
+                        {
+                            self.tableView.reloadData()
+                        }
+                        else
+                        {
+                            println(error?.description)
+                        }
+                    }
+                    
+                }
+            }
+        }
+        
+        supplyAction.backgroundColor = UIColor.orangeColor()
+        
+        return [supplyAction]
+    }
+    
 }

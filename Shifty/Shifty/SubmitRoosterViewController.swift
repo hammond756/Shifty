@@ -47,39 +47,33 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     @IBAction func submitRooster()
     {
-        let dag1 = dagField1.text
-        let tijd1 = tijdField1.text
-        
-        let shift = PFObject(className: "Shifts")
-        shift["Day"] = dag1
-        shift["Hour"] = extractTimeComponents(tijd1).0
-        shift["Minute"] = extractTimeComponents(tijd1).1
-        shift["Owner"] = PFUser.currentUser()?.objectId
-        
-        shift.saveInBackgroundWithBlock { (succes: Bool, error: NSError?) -> Void in
-            if succes
-            {
-                println("done")
-            }
-            else
-            {
-                println(error?.description)
-            }
+        let day = dagField1.text
+        if let time = extractTimeComponents(tijdField1.text)
+        {
+            let hour = time.0
+            let minute = time.1
+            let rooster = Rooster()
+            rooster.addRecurringShift(day, hour: hour, minute: minute)
         }
         
         dagField1.text = ""
         tijdField1.text = ""
     }
     
-    func extractTimeComponents(time: String) -> (Int, Int)
+    func extractTimeComponents(time: String) -> (Int, Int)?
     {
-        let timeArray = split(time) { $0 == ":" }
-        var timeComponents: (Int, Int)
+        if time == ""
+        {
+            let timeArray = split(time) { $0 == ":" }
+            var timeComponents: (Int, Int)
+            
+            timeComponents.0 = timeArray[0].toInt()!
+            timeComponents.1 = timeArray[1].toInt()!
+            
+            return timeComponents
+        }
         
-        timeComponents.0 = timeArray[0].toInt()!
-        timeComponents.1 = timeArray[1].toInt()!
-        
-        return timeComponents
+        return nil
     }
     
     func updateTextField()

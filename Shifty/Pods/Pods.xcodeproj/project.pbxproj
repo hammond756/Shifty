@@ -7,195 +7,313 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		10DD88E9ECDC9B28246684BC /* Pods-Shifty-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 292F31606B3B4D6E525C2E5F /* Pods-Shifty-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		23BDB28D72E17FD1E67A198C /* Pods-Shifty-SwiftDate-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7F2F7E4DD99F26A194A723 /* Pods-Shifty-SwiftDate-dummy.m */; };
-		65531A565D09A03B47A26766 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92957590E191E038A4082006 /* Foundation.framework */; };
-		69D935599C0791B2E1A3C196 /* Pods-Shifty-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D99C631F6AD4176FD105003D /* Pods-Shifty-dummy.m */; };
-		9485E4BCA4A9B9AA8930F6F6 /* Pods-Shifty-SwiftDate-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D2124FBA699D2CFA47CC8E86 /* Pods-Shifty-SwiftDate-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CC6F6BFCED1ABDEFF4131742 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92957590E191E038A4082006 /* Foundation.framework */; };
-		E8768B40203C92BB5371D1E7 /* SwiftDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF29B878E8469AB0FC9C443 /* SwiftDate.swift */; };
+		03340BE78EB86696864BFB75 /* Pods-Shifty-SwiftDate-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 72987E0A1A669FC587E293E3 /* Pods-Shifty-SwiftDate-dummy.m */; };
+		05F95E3E0A4DA5D1E366FFBE /* SWCellScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F23E3DA3C2457D1B31E716FF /* SWCellScrollView.m */; };
+		0FF94BEB2834FFED674AAF2A /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C45F627B8E66649563303BF /* SWTableViewCell.m */; };
+		3FF62BB139C2BC8895ABEAA4 /* SWCellScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = D8E12356BE92D15101D707DC /* SWCellScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		56F1087F70F0D649372A7CF1 /* SWUtilityButtonTapGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 8088CE1695612B1373C75A48 /* SWUtilityButtonTapGestureRecognizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6487D2AB0610E42F6B4DE51B /* NSMutableArray+SWUtilityButtons.h in Headers */ = {isa = PBXBuildFile; fileRef = 82DA44F520C458EFDB7ACC6F /* NSMutableArray+SWUtilityButtons.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		697FC298868EA910FDAE4242 /* SWLongPressGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = EC1F8C673AF719BF66397D4F /* SWLongPressGestureRecognizer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6DF21B62EC1E45F2D7D20584 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423E672AC5A3A3EC03BC9719 /* Foundation.framework */; };
+		80722B5F374659F0026AD3C0 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 2ADA187AC01EB6E236B5ABEC /* NSMutableArray+SWUtilityButtons.m */; };
+		81EEB4ADA88AFBC2F3EECBB8 /* SWUtilityButtonView.h in Headers */ = {isa = PBXBuildFile; fileRef = C31A5CF9DF176AB43B97799E /* SWUtilityButtonView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8720D5AC5C4E9FD720A1FE7E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423E672AC5A3A3EC03BC9719 /* Foundation.framework */; };
+		8A212FDDDEA71791DCD61B0C /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 621684409DEBCC097B2B934B /* SWUtilityButtonView.m */; };
+		986AEEABFFB3670B22F2B047 /* SWLongPressGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5678990F35AF9B471922C26F /* SWLongPressGestureRecognizer.m */; };
+		9E31AEAD507AAB21A9EF60B6 /* SwiftDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B9544A17CE06C6FA00C727 /* SwiftDate.swift */; };
+		B3FCBCF269106DD5D13645CA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 423E672AC5A3A3EC03BC9719 /* Foundation.framework */; };
+		B7E13D2D650A09FC267EF123 /* Pods-Shifty-SWTableViewCell-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 75960AB07A84641136806BB6 /* Pods-Shifty-SWTableViewCell-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BC22A3747CF1D3BF1FB0893A /* Pods-Shifty-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DE203B5E341EB635C28D8925 /* Pods-Shifty-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		C08394EFD06085E9CABD9A65 /* Pods-Shifty-SWTableViewCell-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A515FD65ABA39F3BF1861CB1 /* Pods-Shifty-SWTableViewCell-dummy.m */; };
+		C1BCA8E7B375007542E902DB /* Pods-Shifty-SwiftDate-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B38E9C13FA0859E2B1F208DF /* Pods-Shifty-SwiftDate-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC4C1976337A6F15C2127601 /* Pods-Shifty-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 11C44501DDE471DCD2977233 /* Pods-Shifty-dummy.m */; };
+		E41A7116ED99485A1B17DA41 /* SWTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 924E86DCFD8C6F8F1235B518 /* SWTableViewCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F44054E6BEE5165CC3F6F544 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 73E94CAD72A4998B69EFB3FA /* SWUtilityButtonTapGestureRecognizer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		A5F187ED1E6A02DEC36F4035 /* PBXContainerItemProxy */ = {
+		3A8B73C1B04A21A0EC7C7352 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 590FB1AF77B761E5061F07D6 /* Project object */;
+			containerPortal = 143E6ED2D564B7E121D5A20B /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 014FA57ACB337CD8E5788025;
+			remoteGlobalIDString = 8F4DEA016748D3EC57685556;
 			remoteInfo = "Pods-Shifty-SwiftDate";
+		};
+		ADF66F48A45064DCC2876EAD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 143E6ED2D564B7E121D5A20B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 10AA620DCD6FAE05FEBC3FA9;
+			remoteInfo = "Pods-Shifty-SWTableViewCell";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0EF29B878E8469AB0FC9C443 /* SwiftDate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftDate.swift; path = SwiftDate/SwiftDate.swift; sourceTree = "<group>"; };
-		1929C777D0CF8DD997B7E663 /* Pods-Shifty-SwiftDate-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-SwiftDate-prefix.pch"; sourceTree = "<group>"; };
-		1E30B9D48769BBF3746C8BED /* Pods-Shifty-SwiftDate-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty-SwiftDate-Private.xcconfig"; sourceTree = "<group>"; };
-		292F31606B3B4D6E525C2E5F /* Pods-Shifty-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-umbrella.h"; sourceTree = "<group>"; };
-		48239EFBB67883207B730CEB /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		58BF2972707A5B40BF6D0380 /* Pods-Shifty-SwiftDate.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Shifty-SwiftDate.modulemap"; sourceTree = "<group>"; };
-		6372C4A5FEE8576D7C9D2857 /* Pods_Shifty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shifty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6A7F2F7E4DD99F26A194A723 /* Pods-Shifty-SwiftDate-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Shifty-SwiftDate-dummy.m"; sourceTree = "<group>"; };
-		6E271E06C0A25382DDBD341D /* Pods-Shifty-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-environment.h"; sourceTree = "<group>"; };
-		6FB11959EAF95192510F0C73 /* Pods-Shifty-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Shifty-acknowledgements.plist"; sourceTree = "<group>"; };
-		72F313F797FFAE63C7CBF087 /* Pods-Shifty-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Shifty-acknowledgements.markdown"; sourceTree = "<group>"; };
-		801A007D8FCFC922BD56BF5A /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		8D81422FCF10D3226A6A71EF /* Pods-Shifty-SwiftDate.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty-SwiftDate.xcconfig"; sourceTree = "<group>"; };
-		92957590E191E038A4082006 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		9E34EECAE31BA50DC25EA9D8 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AB1C1BC7294A6DAC64BAFEA7 /* Pods-Shifty-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Shifty-resources.sh"; sourceTree = "<group>"; };
-		ABCE54556177EF2F386DC68F /* Pods-Shifty.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Shifty.modulemap"; sourceTree = "<group>"; };
-		D2124FBA699D2CFA47CC8E86 /* Pods-Shifty-SwiftDate-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-SwiftDate-umbrella.h"; sourceTree = "<group>"; };
-		D82B60042AEC874257F6A497 /* SwiftDate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D99C631F6AD4176FD105003D /* Pods-Shifty-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Shifty-dummy.m"; sourceTree = "<group>"; };
-		F8159B6E8EE687F89EA96C00 /* Pods-Shifty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty.release.xcconfig"; sourceTree = "<group>"; };
-		FBB124BE2EDED494242BD6B7 /* Pods-Shifty-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Shifty-frameworks.sh"; sourceTree = "<group>"; };
-		FC62ECE48B963DFA4BB914DB /* Pods-Shifty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty.debug.xcconfig"; sourceTree = "<group>"; };
+		02F49A1E2BB46B5034E7BD0A /* Pods-Shifty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty.debug.xcconfig"; sourceTree = "<group>"; };
+		0C45F627B8E66649563303BF /* SWTableViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SWTableViewCell.m; path = SWTableViewCell/PodFiles/SWTableViewCell.m; sourceTree = "<group>"; };
+		11C44501DDE471DCD2977233 /* Pods-Shifty-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Shifty-dummy.m"; sourceTree = "<group>"; };
+		13080E4F0408559999E160C8 /* Pods-Shifty-SwiftDate-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-SwiftDate-prefix.pch"; sourceTree = "<group>"; };
+		280E4E01A043B765D1326433 /* Pods-Shifty-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Shifty-acknowledgements.plist"; sourceTree = "<group>"; };
+		2AA4B79A0123329DBC27A340 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2ADA187AC01EB6E236B5ABEC /* NSMutableArray+SWUtilityButtons.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+SWUtilityButtons.m"; path = "SWTableViewCell/PodFiles/NSMutableArray+SWUtilityButtons.m"; sourceTree = "<group>"; };
+		2ADF68842E59E433F3B23EAE /* Pods-Shifty-environment.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-environment.h"; sourceTree = "<group>"; };
+		423E672AC5A3A3EC03BC9719 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		4B7877B0446D28D9180918DE /* Pods-Shifty.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty.release.xcconfig"; sourceTree = "<group>"; };
+		4D1F130578967501B00F8F0A /* SWTableViewCell.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SWTableViewCell.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5678990F35AF9B471922C26F /* SWLongPressGestureRecognizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SWLongPressGestureRecognizer.m; path = SWTableViewCell/PodFiles/SWLongPressGestureRecognizer.m; sourceTree = "<group>"; };
+		59314F894D7F1D2DCFB56095 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		621684409DEBCC097B2B934B /* SWUtilityButtonView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SWUtilityButtonView.m; path = SWTableViewCell/PodFiles/SWUtilityButtonView.m; sourceTree = "<group>"; };
+		6A1D0EAF2F7A3B33E66A6D72 /* Podfile */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		6E1A10577FADA4CE45EDB806 /* Pods_Shifty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shifty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		72987E0A1A669FC587E293E3 /* Pods-Shifty-SwiftDate-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Shifty-SwiftDate-dummy.m"; sourceTree = "<group>"; };
+		73E94CAD72A4998B69EFB3FA /* SWUtilityButtonTapGestureRecognizer.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SWUtilityButtonTapGestureRecognizer.m; path = SWTableViewCell/PodFiles/SWUtilityButtonTapGestureRecognizer.m; sourceTree = "<group>"; };
+		75960AB07A84641136806BB6 /* Pods-Shifty-SWTableViewCell-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-SWTableViewCell-umbrella.h"; sourceTree = "<group>"; };
+		8088CE1695612B1373C75A48 /* SWUtilityButtonTapGestureRecognizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SWUtilityButtonTapGestureRecognizer.h; path = SWTableViewCell/PodFiles/SWUtilityButtonTapGestureRecognizer.h; sourceTree = "<group>"; };
+		82DA44F520C458EFDB7ACC6F /* NSMutableArray+SWUtilityButtons.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+SWUtilityButtons.h"; path = "SWTableViewCell/PodFiles/NSMutableArray+SWUtilityButtons.h"; sourceTree = "<group>"; };
+		8C4C3D30873CFF295CA97E83 /* Pods-Shifty-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Shifty-resources.sh"; sourceTree = "<group>"; };
+		8D0C37FCA1D353FD7CEF2802 /* Pods-Shifty.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Shifty.modulemap"; sourceTree = "<group>"; };
+		924E86DCFD8C6F8F1235B518 /* SWTableViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SWTableViewCell.h; path = SWTableViewCell/PodFiles/SWTableViewCell.h; sourceTree = "<group>"; };
+		954DF9C9B435FF8252124093 /* Pods-Shifty-SwiftDate-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty-SwiftDate-Private.xcconfig"; sourceTree = "<group>"; };
+		9C4A4A8D9606A83FFD7DEA07 /* Pods-Shifty-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Shifty-frameworks.sh"; sourceTree = "<group>"; };
+		A515FD65ABA39F3BF1861CB1 /* Pods-Shifty-SWTableViewCell-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Shifty-SWTableViewCell-dummy.m"; sourceTree = "<group>"; };
+		A86E848A5EE24BA3E3C63907 /* Pods-Shifty-SWTableViewCell-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-SWTableViewCell-prefix.pch"; sourceTree = "<group>"; };
+		A8F93651B9040BD5FFD66A91 /* Pods-Shifty-SWTableViewCell.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty-SWTableViewCell.xcconfig"; sourceTree = "<group>"; };
+		B0B9544A17CE06C6FA00C727 /* SwiftDate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftDate.swift; path = SwiftDate/SwiftDate.swift; sourceTree = "<group>"; };
+		B38E9C13FA0859E2B1F208DF /* Pods-Shifty-SwiftDate-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-SwiftDate-umbrella.h"; sourceTree = "<group>"; };
+		B3D1E17B5753669B00E80A73 /* SwiftDate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC0B8C2A0F0989FE427F6303 /* Pods-Shifty-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Shifty-acknowledgements.markdown"; sourceTree = "<group>"; };
+		C31A5CF9DF176AB43B97799E /* SWUtilityButtonView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SWUtilityButtonView.h; path = SWTableViewCell/PodFiles/SWUtilityButtonView.h; sourceTree = "<group>"; };
+		C47C3E0E3D6867A1AB2FC210 /* Pods-Shifty-SWTableViewCell.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Shifty-SWTableViewCell.modulemap"; sourceTree = "<group>"; };
+		D8E12356BE92D15101D707DC /* SWCellScrollView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SWCellScrollView.h; path = SWTableViewCell/PodFiles/SWCellScrollView.h; sourceTree = "<group>"; };
+		D9CAB2009548DADE4DA8F752 /* Pods-Shifty-SWTableViewCell-Private.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty-SWTableViewCell-Private.xcconfig"; sourceTree = "<group>"; };
+		DD5C78C8D498AECED7523438 /* Pods-Shifty-SwiftDate.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Shifty-SwiftDate.modulemap"; sourceTree = "<group>"; };
+		DD6C6F0C6E1167917D5823EF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DE203B5E341EB635C28D8925 /* Pods-Shifty-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Shifty-umbrella.h"; sourceTree = "<group>"; };
+		DEF459C0FC08FE51D2066938 /* Pods-Shifty-SwiftDate.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Shifty-SwiftDate.xcconfig"; sourceTree = "<group>"; };
+		EC1F8C673AF719BF66397D4F /* SWLongPressGestureRecognizer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SWLongPressGestureRecognizer.h; path = SWTableViewCell/PodFiles/SWLongPressGestureRecognizer.h; sourceTree = "<group>"; };
+		F23E3DA3C2457D1B31E716FF /* SWCellScrollView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = SWCellScrollView.m; path = SWTableViewCell/PodFiles/SWCellScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		56880B5661C3140C6C411613 /* Frameworks */ = {
+		7AC7722376F3AAB7F49D7CF9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65531A565D09A03B47A26766 /* Foundation.framework in Frameworks */,
+				8720D5AC5C4E9FD720A1FE7E /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D0EE89DD4E995A38A0637B28 /* Frameworks */ = {
+		C7F129D9F64E026D22D0E189 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC6F6BFCED1ABDEFF4131742 /* Foundation.framework in Frameworks */,
+				6DF21B62EC1E45F2D7D20584 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA5FEA850CF18DAE8F85D4BC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B3FCBCF269106DD5D13645CA /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		04D9F3C2C801DDC458E87419 /* SwiftDate */ = {
+		076AFE6C808E6356089E465E /* SWTableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				0EF29B878E8469AB0FC9C443 /* SwiftDate.swift */,
-				BFA6DDB2DC21B30526F54A1C /* Support Files */,
+				82DA44F520C458EFDB7ACC6F /* NSMutableArray+SWUtilityButtons.h */,
+				2ADA187AC01EB6E236B5ABEC /* NSMutableArray+SWUtilityButtons.m */,
+				D8E12356BE92D15101D707DC /* SWCellScrollView.h */,
+				F23E3DA3C2457D1B31E716FF /* SWCellScrollView.m */,
+				EC1F8C673AF719BF66397D4F /* SWLongPressGestureRecognizer.h */,
+				5678990F35AF9B471922C26F /* SWLongPressGestureRecognizer.m */,
+				924E86DCFD8C6F8F1235B518 /* SWTableViewCell.h */,
+				0C45F627B8E66649563303BF /* SWTableViewCell.m */,
+				8088CE1695612B1373C75A48 /* SWUtilityButtonTapGestureRecognizer.h */,
+				73E94CAD72A4998B69EFB3FA /* SWUtilityButtonTapGestureRecognizer.m */,
+				C31A5CF9DF176AB43B97799E /* SWUtilityButtonView.h */,
+				621684409DEBCC097B2B934B /* SWUtilityButtonView.m */,
+				2EA28C8E609BFDA1B75C4BF0 /* Support Files */,
+			);
+			path = SWTableViewCell;
+			sourceTree = "<group>";
+		};
+		14EC7BC17EC11BEC3CB2302F /* SwiftDate */ = {
+			isa = PBXGroup;
+			children = (
+				B0B9544A17CE06C6FA00C727 /* SwiftDate.swift */,
+				D5BDA6D4ACC30DD528E073AD /* Support Files */,
 			);
 			path = SwiftDate;
 			sourceTree = "<group>";
 		};
-		0E25B172C1D29A73AD36A057 /* Frameworks */ = {
+		2EA28C8E609BFDA1B75C4BF0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				2643149EB2ACEC6903F8E085 /* iOS */,
+				59314F894D7F1D2DCFB56095 /* Info.plist */,
+				C47C3E0E3D6867A1AB2FC210 /* Pods-Shifty-SWTableViewCell.modulemap */,
+				A8F93651B9040BD5FFD66A91 /* Pods-Shifty-SWTableViewCell.xcconfig */,
+				D9CAB2009548DADE4DA8F752 /* Pods-Shifty-SWTableViewCell-Private.xcconfig */,
+				A515FD65ABA39F3BF1861CB1 /* Pods-Shifty-SWTableViewCell-dummy.m */,
+				A86E848A5EE24BA3E3C63907 /* Pods-Shifty-SWTableViewCell-prefix.pch */,
+				75960AB07A84641136806BB6 /* Pods-Shifty-SWTableViewCell-umbrella.h */,
 			);
-			name = Frameworks;
+			name = "Support Files";
+			path = "../Target Support Files/Pods-Shifty-SWTableViewCell";
 			sourceTree = "<group>";
 		};
-		169CE45C2EE7322B9392D9D3 = {
+		455F7107CB1138486DBEB82B /* Pods-Shifty */ = {
 			isa = PBXGroup;
 			children = (
-				801A007D8FCFC922BD56BF5A /* Podfile */,
-				0E25B172C1D29A73AD36A057 /* Frameworks */,
-				19E892C117F7F2E6D9D56A53 /* Pods */,
-				422EBDF4427B27AA2E8BCFA3 /* Products */,
-				4F4437A339304B2182B7B0DA /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		19E892C117F7F2E6D9D56A53 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				04D9F3C2C801DDC458E87419 /* SwiftDate */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		1ABC39A601A007A7FC37670F /* Pods-Shifty */ = {
-			isa = PBXGroup;
-			children = (
-				9E34EECAE31BA50DC25EA9D8 /* Info.plist */,
-				ABCE54556177EF2F386DC68F /* Pods-Shifty.modulemap */,
-				72F313F797FFAE63C7CBF087 /* Pods-Shifty-acknowledgements.markdown */,
-				6FB11959EAF95192510F0C73 /* Pods-Shifty-acknowledgements.plist */,
-				D99C631F6AD4176FD105003D /* Pods-Shifty-dummy.m */,
-				6E271E06C0A25382DDBD341D /* Pods-Shifty-environment.h */,
-				FBB124BE2EDED494242BD6B7 /* Pods-Shifty-frameworks.sh */,
-				AB1C1BC7294A6DAC64BAFEA7 /* Pods-Shifty-resources.sh */,
-				292F31606B3B4D6E525C2E5F /* Pods-Shifty-umbrella.h */,
-				FC62ECE48B963DFA4BB914DB /* Pods-Shifty.debug.xcconfig */,
-				F8159B6E8EE687F89EA96C00 /* Pods-Shifty.release.xcconfig */,
+				DD6C6F0C6E1167917D5823EF /* Info.plist */,
+				8D0C37FCA1D353FD7CEF2802 /* Pods-Shifty.modulemap */,
+				BC0B8C2A0F0989FE427F6303 /* Pods-Shifty-acknowledgements.markdown */,
+				280E4E01A043B765D1326433 /* Pods-Shifty-acknowledgements.plist */,
+				11C44501DDE471DCD2977233 /* Pods-Shifty-dummy.m */,
+				2ADF68842E59E433F3B23EAE /* Pods-Shifty-environment.h */,
+				9C4A4A8D9606A83FFD7DEA07 /* Pods-Shifty-frameworks.sh */,
+				8C4C3D30873CFF295CA97E83 /* Pods-Shifty-resources.sh */,
+				DE203B5E341EB635C28D8925 /* Pods-Shifty-umbrella.h */,
+				02F49A1E2BB46B5034E7BD0A /* Pods-Shifty.debug.xcconfig */,
+				4B7877B0446D28D9180918DE /* Pods-Shifty.release.xcconfig */,
 			);
 			name = "Pods-Shifty";
 			path = "Target Support Files/Pods-Shifty";
 			sourceTree = "<group>";
 		};
-		2643149EB2ACEC6903F8E085 /* iOS */ = {
+		7B254201A9F6442FA742C988 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				92957590E191E038A4082006 /* Foundation.framework */,
+				8900599BE63E217B8C304B27 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8900599BE63E217B8C304B27 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				423E672AC5A3A3EC03BC9719 /* Foundation.framework */,
 			);
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		422EBDF4427B27AA2E8BCFA3 /* Products */ = {
+		C605E9F6DEE52B3495871F24 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6372C4A5FEE8576D7C9D2857 /* Pods_Shifty.framework */,
-				D82B60042AEC874257F6A497 /* SwiftDate.framework */,
+				076AFE6C808E6356089E465E /* SWTableViewCell */,
+				14EC7BC17EC11BEC3CB2302F /* SwiftDate */,
 			);
-			name = Products;
+			name = Pods;
 			sourceTree = "<group>";
 		};
-		4F4437A339304B2182B7B0DA /* Targets Support Files */ = {
+		CDA31829DF2ED6E955538931 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				1ABC39A601A007A7FC37670F /* Pods-Shifty */,
+				455F7107CB1138486DBEB82B /* Pods-Shifty */,
 			);
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		BFA6DDB2DC21B30526F54A1C /* Support Files */ = {
+		D4EC59B063D6D7D2FB80D4F2 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				48239EFBB67883207B730CEB /* Info.plist */,
-				58BF2972707A5B40BF6D0380 /* Pods-Shifty-SwiftDate.modulemap */,
-				8D81422FCF10D3226A6A71EF /* Pods-Shifty-SwiftDate.xcconfig */,
-				1E30B9D48769BBF3746C8BED /* Pods-Shifty-SwiftDate-Private.xcconfig */,
-				6A7F2F7E4DD99F26A194A723 /* Pods-Shifty-SwiftDate-dummy.m */,
-				1929C777D0CF8DD997B7E663 /* Pods-Shifty-SwiftDate-prefix.pch */,
-				D2124FBA699D2CFA47CC8E86 /* Pods-Shifty-SwiftDate-umbrella.h */,
+				6E1A10577FADA4CE45EDB806 /* Pods_Shifty.framework */,
+				4D1F130578967501B00F8F0A /* SWTableViewCell.framework */,
+				B3D1E17B5753669B00E80A73 /* SwiftDate.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D5BDA6D4ACC30DD528E073AD /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2AA4B79A0123329DBC27A340 /* Info.plist */,
+				DD5C78C8D498AECED7523438 /* Pods-Shifty-SwiftDate.modulemap */,
+				DEF459C0FC08FE51D2066938 /* Pods-Shifty-SwiftDate.xcconfig */,
+				954DF9C9B435FF8252124093 /* Pods-Shifty-SwiftDate-Private.xcconfig */,
+				72987E0A1A669FC587E293E3 /* Pods-Shifty-SwiftDate-dummy.m */,
+				13080E4F0408559999E160C8 /* Pods-Shifty-SwiftDate-prefix.pch */,
+				B38E9C13FA0859E2B1F208DF /* Pods-Shifty-SwiftDate-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Pods-Shifty-SwiftDate";
 			sourceTree = "<group>";
 		};
+		F7557261FD9E180E9F24BCC3 = {
+			isa = PBXGroup;
+			children = (
+				6A1D0EAF2F7A3B33E66A6D72 /* Podfile */,
+				7B254201A9F6442FA742C988 /* Frameworks */,
+				C605E9F6DEE52B3495871F24 /* Pods */,
+				D4EC59B063D6D7D2FB80D4F2 /* Products */,
+				CDA31829DF2ED6E955538931 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		0ADF93D85DBD7FBBA237F049 /* Headers */ = {
+		3C25533967EE909F51FCD132 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9485E4BCA4A9B9AA8930F6F6 /* Pods-Shifty-SwiftDate-umbrella.h in Headers */,
+				6487D2AB0610E42F6B4DE51B /* NSMutableArray+SWUtilityButtons.h in Headers */,
+				B7E13D2D650A09FC267EF123 /* Pods-Shifty-SWTableViewCell-umbrella.h in Headers */,
+				3FF62BB139C2BC8895ABEAA4 /* SWCellScrollView.h in Headers */,
+				697FC298868EA910FDAE4242 /* SWLongPressGestureRecognizer.h in Headers */,
+				E41A7116ED99485A1B17DA41 /* SWTableViewCell.h in Headers */,
+				56F1087F70F0D649372A7CF1 /* SWUtilityButtonTapGestureRecognizer.h in Headers */,
+				81EEB4ADA88AFBC2F3EECBB8 /* SWUtilityButtonView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8996A5EED52F5E3F6D0455CE /* Headers */ = {
+		5FD629F88120997D97B3537C /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10DD88E9ECDC9B28246684BC /* Pods-Shifty-umbrella.h in Headers */,
+				C1BCA8E7B375007542E902DB /* Pods-Shifty-SwiftDate-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8E91338A10DA304AA964FFBB /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BC22A3747CF1D3BF1FB0893A /* Pods-Shifty-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		014FA57ACB337CD8E5788025 /* Pods-Shifty-SwiftDate */ = {
+		10AA620DCD6FAE05FEBC3FA9 /* Pods-Shifty-SWTableViewCell */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 98DC7825CFC8D3BF87CC4369 /* Build configuration list for PBXNativeTarget "Pods-Shifty-SwiftDate" */;
+			buildConfigurationList = A61E051B386DEA0711B9CD47 /* Build configuration list for PBXNativeTarget "Pods-Shifty-SWTableViewCell" */;
 			buildPhases = (
-				B043724884BAC49DF38B20A8 /* Sources */,
-				56880B5661C3140C6C411613 /* Frameworks */,
-				0ADF93D85DBD7FBBA237F049 /* Headers */,
+				04314E8532F922E7DEB58C26 /* Sources */,
+				7AC7722376F3AAB7F49D7CF9 /* Frameworks */,
+				3C25533967EE909F51FCD132 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-Shifty-SWTableViewCell";
+			productName = "Pods-Shifty-SWTableViewCell";
+			productReference = 4D1F130578967501B00F8F0A /* SWTableViewCell.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8F4DEA016748D3EC57685556 /* Pods-Shifty-SwiftDate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04C345B29B43CA1FB8526D75 /* Build configuration list for PBXNativeTarget "Pods-Shifty-SwiftDate" */;
+			buildPhases = (
+				46E891180CD6BF8C27D1AC63 /* Sources */,
+				EA5FEA850CF18DAE8F85D4BC /* Frameworks */,
+				5FD629F88120997D97B3537C /* Headers */,
 			);
 			buildRules = (
 			);
@@ -203,115 +321,108 @@
 			);
 			name = "Pods-Shifty-SwiftDate";
 			productName = "Pods-Shifty-SwiftDate";
-			productReference = D82B60042AEC874257F6A497 /* SwiftDate.framework */;
+			productReference = B3D1E17B5753669B00E80A73 /* SwiftDate.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B115BE5122FC10DB25E85B4F /* Pods-Shifty */ = {
+		AD199E0E42723F7CF6472F4C /* Pods-Shifty */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 283B62DC4B7636BE0D29B550 /* Build configuration list for PBXNativeTarget "Pods-Shifty" */;
+			buildConfigurationList = 790808BEC2E6A64A1D5F2D7B /* Build configuration list for PBXNativeTarget "Pods-Shifty" */;
 			buildPhases = (
-				0EA2D2B65256D094B3CCA01F /* Sources */,
-				D0EE89DD4E995A38A0637B28 /* Frameworks */,
-				8996A5EED52F5E3F6D0455CE /* Headers */,
+				1AE6BB12D174979BCEE903EC /* Sources */,
+				C7F129D9F64E026D22D0E189 /* Frameworks */,
+				8E91338A10DA304AA964FFBB /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				974722FE5FB06A04FDA0C001 /* PBXTargetDependency */,
+				9940D8A146F022C9681423A6 /* PBXTargetDependency */,
+				9FACCF87F6E32A5C24F1833C /* PBXTargetDependency */,
 			);
 			name = "Pods-Shifty";
 			productName = "Pods-Shifty";
-			productReference = 6372C4A5FEE8576D7C9D2857 /* Pods_Shifty.framework */;
+			productReference = 6E1A10577FADA4CE45EDB806 /* Pods_Shifty.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		590FB1AF77B761E5061F07D6 /* Project object */ = {
+		143E6ED2D564B7E121D5A20B /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0640;
 			};
-			buildConfigurationList = 46753C0EBC837632A6C52148 /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = 7D24B72F8D593BB6BDAAFA21 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 			);
-			mainGroup = 169CE45C2EE7322B9392D9D3;
-			productRefGroup = 422EBDF4427B27AA2E8BCFA3 /* Products */;
+			mainGroup = F7557261FD9E180E9F24BCC3;
+			productRefGroup = D4EC59B063D6D7D2FB80D4F2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B115BE5122FC10DB25E85B4F /* Pods-Shifty */,
-				014FA57ACB337CD8E5788025 /* Pods-Shifty-SwiftDate */,
+				AD199E0E42723F7CF6472F4C /* Pods-Shifty */,
+				10AA620DCD6FAE05FEBC3FA9 /* Pods-Shifty-SWTableViewCell */,
+				8F4DEA016748D3EC57685556 /* Pods-Shifty-SwiftDate */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0EA2D2B65256D094B3CCA01F /* Sources */ = {
+		04314E8532F922E7DEB58C26 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69D935599C0791B2E1A3C196 /* Pods-Shifty-dummy.m in Sources */,
+				80722B5F374659F0026AD3C0 /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				C08394EFD06085E9CABD9A65 /* Pods-Shifty-SWTableViewCell-dummy.m in Sources */,
+				05F95E3E0A4DA5D1E366FFBE /* SWCellScrollView.m in Sources */,
+				986AEEABFFB3670B22F2B047 /* SWLongPressGestureRecognizer.m in Sources */,
+				0FF94BEB2834FFED674AAF2A /* SWTableViewCell.m in Sources */,
+				F44054E6BEE5165CC3F6F544 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				8A212FDDDEA71791DCD61B0C /* SWUtilityButtonView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B043724884BAC49DF38B20A8 /* Sources */ = {
+		1AE6BB12D174979BCEE903EC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23BDB28D72E17FD1E67A198C /* Pods-Shifty-SwiftDate-dummy.m in Sources */,
-				E8768B40203C92BB5371D1E7 /* SwiftDate.swift in Sources */,
+				DC4C1976337A6F15C2127601 /* Pods-Shifty-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46E891180CD6BF8C27D1AC63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				03340BE78EB86696864BFB75 /* Pods-Shifty-SwiftDate-dummy.m in Sources */,
+				9E31AEAD507AAB21A9EF60B6 /* SwiftDate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		974722FE5FB06A04FDA0C001 /* PBXTargetDependency */ = {
+		9940D8A146F022C9681423A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Pods-Shifty-SWTableViewCell";
+			target = 10AA620DCD6FAE05FEBC3FA9 /* Pods-Shifty-SWTableViewCell */;
+			targetProxy = ADF66F48A45064DCC2876EAD /* PBXContainerItemProxy */;
+		};
+		9FACCF87F6E32A5C24F1833C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Shifty-SwiftDate";
-			target = 014FA57ACB337CD8E5788025 /* Pods-Shifty-SwiftDate */;
-			targetProxy = A5F187ED1E6A02DEC36F4035 /* PBXContainerItemProxy */;
+			target = 8F4DEA016748D3EC57685556 /* Pods-Shifty-SwiftDate */;
+			targetProxy = 3A8B73C1B04A21A0EC7C7352 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		233ACC0F9B1A15095F29F4C2 /* Release */ = {
+		06722D91B1A91968780C7785 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F8159B6E8EE687F89EA96C00 /* Pods-Shifty.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Shifty/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Pods-Shifty/Pods-Shifty.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = Pods_Shifty;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		34A58B0C46ABA86032FD9B21 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E30B9D48769BBF3746C8BED /* Pods-Shifty-SwiftDate-Private.xcconfig */;
+			baseConfigurationReference = 954DF9C9B435FF8252124093 /* Pods-Shifty-SwiftDate-Private.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -337,64 +448,7 @@
 			};
 			name = Debug;
 		};
-		C66E3414608E38CEBA438293 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FC62ECE48B963DFA4BB914DB /* Pods-Shifty.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Shifty/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Pods-Shifty/Pods-Shifty.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = Pods_Shifty;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		CF1415407BCAD84527E7F979 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1E30B9D48769BBF3746C8BED /* Pods-Shifty-SwiftDate-Private.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Pods-Shifty-SwiftDate/Pods-Shifty-SwiftDate-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Pods-Shifty-SwiftDate/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/Pods-Shifty-SwiftDate/Pods-Shifty-SwiftDate.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = SwiftDate;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		E4BCC00876CBE06A6388EAE7 /* Debug */ = {
+		1F2078A50E4946B958144292 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -433,7 +487,120 @@
 			};
 			name = Debug;
 		};
-		F64AD79EE0D914F38525F631 /* Release */ = {
+		25DA8C8B0C83F19035C8BD4A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9CAB2009548DADE4DA8F752 /* Pods-Shifty-SWTableViewCell-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Shifty-SWTableViewCell/Pods-Shifty-SWTableViewCell-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Shifty-SWTableViewCell/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Shifty-SWTableViewCell/Pods-Shifty-SWTableViewCell.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SWTableViewCell;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		35C6B3B91AB5924EDB812F7F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9CAB2009548DADE4DA8F752 /* Pods-Shifty-SWTableViewCell-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Shifty-SWTableViewCell/Pods-Shifty-SWTableViewCell-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Shifty-SWTableViewCell/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Shifty-SWTableViewCell/Pods-Shifty-SWTableViewCell.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SWTableViewCell;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		5E5834F123F2D9A38AAE596D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4B7877B0446D28D9180918DE /* Pods-Shifty.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Shifty/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Shifty/Pods-Shifty.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_Shifty;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		7A76AD16DD841ED35B604E07 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 02F49A1E2BB46B5034E7BD0A /* Pods-Shifty.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Shifty/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Shifty/Pods-Shifty.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = Pods_Shifty;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		AD4C9A049D84CBF69DC47A67 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -467,37 +634,73 @@
 			};
 			name = Release;
 		};
+		D83F5CD83D1A36AF8FBD8DB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 954DF9C9B435FF8252124093 /* Pods-Shifty-SwiftDate-Private.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Pods-Shifty-SwiftDate/Pods-Shifty-SwiftDate-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Pods-Shifty-SwiftDate/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/Pods-Shifty-SwiftDate/Pods-Shifty-SwiftDate.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SwiftDate;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		283B62DC4B7636BE0D29B550 /* Build configuration list for PBXNativeTarget "Pods-Shifty" */ = {
+		04C345B29B43CA1FB8526D75 /* Build configuration list for PBXNativeTarget "Pods-Shifty-SwiftDate" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C66E3414608E38CEBA438293 /* Debug */,
-				233ACC0F9B1A15095F29F4C2 /* Release */,
+				06722D91B1A91968780C7785 /* Debug */,
+				D83F5CD83D1A36AF8FBD8DB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		46753C0EBC837632A6C52148 /* Build configuration list for PBXProject "Pods" */ = {
+		790808BEC2E6A64A1D5F2D7B /* Build configuration list for PBXNativeTarget "Pods-Shifty" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E4BCC00876CBE06A6388EAE7 /* Debug */,
-				F64AD79EE0D914F38525F631 /* Release */,
+				7A76AD16DD841ED35B604E07 /* Debug */,
+				5E5834F123F2D9A38AAE596D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		98DC7825CFC8D3BF87CC4369 /* Build configuration list for PBXNativeTarget "Pods-Shifty-SwiftDate" */ = {
+		7D24B72F8D593BB6BDAAFA21 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				34A58B0C46ABA86032FD9B21 /* Debug */,
-				CF1415407BCAD84527E7F979 /* Release */,
+				1F2078A50E4946B958144292 /* Debug */,
+				AD4C9A049D84CBF69DC47A67 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A61E051B386DEA0711B9CD47 /* Build configuration list for PBXNativeTarget "Pods-Shifty-SWTableViewCell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35C6B3B91AB5924EDB812F7F /* Debug */,
+				25DA8C8B0C83F19035C8BD4A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 590FB1AF77B761E5061F07D6 /* Project object */;
+	rootObject = 143E6ED2D564B7E121D5A20B /* Project object */;
 }

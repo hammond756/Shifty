@@ -1,10 +1,13 @@
 PODS:
   - SwiftDate (1.0.8)
+  - SWTableViewCell (0.3.7)
 
 DEPENDENCIES:
   - SwiftDate
+  - SWTableViewCell (~> 0.3.7)
 
 SPEC CHECKSUMS:
   SwiftDate: 59e069d272ce7154f57db1df7a6a722d78d266e8
+  SWTableViewCell: 2a94aadc9d47b2b611fa064566bf57948b95b579
 
 COCOAPODS: 0.37.2
