@@ -180,7 +180,13 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Rooster" id="El5-Md-D5r"/>
+                    <navigationItem key="navigationItem" title="Rooster" id="El5-Md-D5r">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Ab-gM-mOp">
+                            <connections>
+                                <action selector="goToSubmitView" destination="WOK-3g-UMK" id="6M3-mg-x3m"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="submitButton" destination="svV-hJ-sdZ" id="3u6-nB-9Ex"/>
                         <outlet property="tableView" destination="V2i-ei-9II" id="62S-ST-o9g"/>

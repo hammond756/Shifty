@@ -24,6 +24,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        requestPersonalSchedule()
+    }
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -35,8 +41,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
-        
-        requestPersonalSchedule()
     }
     
     func refresh(sender:AnyObject)
@@ -48,12 +52,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func requestPersonalSchedule()
     {
-        let userID = PFUser.currentUser()?.objectId
+        let isOwner = PFQuery(className: "Shifts")
+            .whereKey("Owner", equalTo: PFUser.currentUser()!)
+        let hasAccepted = PFQuery(className: "Shifts")
+            .whereKey("acceptedBy", equalTo: PFUser.currentUser()!)
         
-        let query = PFQuery(className: "Shifts")
-            .whereKey("Owner", equalTo: userID!)
-        
-        var shifts = [Shift]()
+        let query = PFQuery.orQueryWithSubqueries([isOwner, hasAccepted])
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
             
@@ -70,13 +74,13 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                     return shift.objectID
                 }
                 
-                let setIDs = NSSet(array: shiftIDs)
+                let setWithIDs = NSSet(array: shiftIDs)
                 
                 for object in objects
                 {
                     let shift = self.convertParseObjectToShift(object)
                     
-                    if !setIDs.containsObject(shift.objectID)
+                    if !setWithIDs.containsObject(shift.objectID)
                     {
                         self.shifts.append(shift)
                     }
@@ -140,8 +144,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     // generate (reuse) cell.
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        shifts.count == 0 ? (tableView.hidden = true) : (tableView.hidden = false)
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
         
         cell.backgroundColor = UIColor.clearColor()
@@ -155,12 +157,13 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         cell.accessoryView = createTimeLabel(time)
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
+        // give appropriate highlight, depending on status
         switch sectionItems[indexPath.row].status
         {
             case "Supplied": cell.backgroundColor = UIColor.redColor()
             case "Awaitting Approval": cell.backgroundColor = UIColor.orangeColor()
             case "Approved": cell.backgroundColor = UIColor.greenColor()
-        default: break
+            default: break
         }
         
         return cell
@@ -213,6 +216,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                         {
                             println(error?.description)
                         }
+                        
+                        self.tableView.reloadData()
                     }
                 }
             }

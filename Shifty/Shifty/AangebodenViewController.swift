@@ -143,6 +143,7 @@ class AangebodenViewController: UITableViewController {
                 else if let shift = shift
                 {
                     shift["Status"] = "Awaitting Approval"
+                    shift["acceptedBy"] = PFUser.currentUser()
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
                         succes ? self.tableView.reloadData() : println(error?.description)

@@ -42,27 +42,24 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
             textFieldArray[i].inputView = shiftPicker
             textFieldArray[i].delegate = self
         }
-        // Do any additional setup after loading the view.
     }
     
+    // send the day and time to the Rooster() class for processing to the database
     @IBAction func submitRooster()
     {
         let day = dagField1.text
         
         if let time = extractTimeComponents(tijdField1.text)
         {
-            let hour = time.0
-            let minute = time.1
             let rooster = Rooster()
-            rooster.addRecurringShift(day, hour: hour, minute: minute)
+            rooster.addRecurringShift(day, hour: time.0, minute: time.1)
         }
         
-
-
         dagField1.text = ""
         tijdField1.text = ""
     }
     
+    // get two integers (hour, minute) from string format HH:mm
     func extractTimeComponents(time: String) -> (Int, Int)?
     {
         if time != ""
@@ -79,7 +76,8 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         return nil
     }
     
-    func updateTextField()
+    // put info on selected picker rows in the textfields
+    func updateTextFields()
     {
         dagField1.text = pickerData[0][shiftPicker.selectedRowInComponent(0)]
         tijdField1.text = pickerData[1][shiftPicker.selectedRowInComponent(1)]
@@ -105,7 +103,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         return pickerData[component][row]
     }
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        updateTextField()
+        updateTextFields()
     }
     
     func textFieldDidBeginEditing(textField: UITextField)
