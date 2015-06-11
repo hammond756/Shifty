@@ -14,6 +14,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
     
+    var refreshControl: UIRefreshControl!
     let rooster = Rooster()
     var shifts: [Shift] = []
     var sectionsInTable = [String]()
@@ -23,13 +24,26 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
     
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        requestFixedRooster()
+        
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView.addSubview(refreshControl)
+        
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         
+        requestFixedRooster()
+    }
+    
+    func refresh(sender:AnyObject)
+    {
+        requestFixedRooster()
+        self.refreshControl.endRefreshing()
     }
     
     func requestFixedRooster()
@@ -41,40 +55,46 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
             
-            
             if error == nil
             {
                 if let objects = objects as? [PFObject]
                 {
-                    if objects.count == 0
-                    {
-                        self.tableView.hidden = true
-                    }
-                    else
-                    {
-                        self.tableView.hidden = false
-                    }
+                    objects.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                     
                     for object in objects
                     {
-                        let date = object["Date"] as? NSDate
-                        let status = object["Status"] as? String
-                        let objectID = object.objectId
-                        let shift = Shift(date: date!, stat: status!, objectID: objectID!)
+                        let shift = self.convertParseObjectToShift(object)
                         
-                        self.shifts.append(shift)
+                        let shiftSet = NSMutableSet(array: self.shifts)
+                        
+                        if !shiftSet.containsObject(shift)
+                        {
+                            println("appending")
+                            self.shifts.append(shift)
+                        }
 
                     }
                     
                     self.shifts.sort() { $0.dateObject < $1.dateObject }
-                    println(self.shifts.count)
                     self.getSections(self.shifts)
                     self.tableView.reloadData()
                 }
             }
+            else
+            {
+                println(error?.description)
+            }
             
         }
         
+    }
+    
+    private func convertParseObjectToShift(object: PFObject) -> Shift
+    {
+        let date = object["Date"] as? NSDate
+        let status = object["Status"] as? String
+        
+        return Shift(date: date!, stat: status!, objectID: object.objectId!)
     }
     
     // everything to do with the table view
@@ -114,29 +134,19 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        if shifts.count == 0
-        {
-            self.tableView.hidden = true
-        }
-        else
-        {
-            self.tableView.hidden = false
-        }
-        
-        println("Reloading")
+        shifts.count == 0 ? (tableView.hidden = true) : (tableView.hidden = false)
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
+        
         cell.backgroundColor = UIColor.clearColor()
+        
         let sectionItems = getSectionItems(indexPath.section)
+        let shift = sectionItems[indexPath.row]
+        let date = shift.dateString
+        let time = shift.timeString
         
-        var timeLabel = UILabel()
-        timeLabel.font = UIFont.systemFontOfSize(14)
-        timeLabel.textAlignment = NSTextAlignment.Center
-        timeLabel.text = sectionItems[indexPath.row].timeString
-        timeLabel.sizeToFit()
-        
-        cell.textLabel?.text = sectionItems[indexPath.row].dateString
-        cell.accessoryView = timeLabel
+        cell.textLabel?.text = date
+        cell.accessoryView = createTimeLabel(time)
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         switch sectionItems[indexPath.row].status
@@ -148,6 +158,17 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         
         return cell
+    }
+    
+    private func createTimeLabel(time: String) -> UILabel
+    {
+        var label = UILabel()
+        label.font = UIFont.systemFontOfSize(14)
+        label.textAlignment = NSTextAlignment.Center
+        label.text = time
+        label.sizeToFit()
+        
+        return label
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?

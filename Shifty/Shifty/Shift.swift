@@ -18,16 +18,6 @@ class Shift
     var status: String
     var objectID: String
     
-//    init(day: Int, month: Int, year: Int, hour: Int, minute: Int, stat: String)
-//    {
-//        dateObject = NSDate.date(refDate: nil, year: year, month: month, day: day, hour: hour, minute: minute, second: 0, tz: nil)
-//        
-//        dateString = dateObject.toString(format: DateFormat.Custom("EEEE dd MMM"))
-//        timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
-//        
-//        status = stat
-//    }
-//    
     init(date: NSDate, stat: String, objectID: String)
     {
         dateObject = date

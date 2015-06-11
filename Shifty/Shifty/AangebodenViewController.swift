@@ -13,12 +13,10 @@ import SwiftDate
 class AangebodenViewController: UITableViewController {
 
     var suppliedShifts: [Shift] = []
-    
     var sectionsInTable = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         requestSuppliedShifts()
     }
     
@@ -67,6 +65,10 @@ class AangebodenViewController: UITableViewController {
                     self.tableView.reloadData()
 
                 }
+            }
+            else
+            {
+                println(error?.description)
             }
         }
     }
@@ -142,15 +144,8 @@ class AangebodenViewController: UITableViewController {
                 {
                     shift["Status"] = "Awaitting Approval"
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        if succes
-                        {
-                            println("succes")
-                            self.tableView.reloadData()
-                        }
-                        else
-                        {
-                            println(error?.description)
-                        }
+                        
+                        succes ? self.tableView.reloadData() : println(error?.description)
                     }
                     
                 }
