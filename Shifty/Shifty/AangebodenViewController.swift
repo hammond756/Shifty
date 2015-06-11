@@ -15,14 +15,14 @@ class AangebodenViewController: UITableViewController {
     var suppliedShifts: [Shift] = []
     var sectionsInTable = [String]()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         requestSuppliedShifts()
     }
     
     func getSections(shifts: [Shift])
     {
-        println("getting sections")
         for shift in shifts
         {
             let weekOfYear = shift.getWeekOfYear()
@@ -37,40 +37,56 @@ class AangebodenViewController: UITableViewController {
     
     func requestSuppliedShifts()
     {
-        println("Request supplied")
-        var query = PFQuery(className: "Shifts")
-        query.whereKey("Status", equalTo: "Supplied")
+        let query = PFQuery(className: "Shifts")
+            .whereKey("Status", equalTo: "Supplied")
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
-            if error == nil
-            {
-                println("no error")
-                if let objects = objects as? [PFObject]
-                {
-                    println("objects as pfobject")
-                    println(objects.count)
-                    for object in objects
-                    {
-                        let date = object["Date"] as! NSDate
-                        let objectID = object.objectId
-                        let status = object["Status"] as! String
-                        
-                        println("Appending")
-                        self.suppliedShifts.append(Shift(date: date, stat: status, objectID: objectID!))
-                    }
-                    
-                    self.suppliedShifts.sort() { $0.dateObject < $1.dateObject }
-
-                    self.getSections(self.suppliedShifts)
-                    self.tableView.reloadData()
-
-                }
-            }
-            else
+            
+            if error != nil
             {
                 println(error?.description)
             }
+            
+            if let objects = objects as? [PFObject]
+            {
+//                let shiftIDs = self.suppliedShifts.map { (let shift) -> String in
+//                    return shift.objectID
+//                }
+//                
+//                let setWithIDs = NSSet(array: shiftIDs)
+//                
+//                for object in objects
+//                {
+//                    let shift = self.convertParseObjectToShift(object)
+//                    
+//                    if !setWithIDs.containsObject(shift.objectID)
+//                    {
+//                        self.suppliedShifts.append(shift)
+//                    }
+//
+                self.suppliedShifts.removeAll(keepCapacity: true)
+                
+                for object in objects
+                {
+                    let shift = self.convertParseObjectToShift(object)
+                    self.suppliedShifts.append(shift)
+                }
+                
+                self.suppliedShifts.sort() { $0.dateObject < $1.dateObject }
+                
+                self.getSections(self.suppliedShifts)
+                self.tableView.reloadData()
+            }
+
         }
+    }
+    
+    private func convertParseObjectToShift(object: PFObject) -> Shift
+    {
+        let date = object["Date"] as? NSDate
+        let status = object["Status"] as? String
+        
+        return Shift(date: date!, stat: status!, objectID: object.objectId!)
     }
     
     func getSectionItems(section: Int) -> [Shift]
@@ -132,20 +148,18 @@ class AangebodenViewController: UITableViewController {
         var supplyAction = UITableViewRowAction(style: .Normal, title: "✓") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             
             let swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
-            println(swipedShift.dateString)
-            
+
             let query = PFQuery(className: "Shifts")
             query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 if error != nil
                 {
-                    println(error)
+                    println(error?.description)
                 }
                 else if let shift = shift
                 {
                     shift["Status"] = "Awaitting Approval"
                     shift["acceptedBy"] = PFUser.currentUser()
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        
                         succes ? self.tableView.reloadData() : println(error?.description)
                     }
                     

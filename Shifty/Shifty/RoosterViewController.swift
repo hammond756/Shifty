@@ -13,8 +13,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
-    
     var refreshControl: UIRefreshControl!
+    
     let rooster = Rooster()
     var shifts: [Shift] = []
     var sectionsInTable = [String]()
@@ -190,20 +190,25 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         return sectionsInTable.count
     }
     
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
-        // Empty, but is required
+        let selected = getSectionItems(indexPath.section)[indexPath.row]
+        callActionSheet(selected)
+        
+        return indexPath
     }
     
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?
+    private func callActionSheet(selectedShift: Shift)
     {
-        var supplyAction = UITableViewRowAction(style: .Normal, title: "->") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+        let actionSheetController = UIAlertController()
+        
+        let supplyAction = UIAlertAction(title: "Aanbieden", style: .Default) { action -> Void in
             
-            var swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
-            swipedShift.status = "Supplied"
+            selectedShift.status = "Supplied"
             
             let query = PFQuery(className: "Shifts")
-            query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+                
                 if error != nil
                 {
                     println(error?.description)
@@ -223,9 +228,81 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
         
-        supplyAction.backgroundColor = UIColor.orangeColor()
+        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel) { action -> Void in
+            
+            actionSheetController.dismissViewControllerAnimated(true, completion: nil)
+        }
         
-        return [supplyAction]
+        let approveAction = UIAlertAction(title: "Goedkeuren", style: .Default) { action -> Void in
+            selectedShift.status = "idle"
+            
+            let query = PFQuery(className: "Shifts")
+            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+                
+                if error != nil
+                {
+                    println(error?.description)
+                }
+                else if let shift = shift
+                {
+                    shift["Status"] = "idle"
+                    shift["Owner"] = shift["acceptedBy"]
+                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        if error != nil
+                        {
+                            println(error?.description)
+                        }
+                        
+                        self.tableView.reloadData()
+                    }
+                }
+            }
+        }
+        
+        actionSheetController.addAction(supplyAction)
+        actionSheetController.addAction(cancelAction)
+        actionSheetController.addAction(approveAction)
+        
+        actionSheetController.popoverPresentationController?.sourceView = self.view
+        presentViewController(actionSheetController, animated: true, completion: nil)
     }
+    
+//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+//    {
+//        // Empty, but is required
+//    }
+//    
+//    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?
+//    {
+//        var supplyAction = UITableViewRowAction(style: .Normal, title: "->") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+//            
+//            var swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
+//            swipedShift.status = "Supplied"
+//            
+//            let query = PFQuery(className: "Shifts")
+//            query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+//                if error != nil
+//                {
+//                    println(error?.description)
+//                }
+//                else if let shift = shift
+//                {
+//                    shift["Status"] = "Supplied"
+//                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+//                        if error != nil
+//                        {
+//                            println(error?.description)
+//                        }
+//                        
+//                        self.tableView.reloadData()
+//                    }
+//                }
+//            }
+//        }
+//        
+//        supplyAction.backgroundColor = UIColor.orangeColor()
+//        
+//        return [supplyAction]
+//    }
     
 }
