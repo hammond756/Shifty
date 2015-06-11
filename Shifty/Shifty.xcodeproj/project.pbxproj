@@ -161,8 +161,8 @@
 				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
 				9CBA579D1B1E362900B1F708 /* LogInViewController.swift */,
-				9C9A672B1B2060A100E31CBB /* Shift.swift */,
 				9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */,
+				9C9A672B1B2060A100E31CBB /* Shift.swift */,
 				9CFB6DE81B2072EF0010393E /* Rooster.swift */,
 			);
 			path = Shifty;

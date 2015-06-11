@@ -24,7 +24,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
     
-    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -37,56 +36,58 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         
-        requestFixedRooster()
+        requestPersonalSchedule()
     }
     
     func refresh(sender:AnyObject)
     {
-        requestFixedRooster()
-        self.refreshControl.endRefreshing()
+        requestPersonalSchedule()
+        tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
-    func requestFixedRooster()
+    func requestPersonalSchedule()
     {
-        var currentUser = PFUser.currentUser()
-        let userID = currentUser?.objectId
+        let userID = PFUser.currentUser()?.objectId
+        
         let query = PFQuery(className: "Shifts")
-        query.whereKey("Owner", equalTo: userID!)
+            .whereKey("Owner", equalTo: userID!)
+        
+        var shifts = [Shift]()
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
             
-            if error == nil
-            {
-                if let objects = objects as? [PFObject]
-                {
-                    objects.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
-                    
-                    for object in objects
-                    {
-                        let shift = self.convertParseObjectToShift(object)
-                        
-                        let shiftSet = NSMutableSet(array: self.shifts)
-                        
-                        if !shiftSet.containsObject(shift)
-                        {
-                            println("appending")
-                            self.shifts.append(shift)
-                        }
-
-                    }
-                    
-                    self.shifts.sort() { $0.dateObject < $1.dateObject }
-                    self.getSections(self.shifts)
-                    self.tableView.reloadData()
-                }
-            }
-            else
+            if error != nil
             {
                 println(error?.description)
             }
             
+            if let objects = objects as? [PFObject]
+            {
+                objects.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
+                
+                let shiftIDs = self.shifts.map { (let shift) -> String in
+                    return shift.objectID
+                }
+                
+                let setIDs = NSSet(array: shiftIDs)
+                
+                for object in objects
+                {
+                    let shift = self.convertParseObjectToShift(object)
+                    
+                    if !setIDs.containsObject(shift.objectID)
+                    {
+                        self.shifts.append(shift)
+                    }
+                }
+                
+                self.shifts.sort { $0.dateObject < $1.dateObject }
+                self.getSections(self.shifts)
+                self.tableView.reloadData()
+            }
+            
         }
-        
     }
     
     private func convertParseObjectToShift(object: PFObject) -> Shift
@@ -98,6 +99,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     }
     
     // everything to do with the table view
+    
+    // generete the section headers of the table view (week numbers)
     private func getSections(shifts: [Shift])
     {
         for shift in shifts
@@ -112,6 +115,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    // split the shifts up into their corresponding sections
     private func getSectionItems(section: Int) -> [Shift]
     {
         var sectionItems = [Shift]()
@@ -127,11 +131,13 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         return sectionItems
     }
     
+    // get number of rows for a section
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return getSectionItems(section).count
     }
     
+    // generate (reuse) cell.
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         shifts.count == 0 ? (tableView.hidden = true) : (tableView.hidden = false)
@@ -183,7 +189,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
     {
-        
+        // Empty, but is required
     }
     
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?
@@ -191,30 +197,23 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         var supplyAction = UITableViewRowAction(style: .Normal, title: "->") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
             
             var swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
-            println(swipedShift.dateString)
+            swipedShift.status = "Supplied"
             
             let query = PFQuery(className: "Shifts")
             query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 if error != nil
                 {
-                    println(error)
+                    println(error?.description)
                 }
                 else if let shift = shift
                 {
                     shift["Status"] = "Supplied"
-                    swipedShift.status = "Supplied"
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        if succes
-                        {
-                            println("succes")
-                            self.tableView.reloadData()
-                        }
-                        else
+                        if error != nil
                         {
                             println(error?.description)
                         }
                     }
-                    
                 }
             }
         }
