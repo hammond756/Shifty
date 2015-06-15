@@ -14,7 +14,9 @@ class Rooster
 {
     // constant for duration of fixed schedule
     let amountOfRecurringWeeks = 8
-    var recurringShifts = [Shift]()
+
+    var ownedShifts = [Shift]()
+    var suppliedShifts = [Shift]()
     
     func addRecurringShift(day: String, hour: Int, minute: Int)
     {
@@ -33,6 +35,79 @@ class Rooster
         }
         
     }
+    
+    // missing: getSections, reload Table, hide/show table
+    
+    func requestOwnedShifts(callback: () -> Void)
+    {
+        let isOwner = PFQuery(className: "Shifts")
+            .whereKey("Owner", equalTo: PFUser.currentUser()!)
+        let hasAccepted = PFQuery(className: "Shifts")
+            .whereKey("acceptedBy", equalTo: PFUser.currentUser()!)
+        
+        let query = PFQuery.orQueryWithSubqueries([isOwner, hasAccepted])
+        
+        query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error != nil
+            {
+                println(error?.description)
+            }
+            else if let objects = objects as? [PFObject]
+            {
+                self.ownedShifts = []
+                
+                for object in objects
+                {
+                    let shift = self.convertParseObjectToShift(object)
+                    self.ownedShifts.append(shift)
+                }
+                
+                self.ownedShifts.sort { $0.dateObject < $1.dateObject }
+            }
+            
+            callback()
+            
+        }
+    }
+    
+    func requestSuppliedShifts(callback: () -> Void)
+    {
+        let query = PFQuery(className: "Shifts")
+            .whereKey("Status", equalTo: "Supplied")
+        
+        query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error != nil
+            {
+                println(error?.description)
+            }
+            else if let objects = objects as? [PFObject]
+            {
+                self.suppliedShifts.removeAll(keepCapacity: true)
+                
+                for object in objects
+                {
+                    let shift = self.convertParseObjectToShift(object)
+                    self.suppliedShifts.append(shift)
+                }
+                
+                self.suppliedShifts.sort() { $0.dateObject < $1.dateObject }
+            }
+            
+            callback()
+        }
+    }
+    
+    private func convertParseObjectToShift(object: PFObject) -> Shift
+    {
+        let date = object["Date"] as? NSDate
+        let status = object["Status"] as? String
+        let owner = object["Owner"] as? PFUser
+        
+        return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
+    }
+    
     
     // function that calculates on which date the next occurence is of a given weekday
     private func nextOccurenceOfDay(day: Int) -> NSDate

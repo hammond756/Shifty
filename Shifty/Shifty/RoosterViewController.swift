@@ -17,7 +17,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     let rooster = Rooster()
     
-    var ownedShifts = [Shift]()
     var sectionsInTable = [String]()
     
     @IBAction func goToSubmitView()
@@ -28,7 +27,11 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
-        requestPersonalSchedule()
+        
+        rooster.requestOwnedShifts() { () -> Void in
+            self.getSections(self.rooster.ownedShifts)
+            self.tableView.reloadData()
+        }
     }
     
     override func viewDidLoad()
@@ -46,53 +49,11 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func refresh(sender:AnyObject)
     {
-        requestPersonalSchedule()
-        tableView.reloadData()
-        refreshControl.endRefreshing()
-    }
-    
-    func requestPersonalSchedule()
-    {
-        let isOwner = PFQuery(className: "Shifts")
-            .whereKey("Owner", equalTo: PFUser.currentUser()!)
-        let hasAccepted = PFQuery(className: "Shifts")
-            .whereKey("acceptedBy", equalTo: PFUser.currentUser()!)
-        
-        let query = PFQuery.orQueryWithSubqueries([isOwner, hasAccepted])
-        
-        query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
-            
-            if error != nil
-            {
-                println(error?.description)
-            }
-            else if let objects = objects as? [PFObject]
-            {
-                objects.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
-                
-                self.ownedShifts = []
-                
-                for object in objects
-                {
-                    let shift = self.convertParseObjectToShift(object)
-                    self.ownedShifts.append(shift)
-                }
-                
-                self.ownedShifts.sort { $0.dateObject < $1.dateObject }
-                self.getSections(self.ownedShifts)
-                self.tableView.reloadData()
-            }
-            
+        rooster.requestOwnedShifts { () -> Void in
+            self.getSections(self.rooster.ownedShifts)
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
         }
-    }
-    
-    private func convertParseObjectToShift(object: PFObject) -> Shift
-    {
-        let date = object["Date"] as? NSDate
-        let status = object["Status"] as? String
-        let owner = object["Owner"] as? PFUser
-        
-        return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
     }
     
     // everything to do with the table view
@@ -105,9 +66,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         for shift in shifts
         {
             let weekOfYear = shift.getWeekOfYear()
-            let sections = NSSet(array: sectionsInTable)
             
-            if !sections.containsObject(weekOfYear)
+            if !contains(sectionsInTable, weekOfYear)
             {
                 sectionsInTable.append(weekOfYear)
             }
@@ -119,7 +79,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         var sectionItems = [Shift]()
         
-        for shift in ownedShifts
+        for shift in rooster.ownedShifts
         {
             if shift.getWeekOfYear() == sectionsInTable[section]
             {

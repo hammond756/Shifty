@@ -12,14 +12,17 @@ import SwiftDate
 
 class AangebodenViewController: UITableViewController
 {
-    var suppliedShifts = [Shift]()
     var sectionsInTable = [String]()
+    let rooster = Rooster()
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
         
-        requestSuppliedShifts()
+        rooster.requestSuppliedShifts() { () -> Void in
+            self.getSections(self.rooster.suppliedShifts)
+            self.tableView.reloadData()
+        }
     }
     
     func getSections(shifts: [Shift])
@@ -29,43 +32,11 @@ class AangebodenViewController: UITableViewController
         for shift in shifts
         {
             let weekOfYear = shift.getWeekOfYear()
-            let sections = NSSet(array: sectionsInTable)
             
-            if !sections.containsObject(weekOfYear)
+            if !contains(sectionsInTable, weekOfYear)
             {
                 sectionsInTable.append(weekOfYear)
             }
-        }
-    }
-    
-    func requestSuppliedShifts()
-    {
-        let query = PFQuery(className: "Shifts")
-            .whereKey("Status", equalTo: "Supplied")
-        
-        query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
-            
-            if error != nil
-            {
-                println(error?.description)
-            }
-            
-            if let objects = objects as? [PFObject]
-            {
-                self.suppliedShifts.removeAll(keepCapacity: true)
-                
-                for object in objects
-                {
-                    let shift = self.convertParseObjectToShift(object)
-                    self.suppliedShifts.append(shift)
-                }
-                
-                self.suppliedShifts.sort() { $0.dateObject < $1.dateObject }
-                
-                self.getSections(self.suppliedShifts)
-                self.tableView.reloadData()
-            }
-
         }
     }
     
@@ -78,11 +49,12 @@ class AangebodenViewController: UITableViewController
         return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
     }
     
+    // TODO: get this function out of the view controller and into the Rooster class
     private func getSectionItems(section: Int) -> [Shift]
     {
         var sectionItems = [Shift]()
         
-        for shift in suppliedShifts
+        for shift in rooster.suppliedShifts
         {
             if shift.getWeekOfYear() == sectionsInTable[section]
             {
@@ -159,8 +131,8 @@ class AangebodenViewController: UITableViewController
                         }
                         else
                         {
-                            let index = find(self.suppliedShifts, selectedShift)
-                            self.suppliedShifts.removeAtIndex(index!)
+                            let index = find(self.rooster.suppliedShifts, selectedShift)
+                            self.rooster.suppliedShifts.removeAtIndex(index!)
                             self.tableView.reloadData()
                         }
                     }
