@@ -151,17 +151,16 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         
         cell.backgroundColor = UIColor.clearColor()
         
-        let sectionItems = getSectionItems(indexPath.section)
-        let shift = sectionItems[indexPath.row]
-        let date = shift.dateString
-        let time = shift.timeString
+        let shiftForCell = getSectionItems(indexPath.section)[indexPath.row]
+        let date = shiftForCell.dateString
+        let time = shiftForCell.timeString
         
         cell.textLabel?.text = date
         cell.accessoryView = createTimeLabel(time)
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         // give appropriate highlight, depending on status
-        switch sectionItems[indexPath.row].status
+        switch shiftForCell.status
         {
             case "Supplied": cell.backgroundColor = UIColor.redColor()
             case "Awaitting Approval": cell.backgroundColor = UIColor.orangeColor()
@@ -250,7 +249,9 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 {
                     shift["Status"] = "idle"
                     shift["Owner"] = shift["acceptedBy"]
+                    
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        
                         if error != nil
                         {
                             println(error?.description)
@@ -269,43 +270,4 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         actionSheetController.popoverPresentationController?.sourceView = self.view
         presentViewController(actionSheetController, animated: true, completion: nil)
     }
-    
-//    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
-//    {
-//        // Empty, but is required
-//    }
-//    
-//    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?
-//    {
-//        var supplyAction = UITableViewRowAction(style: .Normal, title: "->") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
-//            
-//            var swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
-//            swipedShift.status = "Supplied"
-//            
-//            let query = PFQuery(className: "Shifts")
-//            query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-//                if error != nil
-//                {
-//                    println(error?.description)
-//                }
-//                else if let shift = shift
-//                {
-//                    shift["Status"] = "Supplied"
-//                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-//                        if error != nil
-//                        {
-//                            println(error?.description)
-//                        }
-//                        
-//                        self.tableView.reloadData()
-//                    }
-//                }
-//            }
-//        }
-//        
-//        supplyAction.backgroundColor = UIColor.orangeColor()
-//        
-//        return [supplyAction]
-//    }
-    
 }

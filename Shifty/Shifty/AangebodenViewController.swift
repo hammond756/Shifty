@@ -78,7 +78,6 @@ class AangebodenViewController: UITableViewController {
     
     func getSectionItems(section: Int) -> [Shift]
     {
-        println("getting section items")
         var sectionItems = [Shift]()
         
         for shift in suppliedShifts
@@ -100,16 +99,15 @@ class AangebodenViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
-        let sectionItems = getSectionItems(indexPath.section)
         
-        var timeLabel = UILabel()
-        timeLabel.font = UIFont.systemFontOfSize(14)
-        timeLabel.textAlignment = NSTextAlignment.Center
-        timeLabel.text = sectionItems[indexPath.row].timeString
-        timeLabel.sizeToFit()
+        cell.backgroundColor = UIColor.clearColor()
         
-        cell.textLabel?.text = sectionItems[indexPath.row].dateString
-        cell.accessoryView = timeLabel
+        let shiftForCell = getSectionItems(indexPath.section)[indexPath.row]
+        let date = shiftForCell.dateString
+        let time = shiftForCell.timeString
+                
+        cell.textLabel?.text = date
+        cell.accessoryView = createTimeLabel(time)
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         return cell
@@ -125,19 +123,16 @@ class AangebodenViewController: UITableViewController {
         return sectionsInTable.count
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath)
+    func callActionSheet(selectedShift: Shift)
     {
+        let actionSheetController = UIAlertController()
         
-    }
-    
-    override func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [AnyObject]?
-    {
-        var supplyAction = UITableViewRowAction(style: .Normal, title: "✓") { (action: UITableViewRowAction!, indexPath: NSIndexPath!) -> Void in
+        let acceptAction = UIAlertAction(title: "Accepteren", style: .Default) { action -> Void in
             
-            let swipedShift = self.getSectionItems(indexPath.section)[indexPath.row]
-
             let query = PFQuery(className: "Shifts")
-            query.getObjectInBackgroundWithId(swipedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+            
+            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
+                
                 if error != nil
                 {
                     println(error?.description)
@@ -146,17 +141,32 @@ class AangebodenViewController: UITableViewController {
                 {
                     shift["Status"] = "Awaitting Approval"
                     shift["acceptedBy"] = PFUser.currentUser()
-                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        succes ? self.tableView.reloadData() : println(error?.description)
-                    }
-                    
+                    shift.saveInBackground()
                 }
             }
         }
         
-        supplyAction.backgroundColor = UIColor.greenColor()
+        let cancelAction = UIAlertAction(title: "Annuleren", style: .Default) { action -> Void in
+            
+            actionSheetController.dismissViewControllerAnimated(true, completion: nil)
+        }
         
-        return [supplyAction]
+        actionSheetController.addAction(acceptAction)
+        actionSheetController.addAction(cancelAction)
+        actionSheetController.popoverPresentationController?.sourceView = self.view
+        
+        self.presentViewController(actionSheetController, animated: true, completion: nil)
+    }
+    
+    private func createTimeLabel(time: String) -> UILabel
+    {
+        var label = UILabel()
+        label.font = UIFont.systemFontOfSize(14)
+        label.textAlignment = NSTextAlignment.Center
+        label.text = time
+        label.sizeToFit()
+        
+        return label
     }
 
 }
