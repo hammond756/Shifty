@@ -70,20 +70,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             {
                 objects.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                 
-                let shiftIDs = self.ownedShifts.map { (let shift) -> String in
-                    return shift.objectID
-                }
-                
-                let setWithIDs = NSSet(array: shiftIDs)
+                self.ownedShifts = []
                 
                 for object in objects
                 {
                     let shift = self.convertParseObjectToShift(object)
-                    
-                    if !setWithIDs.containsObject(shift.objectID)
-                    {
-                        self.ownedShifts.append(shift)
-                    }
+                    self.ownedShifts.append(shift)
                 }
                 
                 self.ownedShifts.sort { $0.dateObject < $1.dateObject }
@@ -282,7 +274,9 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBAction func logOutCurrentRooster(sender: UIBarButtonItem)
     {
         PFUser.logOut()
-        presentViewController(LogInViewController(), animated: false, completion: nil)
+        
+        let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login") as! LogInViewController
+        UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
     }
     
 }

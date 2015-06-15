@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import ParseUI
 
-class LogInViewController: UIViewController, PFLogInViewControllerDelegate
+class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate
 {
     var logInSucceeded = false
     
@@ -21,6 +21,7 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate
         if !logInSucceeded
         {
             var loginController = PFLogInViewController()
+            loginController.signUpController?.delegate = self
             loginController.delegate = self
             presentViewController(loginController, animated: true, completion: nil)
         }
@@ -37,5 +38,13 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate
         logInSucceeded = true
         dismissViewControllerAnimated(false, completion: nil)
     }
-
+    
+    func signUpViewController(signUpController: PFSignUpViewController, didSignUpUser user: PFUser)
+    {
+        println("Got it")
+        PFUser.logInWithUsername(user.username!, password: user.password!)
+        logInSucceeded = true
+        dismissViewControllerAnimated(false, completion: nil)
+    }
+    
 }

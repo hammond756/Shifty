@@ -7,7 +7,7 @@
         <!--Log In View Controller-->
         <scene sceneID="Z1x-dz-uQb">
             <objects>
-                <viewController id="qGx-fh-HqV" customClass="LogInViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Login" id="qGx-fh-HqV" customClass="LogInViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="tXh-UV-kZi"/>
                         <viewControllerLayoutGuide type="bottom" id="6T8-Bl-8uz"/>
