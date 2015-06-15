@@ -195,4 +195,11 @@ class AangebodenViewController: UITableViewController
         return label
     }
 
+    @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
+    {
+        PFUser.logOut()
+        
+        let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login") as! LogInViewController
+        UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
+    }
 }

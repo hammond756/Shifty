@@ -41,7 +41,6 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
     
     func signUpViewController(signUpController: PFSignUpViewController, didSignUpUser user: PFUser)
     {
-        println("Got it")
         PFUser.logInWithUsername(user.username!, password: user.password!)
         logInSucceeded = true
         dismissViewControllerAnimated(false, completion: nil)

@@ -78,5 +78,12 @@ class GezochtViewController: UITableViewController
     {
         return sectionsInTable.count
     }
-
+    
+    @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
+    {
+        PFUser.logOut()
+        
+        let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login") as! LogInViewController
+        UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
+    }
 }
