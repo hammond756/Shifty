@@ -12,8 +12,7 @@ import SwiftDate
 
 class GezochtViewController: UITableViewController
 {
-    var wantedShifts: [Shift] = [Shift(date: NSDate(), stat: "idle", objectID: "bla")]
-    
+    var wantedShifts = [Shift]()
     var sectionsInTable = [String]()
     
     override func viewDidLoad()

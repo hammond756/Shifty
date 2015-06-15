@@ -10,12 +10,13 @@ import UIKit
 import Parse
 import SwiftDate
 
-class AangebodenViewController: UITableViewController {
-
+class AangebodenViewController: UITableViewController
+{
     var suppliedShifts = [Shift]()
     var sectionsInTable = [String]()
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool)
+    {
         super.viewWillAppear(animated)
         
         requestSuppliedShifts()
@@ -72,11 +73,12 @@ class AangebodenViewController: UITableViewController {
     {
         let date = object["Date"] as? NSDate
         let status = object["Status"] as? String
+        let owner = object["Owner"] as? PFUser
         
-        return Shift(date: date!, stat: status!, objectID: object.objectId!)
+        return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
     }
     
-    func getSectionItems(section: Int) -> [Shift]
+    private func getSectionItems(section: Int) -> [Shift]
     {
         var sectionItems = [Shift]()
         
@@ -123,7 +125,15 @@ class AangebodenViewController: UITableViewController {
         return sectionsInTable.count
     }
     
-    func callActionSheet(selectedShift: Shift)
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    {
+        let selectedShift = getSectionItems(indexPath.section)[indexPath.row]
+        callActionSheet(selectedShift)
+        
+        return indexPath
+    }
+    
+    private func callActionSheet(selectedShift: Shift)
     {
         let actionSheetController = UIAlertController()
         
@@ -141,17 +151,33 @@ class AangebodenViewController: UITableViewController {
                 {
                     shift["Status"] = "Awaitting Approval"
                     shift["acceptedBy"] = PFUser.currentUser()
-                    shift.saveInBackground()
+                    shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
+                        
+                        if error != nil
+                        {
+                            println(error?.description)
+                        }
+                        else
+                        {
+                            let index = find(self.suppliedShifts, selectedShift)
+                            self.suppliedShifts.removeAtIndex(index!)
+                            self.tableView.reloadData()
+                        }
+                    }
                 }
             }
         }
         
-        let cancelAction = UIAlertAction(title: "Annuleren", style: .Default) { action -> Void in
+        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel) { action -> Void in
             
             actionSheetController.dismissViewControllerAnimated(true, completion: nil)
         }
         
-        actionSheetController.addAction(acceptAction)
+        if selectedShift.owner != PFUser.currentUser()
+        {
+            actionSheetController.addAction(acceptAction)
+        }
+        
         actionSheetController.addAction(cancelAction)
         actionSheetController.popoverPresentationController?.sourceView = self.view
         

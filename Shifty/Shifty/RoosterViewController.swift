@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate
+class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
@@ -66,8 +66,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             {
                 println(error?.description)
             }
-            
-            if let objects = objects as? [PFObject]
+            else if let objects = objects as? [PFObject]
             {
                 objects.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                 
@@ -99,8 +98,9 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         let date = object["Date"] as? NSDate
         let status = object["Status"] as? String
+        let owner = object["Owner"] as? PFUser
         
-        return Shift(date: date!, stat: status!, objectID: object.objectId!)
+        return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
     }
     
     // everything to do with the table view
@@ -162,9 +162,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         // give appropriate highlight, depending on status
         switch shiftForCell.status
         {
-            case "Supplied": cell.backgroundColor = UIColor.redColor()
-            case "Awaitting Approval": cell.backgroundColor = UIColor.orangeColor()
-            case "Approved": cell.backgroundColor = UIColor.greenColor()
+            case "Supplied": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
+            case "Awaitting Approval": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
             default: break
         }
         
@@ -194,8 +193,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
-        let selected = getSectionItems(indexPath.section)[indexPath.row]
-        callActionSheet(selected)
+        let selectedShift = getSectionItems(indexPath.section)[indexPath.row]
+        callActionSheet(selectedShift)
         
         return indexPath
     }
@@ -223,8 +222,11 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                         {
                             println(error?.description)
                         }
-                        
-                        self.tableView.reloadData()
+                        else
+                        {
+                            self.tableView.reloadData()
+
+                        }
                     }
                 }
             }
@@ -256,16 +258,22 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                         {
                             println(error?.description)
                         }
-                        
-                        self.tableView.reloadData()
+                        else
+                        {
+                            self.tableView.reloadData()
+                        }
                     }
                 }
             }
         }
         
-        actionSheetController.addAction(supplyAction)
+        switch selectedShift.status
+        {
+            case "idle": actionSheetController.addAction(supplyAction)
+            case "Awaitting Approval": actionSheetController.addAction(approveAction)
+            default: break
+        }
         actionSheetController.addAction(cancelAction)
-        actionSheetController.addAction(approveAction)
         
         actionSheetController.popoverPresentationController?.sourceView = self.view
         presentViewController(actionSheetController, animated: true, completion: nil)
