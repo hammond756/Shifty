@@ -16,7 +16,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     var refreshControl: UIRefreshControl!
     
     let rooster = Rooster()
-    var shifts: [Shift] = []
+    
+    var ownedShifts = [Shift]()
     var sectionsInTable = [String]()
     
     @IBAction func goToSubmitView()
@@ -24,9 +25,9 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(animated: Bool)
+    {
         super.viewWillAppear(animated)
-        
         requestPersonalSchedule()
     }
     
@@ -70,7 +71,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             {
                 objects.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                 
-                let shiftIDs = self.shifts.map { (let shift) -> String in
+                let shiftIDs = self.ownedShifts.map { (let shift) -> String in
                     return shift.objectID
                 }
                 
@@ -82,12 +83,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                     
                     if !setWithIDs.containsObject(shift.objectID)
                     {
-                        self.shifts.append(shift)
+                        self.ownedShifts.append(shift)
                     }
                 }
                 
-                self.shifts.sort { $0.dateObject < $1.dateObject }
-                self.getSections(self.shifts)
+                self.ownedShifts.sort { $0.dateObject < $1.dateObject }
+                self.getSections(self.ownedShifts)
                 self.tableView.reloadData()
             }
             
@@ -107,6 +108,8 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     // generete the section headers of the table view (week numbers)
     private func getSections(shifts: [Shift])
     {
+        sectionsInTable = []
+        
         for shift in shifts
         {
             let weekOfYear = shift.getWeekOfYear()
@@ -124,7 +127,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         var sectionItems = [Shift]()
         
-        for shift in shifts
+        for shift in ownedShifts
         {
             if shift.getWeekOfYear() == sectionsInTable[section]
             {

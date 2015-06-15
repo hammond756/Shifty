@@ -12,7 +12,7 @@ import SwiftDate
 
 class AangebodenViewController: UITableViewController {
 
-    var suppliedShifts: [Shift] = []
+    var suppliedShifts = [Shift]()
     var sectionsInTable = [String]()
     
     override func viewWillAppear(animated: Bool) {
@@ -23,6 +23,8 @@ class AangebodenViewController: UITableViewController {
     
     func getSections(shifts: [Shift])
     {
+        sectionsInTable = []
+        
         for shift in shifts
         {
             let weekOfYear = shift.getWeekOfYear()
@@ -49,21 +51,6 @@ class AangebodenViewController: UITableViewController {
             
             if let objects = objects as? [PFObject]
             {
-//                let shiftIDs = self.suppliedShifts.map { (let shift) -> String in
-//                    return shift.objectID
-//                }
-//                
-//                let setWithIDs = NSSet(array: shiftIDs)
-//                
-//                for object in objects
-//                {
-//                    let shift = self.convertParseObjectToShift(object)
-//                    
-//                    if !setWithIDs.containsObject(shift.objectID)
-//                    {
-//                        self.suppliedShifts.append(shift)
-//                    }
-//
                 self.suppliedShifts.removeAll(keepCapacity: true)
                 
                 for object in objects
