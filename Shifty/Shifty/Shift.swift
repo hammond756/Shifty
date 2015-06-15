@@ -21,7 +21,6 @@ class Shift
     init(date: NSDate, stat: String, objectID: String)
     {
         dateObject = date
-        
         dateString = dateObject.toString(format: DateFormat.Custom("EEEE dd MMM"))
         timeString = dateObject.toString(format: DateFormat.Custom("HH:mm"))
         

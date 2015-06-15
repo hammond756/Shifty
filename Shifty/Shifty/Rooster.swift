@@ -24,26 +24,17 @@ class Rooster
         
         for week in 0..<amountOfRecurringWeeks
         {
-            let date = firstOccurrenceDate! + (7 * week).day
             let shift = PFObject(className: "Shifts")
-            shift["Date"] = date
+            
+            shift["Date"] = firstOccurrenceDate! + (7 * week).day
             shift["Status"] = "idle"
             shift["Owner"] = PFUser.currentUser()
-
-            shift.saveInBackgroundWithBlock { (succes: Bool, error: NSError?) -> Void in
-                if succes
-                {
-                    println("shift saved")
-                }
-                else
-                {
-                    println(error?.description)
-                }
-            }
+            shift.saveInBackground()
         }
         
     }
     
+    // function that calculates on which date the next occurence is of a given weekday
     private func nextOccurenceOfDay(day: Int) -> NSDate
     {
         let today = NSDate()
@@ -53,6 +44,7 @@ class Rooster
         {
             daysAhead = daysAhead + 7
         }
+        
         return today + daysAhead.day
     }
 }
