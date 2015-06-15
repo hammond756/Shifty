@@ -18,6 +18,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="MLf-kI-cUD"/>
+                    <keyCommands/>
                     <connections>
                         <segue destination="uJX-dw-mnz" kind="presentation" identifier="Logged In" id="FYb-v7-pdj"/>
                     </connections>
@@ -181,6 +182,11 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Rooster" id="El5-Md-D5r">
+                        <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="LPd-ht-Mjg">
+                            <connections>
+                                <action selector="logOutCurrentRooster:" destination="WOK-3g-UMK" id="mni-e0-prr"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Ab-gM-mOp">
                             <connections>
                                 <action selector="goToSubmitView" destination="WOK-3g-UMK" id="6M3-mg-x3m"/>
@@ -218,7 +224,9 @@
                             <outlet property="delegate" destination="Yfp-jp-Y3X" id="7l7-yc-jTa"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Gezocht" id="CdO-SI-y2X"/>
+                    <navigationItem key="navigationItem" title="Gezocht" id="CdO-SI-y2X">
+                        <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="PXU-OX-Y2M"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pCR-Qm-5Wc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -245,7 +253,9 @@
                             <outlet property="delegate" destination="9qf-KU-Xp7" id="KXy-y2-wMW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Aangeboden" id="mo0-4p-fk4"/>
+                    <navigationItem key="navigationItem" title="Aangeboden" id="mo0-4p-fk4">
+                        <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="une-7R-qgR"/>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TPh-0u-38g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

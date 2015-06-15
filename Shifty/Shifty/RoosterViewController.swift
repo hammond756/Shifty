@@ -278,4 +278,11 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         actionSheetController.popoverPresentationController?.sourceView = self.view
         presentViewController(actionSheetController, animated: true, completion: nil)
     }
+    
+    @IBAction func logOutCurrentRooster(sender: UIBarButtonItem)
+    {
+        PFUser.logOut()
+        presentViewController(LogInViewController(), animated: false, completion: nil)
+    }
+    
 }
