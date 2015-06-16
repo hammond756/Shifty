@@ -134,9 +134,9 @@ class Rooster
         let sections = getSections(shifts)
         var newShiftArray = [[Shift]]()
         
-        for i in 0..<sections.count
+        for section in sections
         {
-            newShiftArray.append(getSectionItems(shifts, section: sections[i]))
+            newShiftArray.append(shifts.filter() { $0.getWeekOfYear() == section })
         }
         
         return (newShiftArray, sections)
@@ -157,20 +157,5 @@ class Rooster
         }
         
         return sections
-    }
-    
-    private func getSectionItems(shifts: [Shift], section: String) -> [Shift]
-    {
-        var sectionItems = [Shift]()
-        
-        for shift in shifts
-        {
-            if shift.getWeekOfYear() == section
-            {
-                sectionItems.append(shift)
-            }
-        }
-        
-        return sectionItems
     }
 }

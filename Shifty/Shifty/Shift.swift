@@ -37,6 +37,6 @@ class Shift: Equatable
     
     func getWeekOfYear() -> String
     {
-        return "Week " + String(dateObject.weekOfYear)
+        return "Week " + String((dateObject - 1.day).weekOfYear)
     }
 }
