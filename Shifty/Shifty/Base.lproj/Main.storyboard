@@ -288,11 +288,43 @@
                                 <action selector="logOutCurrentUser:" destination="Yfp-jp-Y3X" id="g4W-NT-NU2"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="5em-wQ-Mgu">
+                            <connections>
+                                <action selector="addRequest:" destination="Yfp-jp-Y3X" id="dux-60-aTX"/>
+                                <segue destination="UQS-v2-tuY" kind="show" id="ELX-7X-wFd"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pCR-Qm-5Wc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1707" y="371"/>
+        </scene>
+        <!--Select Requests View Controller-->
+        <scene sceneID="A2g-fU-dP6">
+            <objects>
+                <tableViewController id="UQS-v2-tuY" customClass="SelectRequestsViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="GtP-mi-ZC2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Date" id="jFm-L8-Tm9">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jFm-L8-Tm9" id="ROf-NR-JIp">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="UQS-v2-tuY" id="ojc-1D-R6J"/>
+                            <outlet property="delegate" destination="UQS-v2-tuY" id="49Q-tb-lOb"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YGe-8T-S5w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2350" y="371"/>
         </scene>
         <!--Aangeboden-->
         <scene sceneID="nyk-63-aYw">
@@ -336,6 +368,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xk9-0h-Mdl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.50196081399917603" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -355,6 +388,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="rkQ-iN-F3t">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -371,7 +405,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Vds-h7-IeV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Rooster" id="KSK-hR-mpJ"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bVf-Ko-QXo">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="bVf-Ko-QXo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

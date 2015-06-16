@@ -79,6 +79,11 @@ class GezochtViewController: UITableViewController
         return sectionsInTable.count
     }
     
+    @IBAction func addRequest(sender: UIBarButtonItem)
+    {
+        
+    }
+    
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
     {
         PFUser.logOut()

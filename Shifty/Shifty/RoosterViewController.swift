@@ -36,7 +36,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
+                
         // add refresh control to table view
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
