@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftDate
+import Parse
 
 class SelectRequestsViewController: UITableViewController
 {
@@ -15,16 +16,39 @@ class SelectRequestsViewController: UITableViewController
     var sectionsInTable = [String]()
     var possibleDates = [NSDate]()
     var sectionedDates = [[NSDate]]()
+    var selectedDates = [NSDate]()
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
         possibleDates = getDates()
         sectionsInTable = getSections(possibleDates)
         sectionedDates = splitDatesIntoSections(possibleDates)
-        
+
         tableView.reloadData()
-        
+    }
+    
+    @IBAction func finishedSelecting(sender: UIBarButtonItem)
+    {
+        for date in selectedDates
+        {
+            let request = PFObject(className: "RequestedShifts")
+            request["date"] = date
+            request["requestedBy"] = PFUser.currentUser()
+            
+            request.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                
+                if error != nil
+                {
+                    println(error?.description)
+                }
+                else if succes
+                {
+                    self.navigationController?.popViewControllerAnimated(false)
+                }
+            }
+        }
     }
     
     func getDates() -> [NSDate]
@@ -36,8 +60,7 @@ class SelectRequestsViewController: UITableViewController
         {
             comingDays.append(today + days.day)
         }
-        println("comingdays")
-        println(comingDays)
+
         return comingDays
     }
     
@@ -52,9 +75,7 @@ class SelectRequestsViewController: UITableViewController
                 sections.append(getWeekOfYear(date))
             }
         }
-        println("sections")
-        println(sections)
-        
+
         return sections
     }
     
@@ -66,8 +87,7 @@ class SelectRequestsViewController: UITableViewController
         {
             newDateArray.append(getSectionItems(dates, section: i))
         }
-        println("new array")
-        println(newDateArray)
+
         return newDateArray
     }
     
@@ -82,8 +102,7 @@ class SelectRequestsViewController: UITableViewController
                 datesInSection.append(date)
             }
         }
-        println("dates in sect")
-        println(datesInSection)
+
         return datesInSection
     }
     
@@ -114,8 +133,25 @@ class SelectRequestsViewController: UITableViewController
         let date = sectionedDates[indexPath.section][indexPath.row]
         
         cell.textLabel?.text = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
+        cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let selectedDate = sectionedDates[indexPath.section][indexPath.row]
+        selectedDates.append(selectedDate)
+    }
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let deselectedDate = sectionedDates[indexPath.section][indexPath.row]
+        
+        if let index = find(selectedDates, deselectedDate)
+        {
+            selectedDates.removeAtIndex(index)
+        }
     }
     
 }

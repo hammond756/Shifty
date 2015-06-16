@@ -300,11 +300,11 @@
             </objects>
             <point key="canvasLocation" x="1707" y="371"/>
         </scene>
-        <!--Select Requests View Controller-->
+        <!--Selecteer-->
         <scene sceneID="A2g-fU-dP6">
             <objects>
                 <tableViewController id="UQS-v2-tuY" customClass="SelectRequestsViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="GtP-mi-ZC2">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="GtP-mi-ZC2">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -321,6 +321,15 @@
                             <outlet property="delegate" destination="UQS-v2-tuY" id="49Q-tb-lOb"/>
                         </connections>
                     </tableView>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Selecteer" id="roM-Sp-vfE">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="GjE-Gs-RCI">
+                            <connections>
+                                <action selector="finishedSelecting:" destination="UQS-v2-tuY" id="Yf5-vi-4re"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YGe-8T-S5w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
