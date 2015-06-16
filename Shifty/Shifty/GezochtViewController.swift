@@ -12,58 +12,30 @@ import SwiftDate
 
 class GezochtViewController: UITableViewController
 {
-    var wantedShifts = [Shift]()
+    let rooster = Rooster()
     var sectionsInTable = [String]()
     
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        for shift in wantedShifts
-        {
-            let weekOfYear = shift.getWeekOfYear()
-            let sections = NSSet(array: sectionsInTable)
+        rooster.requestRequestedShifts() { sections -> Void in
             
-            if !sections.containsObject(weekOfYear)
-            {
-                sectionsInTable.append(weekOfYear)
-            }
+            self.sectionsInTable = sections
+            self.tableView.reloadData()
         }
     }
-    
-    func getSectionItems(section: Int) -> [Shift]
-    {
-        var sectionItems = [Shift]()
-        
-        for shift in wantedShifts
-        {
-            if shift.getWeekOfYear() == sectionsInTable[section]
-            {
-                sectionItems.append(shift)
-            }
-        }
-        
-        return sectionItems
-    }
-    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return getSectionItems(section).count
+        return rooster.requestedShifs[section].count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = self.tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
-        let sectionItems = getSectionItems(indexPath.section)
+        let date = rooster.requestedShifs[indexPath.section][indexPath.row]
         
-        var timeLabel = UILabel()
-        timeLabel.font = UIFont.systemFontOfSize(14)
-        timeLabel.textAlignment = NSTextAlignment.Center
-        timeLabel.text = sectionItems[indexPath.row].timeString
-        timeLabel.sizeToFit()
-        
-        cell.textLabel?.text = sectionItems[indexPath.row].dateString
-        cell.accessoryView = timeLabel
+        cell.textLabel?.text = date.date.toString(format: DateFormat.Custom("EEEE dd MMM"))
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         return cell
@@ -77,11 +49,6 @@ class GezochtViewController: UITableViewController
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return sectionsInTable.count
-    }
-    
-    @IBAction func addRequest(sender: UIBarButtonItem)
-    {
-        
     }
     
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)

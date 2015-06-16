@@ -17,8 +17,7 @@ class Rooster
 
     var ownedShifts = [[Shift]]()
     var suppliedShifts = [[Shift]]()
-    var suppliedSectionHeaders = [String]()
-    var ownedSectionHeaders = [String]()
+    var requestedShifs = [[Request]]()
     
     func addRecurringShift(day: String, hour: Int, minute: Int)
     {
@@ -88,7 +87,6 @@ class Rooster
         {
             case "Owned": ownedShifts = splitShiftsIntoSections(shifts, sections: sections)
             case "Supplied": suppliedShifts = splitShiftsIntoSections(shifts, sections: sections)
-            case "Requested": break
         default: break
         }
     }
@@ -109,8 +107,44 @@ class Rooster
         {
             query = PFQuery(className: "Shifts").whereKey("Status", equalTo: "Supplied")
         }
+        else if status == "Requested"
+        {
+            query = PFQuery(className: "RequestedShifts")
+        }
         
         return query
+    }
+    
+    func requestRequestedShifts(callback: (sections: [String]) -> Void)
+    {
+        let query = getQueryForStatus("Requested")
+        
+        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+         
+            if error != nil
+            {
+                println(error?.description)
+            }
+            else if let objects = objects as? [PFObject]
+            {
+                var tempRequests = [Request]()
+                
+                for object in objects
+                {
+                    let date = object["date"] as! NSDate
+                    let requestedBy = object["requestedBy"] as! PFUser
+                    
+                    let request = Request(date: date, by: requestedBy)
+                    tempRequests.append(request)
+                }
+                
+                tempRequests.sort() { $0.date < $1.date }
+                let sections = self.getSections(tempRequests)
+                self.requestedShifs = self.splitRequestsIntoSections(tempRequests, sections: sections)
+                
+                callback(sections: sections)
+            }
+        }
     }
     
     private func convertParseObjectToShift(object: PFObject) -> Shift
@@ -135,11 +169,40 @@ class Rooster
         return newShiftArray
     }
     
+    private func splitRequestsIntoSections(requests: [Request], sections: [String]) -> [[Request]]
+    {
+        var newShiftArray = [[Request]]()
+        
+        for section in sections
+        {
+            newShiftArray.append(requests.filter() { $0.getWeekOfYear() == section })
+        }
+        
+        return newShiftArray
+    }
+    
     func getSections(shifts: [Shift]) -> [String]
     {
         var sections = [String]()
         
         for shift in shifts
+        {
+            let weekOfYear = shift.getWeekOfYear()
+            
+            if !contains(sections, weekOfYear)
+            {
+                sections.append(weekOfYear)
+            }
+        }
+        
+        return sections
+    }
+    
+    func getSections(requests: [Request]) -> [String]
+    {
+        var sections = [String]()
+        
+        for shift in requests
         {
             let weekOfYear = shift.getWeekOfYear()
             

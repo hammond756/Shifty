@@ -290,7 +290,6 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="5em-wQ-Mgu">
                             <connections>
-                                <action selector="addRequest:" destination="Yfp-jp-Y3X" id="dux-60-aTX"/>
                                 <segue destination="UQS-v2-tuY" kind="show" id="ELX-7X-wFd"/>
                             </connections>
                         </barButtonItem>
