@@ -52,14 +52,9 @@ class Rooster
         return today + daysAhead.day
     }
         
-    func requestOwnedShifts(callback: (sections: [String]) -> Void)
+    func requestShifts(withStatus: String, callback: (sections: [String]) -> Void)
     {
-        let isOwner = PFQuery(className: "Shifts")
-            .whereKey("Owner", equalTo: PFUser.currentUser()!)
-        let hasAccepted = PFQuery(className: "Shifts")
-            .whereKey("acceptedBy", equalTo: PFUser.currentUser()!)
-        
-        let query = PFQuery.orQueryWithSubqueries([isOwner, hasAccepted])
+        let query = getQueryForStatus(withStatus)
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
             
@@ -79,7 +74,7 @@ class Rooster
                 
                 tempShifts.sort { $0.dateObject < $1.dateObject }
                 let sections = self.getSections(tempShifts)
-                self.ownedShifts = self.splitShiftsIntoSections(tempShifts, sections: sections)
+                self.setShifts(withStatus, shifts: tempShifts, sections: sections)
                 
                 callback(sections: sections)
             }
@@ -87,37 +82,35 @@ class Rooster
         }
     }
     
-    func requestSuppliedShifts(callback: (sections: [String]) -> Void)
+    private func setShifts(withStatus: String, shifts: [Shift], sections: [String])
     {
-        let query = PFQuery(className: "Shifts")
-            .whereKey("Status", equalTo: "Supplied")
-        
-        query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
-            
-            if error != nil
-            {
-                println(error?.description)
-            }
-            else if let objects = objects as? [PFObject]
-            {
-                var tempShifts = [Shift]()
-                
-                for object in objects
-                {
-                    let shift = self.convertParseObjectToShift(object)
-                    tempShifts.append(shift)
-                }
-                
-                tempShifts.sort() { $0.dateObject < $1.dateObject }
-                
-                let sections = self.getSections(tempShifts)
-                self.suppliedShifts = self.splitShiftsIntoSections(tempShifts, sections: sections)
-                
-                callback(sections: sections)
-            }
-            
-            
+        switch withStatus
+        {
+            case "Owned": ownedShifts = splitShiftsIntoSections(shifts, sections: sections)
+            case "Supplied": suppliedShifts = splitShiftsIntoSections(shifts, sections: sections)
+            case "Requested": break
+        default: break
         }
+    }
+    
+    // helper function to get correct query for a given status
+    private func getQueryForStatus(status: String) -> PFQuery
+    {
+        var query = PFQuery()
+        
+        if status == "Owned"
+        {
+            let isOwner = PFQuery(className: "Shifts").whereKey("Owner", equalTo: PFUser.currentUser()!)
+            let hasAccepted = PFQuery(className: "Shifts").whereKey("acceptedBy", equalTo: PFUser.currentUser()!)
+            
+            query = PFQuery.orQueryWithSubqueries([isOwner, hasAccepted])
+        }
+        else if status == "Supplied"
+        {
+            query = PFQuery(className: "Shifts").whereKey("Status", equalTo: "Supplied")
+        }
+        
+        return query
     }
     
     private func convertParseObjectToShift(object: PFObject) -> Shift

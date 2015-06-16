@@ -28,7 +28,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         super.viewWillAppear(animated)
         
-        rooster.requestOwnedShifts() { (sections) -> Void in
+        rooster.requestShifts("Owned") { (sections) -> Void in
             self.sectionsInTable = sections
             self.tableView.reloadData()
         }
@@ -51,7 +51,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     // refresh function gets called by refresh control
     func refresh(sender:AnyObject)
     {
-        rooster.requestOwnedShifts() { (sections) -> Void in
+        rooster.requestShifts("Owned") { (sections) -> Void in
             self.sectionsInTable = sections
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()

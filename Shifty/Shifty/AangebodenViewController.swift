@@ -19,7 +19,7 @@ class AangebodenViewController: UITableViewController
     {
         super.viewWillAppear(animated)
         
-        rooster.requestSuppliedShifts() { (sections) -> Void in
+        rooster.requestShifts("Supplied") { (sections) -> Void in
             println(sections)
             self.sectionsInTable = sections
             self.tableView.reloadData()
