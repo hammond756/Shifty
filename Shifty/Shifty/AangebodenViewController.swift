@@ -20,54 +20,13 @@ class AangebodenViewController: UITableViewController
         super.viewWillAppear(animated)
         
         rooster.requestSuppliedShifts() { () -> Void in
-            self.getSections(self.rooster.suppliedShifts)
             self.tableView.reloadData()
         }
     }
     
-    func getSections(shifts: [Shift])
-    {
-        sectionsInTable = []
-        
-        for shift in shifts
-        {
-            let weekOfYear = shift.getWeekOfYear()
-            
-            if !contains(sectionsInTable, weekOfYear)
-            {
-                sectionsInTable.append(weekOfYear)
-            }
-        }
-    }
-    
-    private func convertParseObjectToShift(object: PFObject) -> Shift
-    {
-        let date = object["Date"] as? NSDate
-        let status = object["Status"] as? String
-        let owner = object["Owner"] as? PFUser
-        
-        return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
-    }
-    
-    // TODO: get this function out of the view controller and into the Rooster class
-    private func getSectionItems(section: Int) -> [Shift]
-    {
-        var sectionItems = [Shift]()
-        
-        for shift in rooster.suppliedShifts
-        {
-            if shift.getWeekOfYear() == sectionsInTable[section]
-            {
-                sectionItems.append(shift)
-            }
-        }
-        
-        return sectionItems
-    }
-    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return getSectionItems(section).count
+        return rooster.suppliedShifts[section].count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -76,7 +35,7 @@ class AangebodenViewController: UITableViewController
         
         cell.backgroundColor = UIColor.clearColor()
         
-        let shiftForCell = getSectionItems(indexPath.section)[indexPath.row]
+        let shiftForCell = rooster.suppliedShifts[indexPath.section][indexPath.row]
         let date = shiftForCell.dateString
         let time = shiftForCell.timeString
                 
@@ -89,23 +48,23 @@ class AangebodenViewController: UITableViewController
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        return sectionsInTable[section]
+        return rooster.suppliedSectionHeaders[section]
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
-        return sectionsInTable.count
+        return rooster.suppliedSectionHeaders.count
     }
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
-        let selectedShift = getSectionItems(indexPath.section)[indexPath.row]
-        callActionSheet(selectedShift)
+        let selectedShift = rooster.suppliedShifts[indexPath.section][indexPath.row]
+        callActionSheet(selectedShift, atIndexPath: indexPath)
         
         return indexPath
     }
     
-    private func callActionSheet(selectedShift: Shift)
+    private func callActionSheet(selectedShift: Shift, atIndexPath: NSIndexPath)
     {
         let actionSheetController = UIAlertController()
         
@@ -131,8 +90,7 @@ class AangebodenViewController: UITableViewController
                         }
                         else
                         {
-                            let index = find(self.rooster.suppliedShifts, selectedShift)
-                            self.rooster.suppliedShifts.removeAtIndex(index!)
+                            self.rooster.suppliedShifts[atIndexPath.section].removeAtIndex(atIndexPath.row)
                             self.tableView.reloadData()
                         }
                     }

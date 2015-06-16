@@ -31,7 +31,6 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
         }
     }
     
-    
     // delegate functions
     func logInViewController(logInController: PFLogInViewController, didLogInUser user: PFUser)
     {

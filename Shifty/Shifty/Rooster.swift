@@ -15,8 +15,10 @@ class Rooster
     // constant for duration of fixed schedule
     let amountOfRecurringWeeks = 8
 
-    var ownedShifts = [Shift]()
-    var suppliedShifts = [Shift]()
+    var ownedShifts = [[Shift]]()
+    var suppliedShifts = [[Shift]]()
+    var suppliedSectionHeaders = [String]()
+    var ownedSectionHeaders = [String]()
     
     func addRecurringShift(day: String, hour: Int, minute: Int)
     {
@@ -36,8 +38,20 @@ class Rooster
         
     }
     
-    // missing: getSections, reload Table, hide/show table
-    
+    // function that calculates on which date the next occurence is of a given weekday
+    private func nextOccurenceOfDay(day: Int) -> NSDate
+    {
+        let today = NSDate()
+        var daysAhead = day - today.weekday
+        
+        if daysAhead < 0
+        {
+            daysAhead = daysAhead + 7
+        }
+        
+        return today + daysAhead.day
+    }
+        
     func requestOwnedShifts(callback: () -> Void)
     {
         let isOwner = PFQuery(className: "Shifts")
@@ -55,19 +69,21 @@ class Rooster
             }
             else if let objects = objects as? [PFObject]
             {
-                self.ownedShifts = []
+                var tempShifts = [Shift]()
                 
                 for object in objects
                 {
                     let shift = self.convertParseObjectToShift(object)
-                    self.ownedShifts.append(shift)
+                    tempShifts.append(shift)
                 }
                 
-                self.ownedShifts.sort { $0.dateObject < $1.dateObject }
+                tempShifts.sort { $0.dateObject < $1.dateObject }
+                let shiftsAndHeaders = self.splitShiftsIntoSections(tempShifts)
+                self.ownedShifts = shiftsAndHeaders.0
+                self.ownedSectionHeaders = shiftsAndHeaders.1
             }
             
             callback()
-            
         }
     }
     
@@ -84,15 +100,19 @@ class Rooster
             }
             else if let objects = objects as? [PFObject]
             {
-                self.suppliedShifts.removeAll(keepCapacity: true)
+                var tempShifts = [Shift]()
                 
                 for object in objects
                 {
                     let shift = self.convertParseObjectToShift(object)
-                    self.suppliedShifts.append(shift)
+                    tempShifts.append(shift)
                 }
                 
-                self.suppliedShifts.sort() { $0.dateObject < $1.dateObject }
+                tempShifts.sort() { $0.dateObject < $1.dateObject }
+                
+                let shiftsAndHeaders = self.splitShiftsIntoSections(tempShifts)
+                self.suppliedShifts = shiftsAndHeaders.0
+                self.suppliedSectionHeaders = shiftsAndHeaders.1
             }
             
             callback()
@@ -108,18 +128,48 @@ class Rooster
         return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
     }
     
-    
-    // function that calculates on which date the next occurence is of a given weekday
-    private func nextOccurenceOfDay(day: Int) -> NSDate
+    private func splitShiftsIntoSections(shifts: [Shift]) -> ([[Shift]], [String])
     {
-        let today = NSDate()
-        var daysAhead = day - today.weekday
+        let sections = getSections(shifts)
+        var newShiftArray = [[Shift]]()
         
-        if daysAhead < 0
+        for i in 0..<sections.count
         {
-            daysAhead = daysAhead + 7
+            newShiftArray.append(getSectionItems(shifts, section: sections[i]))
         }
         
-        return today + daysAhead.day
+        return (newShiftArray, sections)
+    }
+    
+    func getSections(shifts: [Shift]) -> [String]
+    {
+        var sections = [String]()
+        
+        for shift in shifts
+        {
+            let weekOfYear = shift.getWeekOfYear()
+            
+            if !contains(sections, weekOfYear)
+            {
+                sections.append(weekOfYear)
+            }
+        }
+        
+        return sections
+    }
+    
+    private func getSectionItems(shifts: [Shift], section: String) -> [Shift]
+    {
+        var sectionItems = [Shift]()
+        
+        for shift in shifts
+        {
+            if shift.getWeekOfYear() == section
+            {
+                sectionItems.append(shift)
+            }
+        }
+        
+        return sectionItems
     }
 }

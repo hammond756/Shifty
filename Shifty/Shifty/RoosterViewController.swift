@@ -29,7 +29,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         super.viewWillAppear(animated)
         
         rooster.requestOwnedShifts() { () -> Void in
-            self.getSections(self.rooster.ownedShifts)
             self.tableView.reloadData()
         }
     }
@@ -38,6 +37,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         super.viewDidLoad()
         
+        // add refresh control to table view
         self.refreshControl = UIRefreshControl()
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
@@ -47,10 +47,10 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         submitButton.clipsToBounds = true
     }
     
+    // refresh function gets called by refresh control
     func refresh(sender:AnyObject)
     {
-        rooster.requestOwnedShifts { () -> Void in
-            self.getSections(self.rooster.ownedShifts)
+        rooster.requestOwnedShifts() { () -> Void in
             self.tableView.reloadData()
             self.refreshControl.endRefreshing()
         }
@@ -58,42 +58,10 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     // everything to do with the table view
     
-    // generete the section headers of the table view (week numbers)
-    private func getSections(shifts: [Shift])
-    {
-        sectionsInTable = []
-        
-        for shift in shifts
-        {
-            let weekOfYear = shift.getWeekOfYear()
-            
-            if !contains(sectionsInTable, weekOfYear)
-            {
-                sectionsInTable.append(weekOfYear)
-            }
-        }
-    }
-    
-    // split the shifts up into their corresponding sections
-    private func getSectionItems(section: Int) -> [Shift]
-    {
-        var sectionItems = [Shift]()
-        
-        for shift in rooster.ownedShifts
-        {
-            if shift.getWeekOfYear() == sectionsInTable[section]
-            {
-                sectionItems.append(shift)
-            }
-        }
-        
-        return sectionItems
-    }
-    
     // get number of rows for a section
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return getSectionItems(section).count
+        return rooster.ownedShifts[section].count
     }
     
     // generate (reuse) cell.
@@ -103,7 +71,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         
         cell.backgroundColor = UIColor.clearColor()
         
-        let shiftForCell = getSectionItems(indexPath.section)[indexPath.row]
+        let shiftForCell = rooster.ownedShifts[indexPath.section][indexPath.row]
         let date = shiftForCell.dateString
         let time = shiftForCell.timeString
         
@@ -135,17 +103,17 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        return sectionsInTable[section]
+        return rooster.ownedSectionHeaders[section]
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
-        return sectionsInTable.count
+        return rooster.ownedSectionHeaders.count
     }
     
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
-        let selectedShift = getSectionItems(indexPath.section)[indexPath.row]
+        let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
         callActionSheet(selectedShift)
         
         return indexPath
@@ -170,6 +138,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
                 {
                     shift["Status"] = "Supplied"
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        
                         if error != nil
                         {
                             println(error?.description)
