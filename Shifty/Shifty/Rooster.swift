@@ -128,6 +128,7 @@ class Rooster
         return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
     }
     
+    // TODO: seperate getSections and splitShiftsIntoSections entirely. This return value is messy.
     private func splitShiftsIntoSections(shifts: [Shift]) -> ([[Shift]], [String])
     {
         let sections = getSections(shifts)

@@ -188,10 +188,42 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
             }
         }
         
+        let revokeAction = UIAlertAction(title: "Terugrekken", style: .Default) { action -> Void in
+            
+            selectedShift.status = "idle"
+            
+            let query = PFQuery(className: "Shifts")
+            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+                    
+                if error != nil
+                {
+                    println(error?.description)
+                }
+                else if let shift = shift
+                {
+                    shift["Status"] = "idle"
+                    
+                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        
+                        if error != nil
+                        {
+                            println(error?.description)
+                        }
+                        else
+                        {
+                            self.tableView.reloadData()
+                        }
+                    }
+                }
+                
+            }
+        }
+        
         switch selectedShift.status
         {
             case "idle": actionSheetController.addAction(supplyAction)
             case "Awaitting Approval": actionSheetController.addAction(approveAction)
+            case "Supplied": actionSheetController.addAction(revokeAction)
             default: break
         }
         actionSheetController.addAction(cancelAction)
