@@ -19,7 +19,9 @@ class AangebodenViewController: UITableViewController
     {
         super.viewWillAppear(animated)
         
-        rooster.requestSuppliedShifts() { () -> Void in
+        rooster.requestSuppliedShifts() { (sections) -> Void in
+            println(sections)
+            self.sectionsInTable = sections
             self.tableView.reloadData()
         }
     }
@@ -48,12 +50,12 @@ class AangebodenViewController: UITableViewController
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        return rooster.suppliedSectionHeaders[section]
+        return sectionsInTable[section]
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
-        return rooster.suppliedSectionHeaders.count
+        return sectionsInTable.count
     }
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?

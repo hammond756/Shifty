@@ -52,7 +52,7 @@ class Rooster
         return today + daysAhead.day
     }
         
-    func requestOwnedShifts(callback: () -> Void)
+    func requestOwnedShifts(callback: (sections: [String]) -> Void)
     {
         let isOwner = PFQuery(className: "Shifts")
             .whereKey("Owner", equalTo: PFUser.currentUser()!)
@@ -78,16 +78,16 @@ class Rooster
                 }
                 
                 tempShifts.sort { $0.dateObject < $1.dateObject }
-                let shiftsAndHeaders = self.splitShiftsIntoSections(tempShifts)
-                self.ownedShifts = shiftsAndHeaders.0
-                self.ownedSectionHeaders = shiftsAndHeaders.1
+                let sections = self.getSections(tempShifts)
+                self.ownedShifts = self.splitShiftsIntoSections(tempShifts, sections: sections)
+                
+                callback(sections: sections)
             }
             
-            callback()
         }
     }
     
-    func requestSuppliedShifts(callback: () -> Void)
+    func requestSuppliedShifts(callback: (sections: [String]) -> Void)
     {
         let query = PFQuery(className: "Shifts")
             .whereKey("Status", equalTo: "Supplied")
@@ -110,12 +110,13 @@ class Rooster
                 
                 tempShifts.sort() { $0.dateObject < $1.dateObject }
                 
-                let shiftsAndHeaders = self.splitShiftsIntoSections(tempShifts)
-                self.suppliedShifts = shiftsAndHeaders.0
-                self.suppliedSectionHeaders = shiftsAndHeaders.1
+                let sections = self.getSections(tempShifts)
+                self.suppliedShifts = self.splitShiftsIntoSections(tempShifts, sections: sections)
+                
+                callback(sections: sections)
             }
             
-            callback()
+            
         }
     }
     
@@ -129,9 +130,8 @@ class Rooster
     }
     
     // TODO: seperate getSections and splitShiftsIntoSections entirely. This return value is messy.
-    private func splitShiftsIntoSections(shifts: [Shift]) -> ([[Shift]], [String])
+    private func splitShiftsIntoSections(shifts: [Shift], sections: [String]) -> [[Shift]]
     {
-        let sections = getSections(shifts)
         var newShiftArray = [[Shift]]()
         
         for section in sections
@@ -139,7 +139,7 @@ class Rooster
             newShiftArray.append(shifts.filter() { $0.getWeekOfYear() == section })
         }
         
-        return (newShiftArray, sections)
+        return newShiftArray
     }
     
     func getSections(shifts: [Shift]) -> [String]
