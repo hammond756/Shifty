@@ -9,8 +9,8 @@
 import UIKit
 import Parse
 
-class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
-    
+class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate
+{    
     @IBOutlet weak var dayField: UITextField!
     @IBOutlet weak var timeField: UITextField!
     @IBOutlet weak var submitButton: UIButton!

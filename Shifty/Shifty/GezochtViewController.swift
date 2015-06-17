@@ -16,7 +16,6 @@ class GezochtViewController: UITableViewController
     let helper = Helper()
     var sectionsInTable = [String]()
     
-    
     override func viewWillAppear(animated: Bool)
     {
         rooster.requestRequestedShifts() { sections -> Void in
@@ -43,6 +42,9 @@ class GezochtViewController: UITableViewController
         return cell
     }
     
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+        performSegueWithIdentifier("Make Suggestion", sender: nil)
+    }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return sectionsInTable[section]

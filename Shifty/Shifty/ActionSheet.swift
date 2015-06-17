@@ -27,6 +27,7 @@ class ActionSheet
         self.delegate = delegate
     }
     
+    // add a action the the action sheet that supplies a shift to the marketplace and save the changes in the database
     func createSupplyAction()
     {
         let supplyAction = UIAlertAction(title: "Aanbieden", style: .Default) { action -> Void in
@@ -61,6 +62,7 @@ class ActionSheet
         actionList.append(supplyAction)
     }
     
+    // add a action the the action sheet that approves a deal and save changes in the database
     func createApproveAction()
     {
         let approveAction = UIAlertAction(title: "Goedkeuren", style: .Default) { action -> Void in
@@ -96,6 +98,7 @@ class ActionSheet
         actionList.append(approveAction)
     }
     
+    // add a action the the action sheet that revokes a shift from the marketplace and save change in the database
     func createRevokeAction()
     {
         let revokeAction = UIAlertAction(title: "Terugrekken", style: .Default) { action -> Void in
@@ -132,6 +135,7 @@ class ActionSheet
         actionList.append(revokeAction)
     }
     
+    // add a action the the action sheet that accepts a supplied shift and save change in the database
     func createAcceptAction()
     {
         let acceptAction = UIAlertAction(title: "Accepteren", style: .Default) { action -> Void in
@@ -164,6 +168,14 @@ class ActionSheet
         }
         
         actionList.append(acceptAction)
+    }
+    
+    func createSuggestAction()
+    {
+        let suggestAction = UIAlertAction(title: "Doe Suggestie", style: .Default) { action -> Void in
+            
+            
+        }
     }
     
     func getAlertController() -> UIAlertController

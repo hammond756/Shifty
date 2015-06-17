@@ -131,10 +131,7 @@ class Rooster
                 
                 for object in objects
                 {
-                    let date = object["date"] as! NSDate
-                    let requestedBy = object["requestedBy"] as! PFUser
-                    
-                    let request = Request(date: date, by: requestedBy)
+                    let request = self.convertParseOjbectToRequest(object)
                     tempRequests.append(request)
                 }
                 
@@ -147,6 +144,11 @@ class Rooster
         }
     }
     
+    // TODO: find a way to handle shifts/requests by the same function
+    //
+    //
+    // DOUBLE FUNCTIONS
+    
     private func convertParseObjectToShift(object: PFObject) -> Shift
     {
         let date = object["Date"] as? NSDate
@@ -156,7 +158,14 @@ class Rooster
         return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
     }
     
-    // TODO: seperate getSections and splitShiftsIntoSections entirely. This return value is messy.
+    private func convertParseOjbectToRequest(object: PFObject) -> Request
+    {
+        let date = object["date"] as! NSDate
+        let requestedBy = object["requestedBy"] as! PFUser
+        
+        return Request(date: date, by: requestedBy)
+    }
+    
     private func splitShiftsIntoSections(shifts: [Shift], sections: [String]) -> [[Shift]]
     {
         var newShiftArray = [[Shift]]()
