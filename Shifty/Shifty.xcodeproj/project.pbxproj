@@ -30,6 +30,7 @@
 		9C7780BA1B1E28FA00C9D6A6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7780B91B1E28FA00C9D6A6 /* libz.dylib */; };
 		9C7780BC1B1E290500C9D6A6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7780BB1B1E290500C9D6A6 /* libsqlite3.dylib */; };
 		9C8131281B31770600D9CE24 /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8131271B31770600D9CE24 /* ActionSheet.swift */; };
+		9C81312A1B31A1BE00D9CE24 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8131291B31A1BE00D9CE24 /* Helper.swift */; };
 		9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672B1B2060A100E31CBB /* Shift.swift */; };
 		9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */; };
 		9CBA579C1B1E308900B1F708 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CBA579B1B1E308900B1F708 /* ParseUI.framework */; };
@@ -81,6 +82,7 @@
 		9C7780B91B1E28FA00C9D6A6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		9C7780BB1B1E290500C9D6A6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		9C8131271B31770600D9CE24 /* ActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
+		9C8131291B31A1BE00D9CE24 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		9C9A672B1B2060A100E31CBB /* Shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
 		9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitRoosterViewController.swift; sourceTree = "<group>"; };
 		9CBA579B1B1E308900B1F708 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				9CBA579D1B1E362900B1F708 /* LogInViewController.swift */,
 				9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
+				9C8131291B31A1BE00D9CE24 /* Helper.swift */,
 				9C8131271B31770600D9CE24 /* ActionSheet.swift */,
 				9C9A672B1B2060A100E31CBB /* Shift.swift */,
 				9CFB6DE81B2072EF0010393E /* Rooster.swift */,
@@ -391,6 +394,7 @@
 				9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */,
 				9CFB6DE91B2072EF0010393E /* Rooster.swift in Sources */,
 				9C2EF5811B1CF13E0067F689 /* GezochtViewController.swift in Sources */,
+				9C81312A1B31A1BE00D9CE24 /* Helper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,16 +10,21 @@ import Foundation
 import UIKit
 import Parse
 
+protocol ActionSheetDelegate
+{
+    func refresh()
+}
+
 class ActionSheet
 {
     var selectedShift: Shift
     var actionList = [UIAlertAction]()
-    var tableView: UITableView
+    var delegate: ActionSheetDelegate
     
-    init(shift: Shift, calledBy: UITableView)
+    init(shift: Shift, delegate: ActionSheetDelegate)
     {
         selectedShift = shift
-        tableView = calledBy
+        self.delegate = delegate
     }
     
     func createSupplyAction()
@@ -46,7 +51,7 @@ class ActionSheet
                         }
                         else
                         {
-                            self.tableView.reloadData()
+                            self.delegate.refresh()
                         }
                     }
                 }
@@ -81,7 +86,7 @@ class ActionSheet
                         }
                         else
                         {
-                            self.tableView.reloadData()
+                            self.delegate.refresh()
                         }
                     }
                 }
@@ -116,7 +121,7 @@ class ActionSheet
                         }
                         else
                         {
-                            self.tableView.reloadData()
+                            self.delegate.refresh()
                         }
                     }
                 }
@@ -125,6 +130,40 @@ class ActionSheet
         }
         
         actionList.append(revokeAction)
+    }
+    
+    func createAcceptAction()
+    {
+        let acceptAction = UIAlertAction(title: "Accepteren", style: .Default) { action -> Void in
+            
+            let query = PFQuery(className: "Shifts")
+            
+            query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
+                
+                if error != nil
+                {
+                    println(error?.description)
+                }
+                else if let shift = shift
+                {
+                    shift["Status"] = "Awaitting Approval"
+                    shift["acceptedBy"] = PFUser.currentUser()
+                    shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
+                        
+                        if error != nil
+                        {
+                            println(error?.description)
+                        }
+                        else
+                        {
+                            self.delegate.refresh()
+                        }
+                    }
+                }
+            }
+        }
+        
+        actionList.append(acceptAction)
     }
     
     func getAlertController() -> UIAlertController
@@ -155,6 +194,7 @@ class ActionSheet
             case "Supply": createSupplyAction()
             case "Revoke": createRevokeAction()
             case "Approve": createApproveAction()
+            case "Accept": createAcceptAction()
             default: break
             }
         }
