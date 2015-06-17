@@ -11,23 +11,20 @@ import Parse
 
 class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     
-    @IBOutlet weak var dagField1: UITextField!
-    @IBOutlet weak var tijdField1: UITextField!
-    @IBOutlet weak var dagField2: UITextField!
-    @IBOutlet weak var tijdField2: UITextField!
-    @IBOutlet weak var dagField3: UITextField!
-    @IBOutlet weak var tijdField3: UITextField!
+    @IBOutlet weak var dayField: UITextField!
+    @IBOutlet weak var timeField: UITextField!
     @IBOutlet weak var submitButton: UIButton!
     
     var textFieldSetBeingEdited: Int? = nil
     var shiftPicker = UIPickerView()
     
+    // set properties of UI elements and asign the delegate/datasource of the UIPickerView
     override func viewDidLoad()
     {
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         
-        var textFieldArray = [dagField1, tijdField1]
+        var textFieldArray = [dayField, timeField]
         
         shiftPicker.delegate = self
         shiftPicker.dataSource = self
@@ -47,30 +44,25 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     // send the day and time to the Rooster() class for processing to the database
     @IBAction func submitRooster()
     {
-        let day = dagField1.text
+        let day = dayField.text
         
-        if let time = extractTimeComponents(tijdField1.text)
+        if let time = extractTimeComponents(timeField.text)
         {
             let rooster = Rooster()
-            rooster.addRecurringShift(day, hour: time.0, minute: time.1)
+            rooster.addRecurringShift(day, hour: time[0], minute: time[1])
         }
         
-        dagField1.text = ""
-        tijdField1.text = ""
+        dayField.text = ""
+        timeField.text = ""
     }
     
-    // get two integers (hour, minute) from string format HH:mm
-    func extractTimeComponents(time: String) -> (Int, Int)?
+    // get two integers [hour, minute] from string format HH:mm
+    private func extractTimeComponents(time: String) -> [Int]?
     {
         if time != ""
         {
             let timeArray = split(time) { $0 == ":" }
-            var timeComponents: (Int, Int)
-            
-            timeComponents.0 = timeArray[0].toInt()!
-            timeComponents.1 = timeArray[1].toInt()!
-            
-            return timeComponents
+            return timeArray.map { $0.toInt()! }
         }
         
         return nil
@@ -79,8 +71,8 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     // put info on selected picker rows in the textfields
     func updateTextFields()
     {
-        dagField1.text = pickerData[0][shiftPicker.selectedRowInComponent(0)]
-        tijdField1.text = pickerData[1][shiftPicker.selectedRowInComponent(1)]
+        dayField.text = pickerData[0][shiftPicker.selectedRowInComponent(0)]
+        timeField.text = pickerData[1][shiftPicker.selectedRowInComponent(1)]
     }
     
     // delegate functions + data for picker view

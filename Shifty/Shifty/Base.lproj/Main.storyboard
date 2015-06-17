@@ -159,9 +159,9 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="dagField1" destination="ncw-61-RfW" id="VmD-pW-Q0n"/>
+                        <outlet property="dayField" destination="ncw-61-RfW" id="9Ng-WN-AD2"/>
                         <outlet property="submitButton" destination="qaH-d0-Jz1" id="a9X-a1-kR4"/>
-                        <outlet property="tijdField1" destination="ULV-CV-l5q" id="GSG-4M-VEC"/>
+                        <outlet property="timeField" destination="ULV-CV-l5q" id="qfH-6S-wSG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mDZ-zc-b4r" userLabel="First Responder" sceneMemberID="firstResponder"/>
