@@ -16,8 +16,6 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
     
     override func viewDidAppear(animated: Bool)
     {
-        super.viewDidAppear(animated)
-        
         if !logInSucceeded
         {
             var loginController = PFLogInViewController()
@@ -29,6 +27,8 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
         {
             self.performSegueWithIdentifier("Logged In", sender: nil)
         }
+        
+        super.viewDidAppear(animated)
     }
     
     // delegate functions

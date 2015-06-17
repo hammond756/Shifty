@@ -17,14 +17,15 @@ class GezochtViewController: UITableViewController
     var sectionsInTable = [String]()
     
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    override func viewWillAppear(animated: Bool)
+    {
         rooster.requestRequestedShifts() { sections -> Void in
             
             self.sectionsInTable = sections
             self.tableView.reloadData()
         }
+        
+        super.viewWillAppear(animated)
     }
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {

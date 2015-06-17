@@ -19,13 +19,11 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     @IBOutlet weak var tijdField3: UITextField!
     @IBOutlet weak var submitButton: UIButton!
     
-    
     var textFieldSetBeingEdited: Int? = nil
     var shiftPicker = UIPickerView()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    override func viewDidLoad()
+    {
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         
@@ -42,6 +40,8 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
             textFieldArray[i].inputView = shiftPicker
             textFieldArray[i].delegate = self
         }
+        
+        super.viewDidLoad()
     }
     
     // send the day and time to the Rooster() class for processing to the database
@@ -83,18 +83,19 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         tijdField1.text = pickerData[1][shiftPicker.selectedRowInComponent(1)]
     }
     
-    
-    // protocols + data
+    // delegate functions + data for picker view
     let pickerData = [
         ["Maandag","Dinsdag","Woensdag","Donderdag","Vrijdag","Zaterdag","Zondag"],
         ["15:00", "15:30", "16:30", "17:00", "18:00", "18:30"]
     ]
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
+    {
         return pickerData[component].count
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int
+    {
         return pickerData.count
     }
     
@@ -102,10 +103,12 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     {
         return pickerData[component][row]
     }
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
+    {
         updateTextFields()
     }
     
+    // show animation to give feedback that editing began
     func textFieldDidBeginEditing(textField: UITextField)
     {
         let animation = CABasicAnimation(keyPath: "position")
@@ -116,11 +119,13 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         animation.toValue = NSValue(CGPoint: CGPointMake(textField.center.x + 7, textField.center.y))
         textField.layer.addAnimation(animation, forKey: "position")
         
-        shiftPicker.selectRow(0, inComponent: 0, animated: true)
-        shiftPicker.selectRow(0, inComponent: 1, animated: true)
+        shiftPicker.selectRow(4, inComponent: 0, animated: true)
+        shiftPicker.selectRow(4, inComponent: 1, animated: true)
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
+    // tap outside textfield to end editing
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)
     }

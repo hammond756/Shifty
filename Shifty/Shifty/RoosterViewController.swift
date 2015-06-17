@@ -27,21 +27,21 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewWillAppear(animated: Bool)
     {
-        super.viewWillAppear(animated)
-        
         refresh()
+        
+        super.viewWillAppear(animated)
     }
     
     override func viewDidLoad()
     {
-        super.viewDidLoad()
-        
         // display the current user's username in the navigation bar
         title = PFUser.currentUser()?.username
         
         // set style of the submit button in de hidden view
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
+        
+        super.viewDidLoad()
     }
     
     // everything to do with the table view

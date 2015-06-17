@@ -18,9 +18,9 @@ class AangebodenViewController: UITableViewController, ActionSheetDelegate
     
     override func viewWillAppear(animated: Bool)
     {
-        super.viewWillAppear(animated)
-        
         refresh()
+        
+        super.viewWillAppear(animated)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int

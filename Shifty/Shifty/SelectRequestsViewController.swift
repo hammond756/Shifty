@@ -20,13 +20,12 @@ class SelectRequestsViewController: UITableViewController
         
     override func viewDidLoad()
     {
-        super.viewDidLoad()
-        
         possibleDates = getDates()
         sectionsInTable = getSections(possibleDates)
         sectionedDates = splitDatesIntoSections(possibleDates)
 
         tableView.reloadData()
+        super.viewDidLoad()
     }
     
     @IBAction func finishedSelecting(sender: UIBarButtonItem)
