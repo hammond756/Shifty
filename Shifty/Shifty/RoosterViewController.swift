@@ -44,6 +44,10 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView.addSubview(refreshControl)
         
+        // display the current user's username in the navigation bar
+        title = PFUser.currentUser()?.username
+        
+        // set style of the submit button in de hidden view
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
     }
@@ -116,122 +120,31 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
-        callActionSheet(selectedShift)
+        let actionSheet = ActionSheet(shift: selectedShift, calledBy: self.tableView)
+        
+        if selectedShift.status == "idle"
+        {
+            actionSheet.includeActions(["Supply"])
+        }
+        if selectedShift.status == "Awaitting Approval" && selectedShift.owner == PFUser.currentUser()
+        {
+            actionSheet.includeActions(["Approve", "Revoke"])
+        }
+        else if selectedShift.owner != PFUser.currentUser()
+        {
+            actionSheet.includeActions(["Approve"])
+        }
+        if selectedShift.status == "Supplied"
+        {
+            actionSheet.includeActions(["Revoke"])
+        }
+        
+        let alertController = actionSheet.getAlertController()
+        
+        alertController.popoverPresentationController?.sourceView = self.view
+        self.presentViewController(alertController, animated: true, completion: nil)
         
         return indexPath
-    }
-    
-    private func callActionSheet(selectedShift: Shift)
-    {
-        let actionSheetController = UIAlertController()
-        
-        let supplyAction = UIAlertAction(title: "Aanbieden", style: .Default) { action -> Void in
-            
-            selectedShift.status = "Supplied"
-            
-            let query = PFQuery(className: "Shifts")
-            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-                
-                if error != nil
-                {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "Supplied"
-                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.tableView.reloadData()
-
-                        }
-                    }
-                }
-            }
-        }
-        
-        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel) { action -> Void in
-            
-            actionSheetController.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
-        let approveAction = UIAlertAction(title: "Goedkeuren", style: .Default) { action -> Void in
-            selectedShift.status = "idle"
-            
-            let query = PFQuery(className: "Shifts")
-            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-                
-                if error != nil
-                {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "idle"
-                    shift["Owner"] = shift["acceptedBy"]
-                    
-                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-            }
-        }
-        
-        let revokeAction = UIAlertAction(title: "Terugrekken", style: .Default) { action -> Void in
-            
-            selectedShift.status = "idle"
-            
-            let query = PFQuery(className: "Shifts")
-            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-                    
-                if error != nil
-                {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "idle"
-                    
-                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-                
-            }
-        }
-        
-        switch selectedShift.status
-        {
-            case "idle": actionSheetController.addAction(supplyAction)
-            case "Awaitting Approval": actionSheetController.addAction(approveAction)
-            case "Supplied": actionSheetController.addAction(revokeAction)
-            default: break
-        }
-        actionSheetController.addAction(cancelAction)
-        
-        actionSheetController.popoverPresentationController?.sourceView = self.view
-        presentViewController(actionSheetController, animated: true, completion: nil)
     }
     
     @IBAction func logOutCurrentRooster(sender: UIBarButtonItem)

@@ -20,7 +20,6 @@ class AangebodenViewController: UITableViewController
         super.viewWillAppear(animated)
         
         rooster.requestShifts("Supplied") { (sections) -> Void in
-            println(sections)
             self.sectionsInTable = sections
             self.tableView.reloadData()
         }
@@ -93,7 +92,11 @@ class AangebodenViewController: UITableViewController
                         else
                         {
                             self.rooster.suppliedShifts[atIndexPath.section].removeAtIndex(atIndexPath.row)
-                            self.tableView.reloadData()
+                            self.rooster.requestShifts("Supplied") { (sections) -> Void in
+                                
+                                self.sectionsInTable = sections
+                                self.tableView.reloadData()
+                            }
                         }
                     }
                 }
@@ -116,6 +119,7 @@ class AangebodenViewController: UITableViewController
         self.presentViewController(actionSheetController, animated: true, completion: nil)
     }
     
+    // set properties for the accessoryView of the tableViewCell
     private func createTimeLabel(time: String) -> UILabel
     {
         var label = UILabel()
@@ -126,7 +130,8 @@ class AangebodenViewController: UITableViewController
         
         return label
     }
-
+    
+    // log out
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
     {
         PFUser.logOut()

@@ -12,12 +12,12 @@ import Parse
 
 class SelectRequestsViewController: UITableViewController
 {
-    let amountOfDaysAhead = 31
+    let amountOfDaysToGenerate = 31
     var sectionsInTable = [String]()
     var possibleDates = [NSDate]()
     var sectionedDates = [[NSDate]]()
     var selectedDates = [NSDate]()
-    
+        
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -56,7 +56,7 @@ class SelectRequestsViewController: UITableViewController
         let today = NSDate()
         var comingDays = [NSDate]()
         
-        for days in 0...amountOfDaysAhead
+        for days in 0..<amountOfDaysToGenerate
         {
             comingDays.append(today + days.day)
         }

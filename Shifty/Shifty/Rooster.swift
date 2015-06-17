@@ -87,7 +87,7 @@ class Rooster
         {
             case "Owned": ownedShifts = splitShiftsIntoSections(shifts, sections: sections)
             case "Supplied": suppliedShifts = splitShiftsIntoSections(shifts, sections: sections)
-        default: break
+            default: break
         }
     }
     

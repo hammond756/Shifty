@@ -29,12 +29,12 @@
 		9C7780B81B1E28EA00C9D6A6 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7780B71B1E28EA00C9D6A6 /* SystemConfiguration.framework */; };
 		9C7780BA1B1E28FA00C9D6A6 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7780B91B1E28FA00C9D6A6 /* libz.dylib */; };
 		9C7780BC1B1E290500C9D6A6 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C7780BB1B1E290500C9D6A6 /* libsqlite3.dylib */; };
+		9C8131281B31770600D9CE24 /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8131271B31770600D9CE24 /* ActionSheet.swift */; };
 		9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672B1B2060A100E31CBB /* Shift.swift */; };
 		9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */; };
 		9CBA579C1B1E308900B1F708 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CBA579B1B1E308900B1F708 /* ParseUI.framework */; };
 		9CBA579E1B1E362900B1F708 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CBA579D1B1E362900B1F708 /* LogInViewController.swift */; };
 		9CF5E9061B30320E002B7DD6 /* SelectRequestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5E9051B30320E002B7DD6 /* SelectRequestsViewController.swift */; };
-		9CF5E9081B304A77002B7DD6 /* DataFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5E9071B304A77002B7DD6 /* DataFormatter.swift */; };
 		9CF5E90A1B307E1A002B7DD6 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CF5E9091B307E1A002B7DD6 /* Request.swift */; };
 		9CFB6DE91B2072EF0010393E /* Rooster.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFB6DE81B2072EF0010393E /* Rooster.swift */; };
 		9CFB6DEB1B23B1910010393E /* RoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */; };
@@ -80,13 +80,13 @@
 		9C7780B71B1E28EA00C9D6A6 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		9C7780B91B1E28FA00C9D6A6 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		9C7780BB1B1E290500C9D6A6 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		9C8131271B31770600D9CE24 /* ActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 		9C9A672B1B2060A100E31CBB /* Shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
 		9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitRoosterViewController.swift; sourceTree = "<group>"; };
 		9CBA579B1B1E308900B1F708 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		9CBA579D1B1E362900B1F708 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		9CF5E8FE1B26DA7C002B7DD6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		9CF5E9051B30320E002B7DD6 /* SelectRequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectRequestsViewController.swift; sourceTree = "<group>"; };
-		9CF5E9071B304A77002B7DD6 /* DataFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFormatter.swift; sourceTree = "<group>"; };
 		9CF5E9091B307E1A002B7DD6 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		9CFB6DE81B2072EF0010393E /* Rooster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rooster.swift; sourceTree = "<group>"; };
 		9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoosterViewController.swift; sourceTree = "<group>"; };
@@ -166,12 +166,12 @@
 				9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */,
 				9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */,
 				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
-				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
 				9CBA579D1B1E362900B1F708 /* LogInViewController.swift */,
 				9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */,
+				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
+				9C8131271B31770600D9CE24 /* ActionSheet.swift */,
 				9C9A672B1B2060A100E31CBB /* Shift.swift */,
 				9CFB6DE81B2072EF0010393E /* Rooster.swift */,
-				9CF5E9071B304A77002B7DD6 /* DataFormatter.swift */,
 				9CF5E9091B307E1A002B7DD6 /* Request.swift */,
 			);
 			path = Shifty;
@@ -380,6 +380,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C8131281B31770600D9CE24 /* ActionSheet.swift in Sources */,
 				9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */,
 				9CF5E9061B30320E002B7DD6 /* SelectRequestsViewController.swift in Sources */,
 				9C2EF5831B1CF1550067F689 /* AangebodenViewController.swift in Sources */,
@@ -387,7 +388,6 @@
 				9CF5E90A1B307E1A002B7DD6 /* Request.swift in Sources */,
 				9CFB6DEB1B23B1910010393E /* RoosterViewController.swift in Sources */,
 				9CBA579E1B1E362900B1F708 /* LogInViewController.swift in Sources */,
-				9CF5E9081B304A77002B7DD6 /* DataFormatter.swift in Sources */,
 				9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */,
 				9CFB6DE91B2072EF0010393E /* Rooster.swift in Sources */,
 				9C2EF5811B1CF13E0067F689 /* GezochtViewController.swift in Sources */,
