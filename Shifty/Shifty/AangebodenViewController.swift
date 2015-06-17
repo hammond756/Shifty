@@ -10,19 +10,17 @@ import UIKit
 import Parse
 import SwiftDate
 
-class AangebodenViewController: UITableViewController
+class AangebodenViewController: UITableViewController, ActionSheetDelegate
 {
     var sectionsInTable = [String]()
     let rooster = Rooster()
+    let helper = Helper()
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
         
-        rooster.requestShifts("Supplied") { (sections) -> Void in
-            self.sectionsInTable = sections
-            self.tableView.reloadData()
-        }
+        refresh()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -41,7 +39,7 @@ class AangebodenViewController: UITableViewController
         let time = shiftForCell.timeString
                 
         cell.textLabel?.text = date
-        cell.accessoryView = createTimeLabel(time)
+        cell.accessoryView = helper.createTimeLabel(time)
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         return cell
@@ -60,83 +58,31 @@ class AangebodenViewController: UITableViewController
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = rooster.suppliedShifts[indexPath.section][indexPath.row]
-        callActionSheet(selectedShift, atIndexPath: indexPath)
+        let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
+        
+        if selectedShift.owner != PFUser.currentUser()
+        {
+            actionSheet.includeActions(["Accept"])
+        }
+        
+        let alertController = actionSheet.getAlertController()
+        alertController.popoverPresentationController?.sourceView = self.view
+        presentViewController(alertController, animated: true, completion: nil)
         
         return indexPath
     }
     
-    private func callActionSheet(selectedShift: Shift, atIndexPath: NSIndexPath)
+    func refresh()
     {
-        let actionSheetController = UIAlertController()
-        
-        let acceptAction = UIAlertAction(title: "Accepteren", style: .Default) { action -> Void in
-            
-            let query = PFQuery(className: "Shifts")
-            
-            query.getObjectInBackgroundWithId(selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
-                
-                if error != nil
-                {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "Awaitting Approval"
-                    shift["acceptedBy"] = PFUser.currentUser()
-                    shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
-                        
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.rooster.suppliedShifts[atIndexPath.section].removeAtIndex(atIndexPath.row)
-                            self.rooster.requestShifts("Supplied") { (sections) -> Void in
-                                
-                                self.sectionsInTable = sections
-                                self.tableView.reloadData()
-                            }
-                        }
-                    }
-                }
-            }
+        rooster.requestShifts("Supplied") { sections -> Void in
+            self.sectionsInTable = sections
+            self.tableView.reloadData()
         }
-        
-        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel) { action -> Void in
-            
-            actionSheetController.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
-        if selectedShift.owner != PFUser.currentUser()
-        {
-            actionSheetController.addAction(acceptAction)
-        }
-        
-        actionSheetController.addAction(cancelAction)
-        actionSheetController.popoverPresentationController?.sourceView = self.view
-        
-        self.presentViewController(actionSheetController, animated: true, completion: nil)
-    }
-    
-    // set properties for the accessoryView of the tableViewCell
-    private func createTimeLabel(time: String) -> UILabel
-    {
-        var label = UILabel()
-        label.font = UIFont.systemFontOfSize(14)
-        label.textAlignment = NSTextAlignment.Center
-        label.text = time
-        label.sizeToFit()
-        
-        return label
     }
     
     // log out
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
     {
-        PFUser.logOut()
-        
-        let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login") as! LogInViewController
-        UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
+        helper.logOut(self)
     }
 }

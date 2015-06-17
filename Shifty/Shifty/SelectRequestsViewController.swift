@@ -79,7 +79,7 @@ class SelectRequestsViewController: UITableViewController
         return sections
     }
     
-    private func splitDatesIntoSections(dates: [NSDate]) -> ([[NSDate]])
+    private func splitDatesIntoSections(dates: [NSDate]) -> [[NSDate]]
     {
         var newDateArray = [[NSDate]]()
         

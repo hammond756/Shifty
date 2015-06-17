@@ -9,13 +9,14 @@
 import UIKit
 import Parse
 
-class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+class RoosterViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ActionSheetDelegate
 {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
     var refreshControl: UIRefreshControl!
     
     let rooster = Rooster()
+    let helper = Helper()
     
     var sectionsInTable = [String]()
     
@@ -28,21 +29,12 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         super.viewWillAppear(animated)
         
-        rooster.requestShifts("Owned") { (sections) -> Void in
-            self.sectionsInTable = sections
-            self.tableView.reloadData()
-        }
+        refresh()
     }
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-                
-        // add refresh control to table view
-        self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
-        self.tableView.addSubview(refreshControl)
         
         // display the current user's username in the navigation bar
         title = PFUser.currentUser()?.username
@@ -50,16 +42,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         // set style of the submit button in de hidden view
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
-    }
-    
-    // refresh function gets called by refresh control
-    func refresh(sender:AnyObject)
-    {
-        rooster.requestShifts("Owned") { (sections) -> Void in
-            self.sectionsInTable = sections
-            self.tableView.reloadData()
-            self.refreshControl.endRefreshing()
-        }
     }
     
     // everything to do with the table view
@@ -75,14 +57,17 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
         
+        // reset background color (cell color also gets reused)
         cell.backgroundColor = UIColor.clearColor()
         
+        // get info from shift at indexPath
         let shiftForCell = rooster.ownedShifts[indexPath.section][indexPath.row]
         let date = shiftForCell.dateString
         let time = shiftForCell.timeString
         
+        // set cell properties
         cell.textLabel?.text = date
-        cell.accessoryView = createTimeLabel(time)
+        cell.accessoryView = helper.createTimeLabel(time)
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         // give appropriate highlight, depending on status
@@ -96,17 +81,6 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         return cell
     }
     
-    private func createTimeLabel(time: String) -> UILabel
-    {
-        var label = UILabel()
-        label.font = UIFont.systemFontOfSize(14)
-        label.textAlignment = NSTextAlignment.Center
-        label.text = time
-        label.sizeToFit()
-        
-        return label
-    }
-    
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return sectionsInTable[section]
@@ -117,10 +91,11 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         return sectionsInTable.count
     }
     
+    // an action sheet gets called depending on the status of the selected shift
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
-        let actionSheet = ActionSheet(shift: selectedShift, calledBy: self.tableView)
+        let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
         
         if selectedShift.status == "idle"
         {
@@ -128,7 +103,7 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         }
         if selectedShift.status == "Awaitting Approval" && selectedShift.owner == PFUser.currentUser()
         {
-            actionSheet.includeActions(["Approve", "Revoke"])
+            actionSheet.includeActions(["Approve"])
         }
         else if selectedShift.owner != PFUser.currentUser()
         {
@@ -147,12 +122,17 @@ class RoosterViewController: UIViewController, UITableViewDataSource, UITableVie
         return indexPath
     }
     
-    @IBAction func logOutCurrentRooster(sender: UIBarButtonItem)
+    // actions on action sheet call refresh when they are done, so the view can reload properly
+    func refresh()
     {
-        PFUser.logOut()
-        
-        let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login") as! LogInViewController
-        UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
+        rooster.requestShifts("Owned") { sections -> Void in
+            self.sectionsInTable = sections
+            self.tableView.reloadData()
+        }
     }
     
+    @IBAction func logOutCurrentRooster(sender: UIBarButtonItem)
+    {
+        helper.logOut(self)
+    }
 }

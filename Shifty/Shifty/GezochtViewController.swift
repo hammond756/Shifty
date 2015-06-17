@@ -13,6 +13,7 @@ import SwiftDate
 class GezochtViewController: UITableViewController
 {
     let rooster = Rooster()
+    let helper = Helper()
     var sectionsInTable = [String]()
     
     
@@ -53,9 +54,6 @@ class GezochtViewController: UITableViewController
     
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
     {
-        PFUser.logOut()
-        
-        let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("Login") as! LogInViewController
-        UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
+        helper.logOut(self)
     }
 }
