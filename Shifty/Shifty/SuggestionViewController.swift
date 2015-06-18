@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 class SuggestionViewController: UITableViewController
 {
@@ -15,13 +16,49 @@ class SuggestionViewController: UITableViewController
     
     var sectionsInTable = [String]()
     
-    // everything to do with the table view
+    // objectID's of shifts
+    var selectedShifts = [String]()
+    var requestID = ""
     
-    // get number of rows for a section
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    @IBAction func finishedSuggesting(sender: UIBarButtonItem)
     {
-        return rooster.ownedShifts[section].count
+        let query = PFQuery(className: "RequestedShifts")
+        query.getObjectInBackgroundWithId(requestID) { (request: PFObject?, error: NSError?) -> Void in
+            
+            if error != nil
+            {
+                println(error?.description)
+            }
+            else if let request = request
+            {
+                request.addObjectsFromArray(self.selectedShifts, forKey: "replies")
+                request.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                    
+                    if succes
+                    {
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
+                }
+            }
+        }
     }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        refresh()
+    }
+    
+    func refresh()
+    {
+        // IDEA: "toSuggest"? -> Don't show pending shifts
+        
+        rooster.requestShifts("Owned") { sections -> Void in
+            self.sectionsInTable = sections
+            self.tableView.reloadData()
+        }
+    }
+    
+    // everything to do with the table view
     
     // generate (reuse) cell.
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -52,6 +89,12 @@ class SuggestionViewController: UITableViewController
         return cell
     }
     
+    // get number of rows for a section
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return rooster.ownedShifts[section].count
+    }
+    
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return sectionsInTable[section]
@@ -60,5 +103,21 @@ class SuggestionViewController: UITableViewController
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return sectionsInTable.count
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
+        selectedShifts.append(selectedShift.objectID)
+    }
+    
+    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let deselectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
+        
+        if let index = find(selectedShifts, deselectedShift.objectID)
+        {
+            selectedShifts.removeAtIndex(index)
+        }
     }
 }

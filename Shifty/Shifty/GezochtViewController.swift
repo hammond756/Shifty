@@ -15,17 +15,54 @@ class GezochtViewController: UITableViewController
     let rooster = Rooster()
     let helper = Helper()
     var sectionsInTable = [String]()
+    var selectedRequestID = ""
     
+    // naar refresh()
     override func viewWillAppear(animated: Bool)
     {
         rooster.requestRequests() { sections -> Void in
-            
             self.sectionsInTable = sections
             self.tableView.reloadData()
         }
         
         super.viewWillAppear(animated)
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if segue.identifier == "Make Suggestion"
+        {
+            let svc = segue.destinationViewController as! SuggestionViewController
+            svc.requestID = selectedRequestID
+        }
+    }
+    
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    {
+        let request = rooster.requestedShifs[indexPath.section][indexPath.row]
+        selectedRequestID = request.objectID
+        
+        let query = PFQuery(className: "RequestedShifts")
+        query.getObjectInBackgroundWithId(selectedRequestID) { (request: PFObject?, error: NSError?) -> Void in
+            
+            if error != nil
+            {
+                println(error?.description)
+            }
+            else if let request = request
+            {
+                if request["requestedBy"] as? PFUser == PFUser.currentUser()
+                {
+                    self.performSegueWithIdentifier("See Suggestions", sender: nil)
+                }
+            }
+        }
+        
+        performSegueWithIdentifier("Make Suggestion", sender: nil)
+        
+        return indexPath
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return rooster.requestedShifs[section].count
@@ -39,12 +76,14 @@ class GezochtViewController: UITableViewController
         cell.textLabel?.text = date.date.toString(format: DateFormat.Custom("EEEE dd MMM"))
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
+        if date.requestedBy == PFUser.currentUser()
+        {
+            cell.backgroundColor = navigationController?.navigationBar.backgroundColor
+        }
+        
         return cell
     }
     
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        performSegueWithIdentifier("Make Suggestion", sender: nil)
-    }
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return sectionsInTable[section]

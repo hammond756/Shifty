@@ -15,11 +15,14 @@ class Request: HasDate
     var requestedBy: PFUser
     var date: NSDate
     var dateString: String
+    var objectID: String
     
-    init(date: NSDate, by: PFUser)
+    init(date: NSDate, by: PFUser, objectID: String)
     {
         self.date = date
         self.requestedBy = by
+        self.objectID = objectID
+        
         dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
     }
     
@@ -28,7 +31,7 @@ class Request: HasDate
         let date = parseObject["date"] as! NSDate
         let requestedBy = parseObject["requestedBy"] as! PFUser
         
-        self.init(date: date, by: requestedBy)
+        self.init(date: date, by: requestedBy, objectID: parseObject.objectId!)
     }
     
     func getWeekOfYear() -> String
