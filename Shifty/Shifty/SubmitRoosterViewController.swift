@@ -37,7 +37,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
             textFieldArray[i].inputView = shiftPicker
             textFieldArray[i].delegate = self
         }
-        
+                
         super.viewDidLoad()
     }
     

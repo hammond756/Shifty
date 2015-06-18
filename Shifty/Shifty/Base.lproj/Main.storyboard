@@ -48,7 +48,7 @@
             </objects>
             <point key="canvasLocation" x="375" y="371"/>
         </scene>
-        <!--Submit Rooster View Controller-->
+        <!--Nieuwe Shift-->
         <scene sceneID="4C2-qN-0xi">
             <objects>
                 <viewController id="EbF-JY-d39" customClass="SubmitRoosterViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
@@ -158,6 +158,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <navigationItem key="navigationItem" title="Nieuwe Shift" id="G1I-K2-sK5"/>
                     <connections>
                         <outlet property="dayField" destination="ncw-61-RfW" id="9Ng-WN-AD2"/>
                         <outlet property="submitButton" destination="qaH-d0-Jz1" id="a9X-a1-kR4"/>
@@ -241,11 +242,13 @@
                     </view>
                     <navigationItem key="navigationItem" title="Rooster" id="El5-Md-D5r">
                         <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="LPd-ht-Mjg">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="logOutCurrentRooster:" destination="WOK-3g-UMK" id="mni-e0-prr"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Ab-gM-mOp">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="goToSubmitView" destination="WOK-3g-UMK" id="6M3-mg-x3m"/>
                             </connections>
@@ -284,11 +287,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Gezocht" id="CdO-SI-y2X">
                         <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="PXU-OX-Y2M">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="logOutCurrentUser:" destination="Yfp-jp-Y3X" id="g4W-NT-NU2"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="5em-wQ-Mgu">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="UQS-v2-tuY" kind="show" id="ELX-7X-wFd"/>
                             </connections>
@@ -327,6 +332,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Selecteer" id="roM-Sp-vfE">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="GjE-Gs-RCI">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="finishedSelecting:" destination="UQS-v2-tuY" id="Yf5-vi-4re"/>
                             </connections>
@@ -377,6 +383,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Stel Diensten Voor" id="UsC-2Y-2fC">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="qxU-xI-aOj">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="finishedSuggesting:" destination="SUf-g9-wne" id="XVg-ps-jls"/>
                             </connections>
@@ -390,7 +397,7 @@
             </objects>
             <point key="canvasLocation" x="2392" y="732"/>
         </scene>
-        <!--Suggestion Overview View Controller-->
+        <!--Suggesties-->
         <scene sceneID="HDO-sO-MSa">
             <objects>
                 <viewController id="etH-fB-HJ2" customClass="SuggestionOverviewViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
@@ -427,6 +434,7 @@
                             <constraint firstItem="sFc-Ul-LrO" firstAttribute="top" secondItem="Zc9-wL-NzD" secondAttribute="top" id="wuY-nE-U18"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Suggesties" id="cf0-cd-xC7"/>
                     <connections>
                         <outlet property="tableView" destination="sFc-Ul-LrO" id="vpB-Hy-Jaf"/>
                     </connections>
@@ -458,6 +466,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Aangeboden" id="mo0-4p-fk4">
                         <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="une-7R-qgR">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="logOutCurrentUser:" destination="9qf-KU-Xp7" id="BWT-76-hrW"/>
                             </connections>
@@ -474,10 +483,13 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NZ6-na-FKV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Gezocht" id="o08-wD-zLr"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Xk9-0h-Mdl">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Xk9-0h-Mdl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.50196081399917603" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -494,7 +506,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hnq-Xa-XO1" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Aangebonden" id="fbI-SK-hRO"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rkQ-iN-F3t">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="rkQ-iN-F3t">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.50196081399917603" blue="0.25098040699958801" alpha="1" colorSpace="calibratedRGB"/>

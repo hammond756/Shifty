@@ -34,7 +34,7 @@ class SelectRequestsViewController: UITableViewController
         possibleDates = getDates()
         sectionsInTable = rooster.getSections(possibleDates)
         sectionedDates = rooster.splitIntoSections(possibleDates, sections: sectionsInTable)
-
+        
         tableView.reloadData()
         super.viewDidLoad()
     }
