@@ -70,6 +70,11 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
     {
         rooster.requestShifts("Owned") { sections -> Void in
             self.sectionsInTable = sections
+            if sections.count == 0
+            {
+                self.tableView.hidden = true
+            }
+            
             self.tableView.reloadData()
         }
     }

@@ -29,8 +29,9 @@ class Shift: Equatable, HasDate
     var status: String
     var objectID: String
     var owner: PFUser
+    var acceptedBy: PFUser?
     
-    init(date: NSDate, stat: String, objectID: String, owner: PFUser)
+    init(date: NSDate, stat: String, objectID: String, owner: PFUser, acceptedBy: PFUser?)
     {
         self.date = date
         dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
@@ -39,6 +40,7 @@ class Shift: Equatable, HasDate
         self.status = stat
         self.objectID = objectID
         self.owner = owner
+        self.acceptedBy = acceptedBy?.fetchIfNeeded() as? PFUser
     }
     
     convenience init(parseObject: PFObject)
@@ -46,8 +48,14 @@ class Shift: Equatable, HasDate
         let date = parseObject["Date"] as! NSDate
         let status = parseObject["Status"] as! String
         let owner = parseObject["Owner"] as! PFUser
+        var acceptedBy: PFUser? = nil
         
-        self.init(date: date, stat: status, objectID: parseObject.objectId!, owner: owner)
+        if let hasBeenAcceptedBy = parseObject["acceptedBy"] as? PFUser
+        {
+            acceptedBy = hasBeenAcceptedBy
+        }
+        
+        self.init(date: date, stat: status, objectID: parseObject.objectId!, owner: owner, acceptedBy: acceptedBy)
     }
     
     func getWeekOfYear() -> String

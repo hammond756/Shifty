@@ -36,6 +36,11 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         cell.textLabel?.text = shiftForCell.dateString
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
         
+        if shiftForCell.status == "Awaitting Approval"
+        {
+            cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
+        }
+        
         return cell
     }
     

@@ -38,17 +38,20 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
-     
+        var message = ""
+        
         if selectedShift.status == "idle"
         {
             actionSheet.includeActions(["Supply"])
         }
         if selectedShift.status == "Awaitting Approval" && selectedShift.owner == PFUser.currentUser()
         {
+            message = selectedShift.acceptedBy!.username! + " wil jouw dienst overnemen."
             actionSheet.includeActions(["Approve"])
         }
         else if selectedShift.owner != PFUser.currentUser()
         {
+            message = "Je wil " + selectedShift.owner.username! + " zijn/haar dienst overnemen."
             actionSheet.includeActions(["Approve"])
         }
         if selectedShift.status == "Supplied"
@@ -57,7 +60,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         }
         
         let alertController = actionSheet.getAlertController()
-        
+        alertController.message = message
         alertController.popoverPresentationController?.sourceView = self.view
         self.presentViewController(alertController, animated: true, completion: nil)
         
