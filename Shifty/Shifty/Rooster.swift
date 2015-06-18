@@ -106,6 +106,47 @@ class Rooster
             callback(sections: sections)
         }
     }
+    
+    func requestSuggestions(associatedWith: String, callback: (suggestions: [String]) -> Void)
+    {
+        getQueryForStatus("Suggested").getObjectInBackgroundWithId(associatedWith) { (request: PFObject?, error: NSError?) -> Void in
+            
+            if error != nil
+            {
+                println(error?.description)
+            }
+            else if let request = request
+            {
+                if let suggestions = request["replies"] as? [String]
+                {
+                    callback(suggestions: suggestions)
+                }
+            }
+        }
+    }
+    
+    func requestShiftsFromIDs(iDs: [String], callback: (shifts: [Shift]) -> Void)
+    {
+        var shifts = [Shift]()
+        
+        let query = PFQuery(className: "Shifts").whereKey("objectId", containedIn: iDs)
+        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if error != nil
+            {
+                println(error?.description)
+            }
+            else if let objects = objects as? [PFObject]
+            {
+                for object in objects
+                {
+                    shifts.append(Shift(parseObject: object))
+                }
+                callback(shifts: shifts)
+            }
+        }
+    }
+    
     private func setShifts(withStatus: String, shifts: [Shift], sections: [String])
     {
         switch withStatus
@@ -133,6 +174,10 @@ class Rooster
             query = PFQuery(className: "Shifts").whereKey("Status", equalTo: "Supplied")
         }
         else if status == "Requested"
+        {
+            query = PFQuery(className: "RequestedShifts")
+        }
+        else if status == "Suggested"
         {
             query = PFQuery(className: "RequestedShifts")
         }

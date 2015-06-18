@@ -35,6 +35,11 @@ class GezochtViewController: UITableViewController
             let svc = segue.destinationViewController as! SuggestionViewController
             svc.requestID = selectedRequestID
         }
+        if segue.identifier == "See Suggestions"
+        {
+            let sovc = segue.destinationViewController as! SuggestionOverviewViewController
+            sovc.associatedRequest = selectedRequestID
+        }
     }
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
@@ -55,10 +60,12 @@ class GezochtViewController: UITableViewController
                 {
                     self.performSegueWithIdentifier("See Suggestions", sender: nil)
                 }
+                else
+                {
+                    self.performSegueWithIdentifier("Make Suggestion", sender: nil)
+                }
             }
         }
-        
-        performSegueWithIdentifier("Make Suggestion", sender: nil)
         
         return indexPath
     }
@@ -78,7 +85,7 @@ class GezochtViewController: UITableViewController
         
         if date.requestedBy == PFUser.currentUser()
         {
-            cell.backgroundColor = navigationController?.navigationBar.backgroundColor
+            cell.backgroundColor = UIColor.grayColor()
         }
         
         return cell

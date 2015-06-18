@@ -336,7 +336,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YGe-8T-S5w" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="63"/>
+            <point key="canvasLocation" x="2392" y="31"/>
         </scene>
         <!--Stel Diensten Voor-->
         <scene sceneID="g0o-5V-Z6n">
@@ -361,6 +361,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="SUf-g9-wne" id="ix6-6i-VyL"/>
+                                    <outlet property="delegate" destination="SUf-g9-wne" id="Vnz-Oy-qlX"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -384,7 +388,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FZc-qe-GoX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2376" y="744"/>
+            <point key="canvasLocation" x="2392" y="732"/>
         </scene>
         <!--Suggestion Overview View Controller-->
         <scene sceneID="HDO-sO-MSa">
@@ -409,6 +413,10 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="etH-fB-HJ2" id="26U-ju-Gxy"/>
+                                    <outlet property="delegate" destination="etH-fB-HJ2" id="eFj-yB-gJ8"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -419,10 +427,13 @@
                             <constraint firstItem="sFc-Ul-LrO" firstAttribute="top" secondItem="Zc9-wL-NzD" secondAttribute="top" id="wuY-nE-U18"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="sFc-Ul-LrO" id="vpB-Hy-Jaf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Hfo-4C-99b" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3020" y="438"/>
+            <point key="canvasLocation" x="3040" y="371"/>
         </scene>
         <!--Aangeboden-->
         <scene sceneID="nyk-63-aYw">
