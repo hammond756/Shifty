@@ -33,6 +33,7 @@
 		9C81312A1B31A1BE00D9CE24 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8131291B31A1BE00D9CE24 /* Helper.swift */; };
 		9C81312C1B31BC9600D9CE24 /* SuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */; };
 		9C81312E1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */; };
+		9C8131301B330DD600D9CE24 /* ShiftControllerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C81312F1B330DD600D9CE24 /* ShiftControllerInterface.swift */; };
 		9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672B1B2060A100E31CBB /* Shift.swift */; };
 		9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */; };
 		9CBA579C1B1E308900B1F708 /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CBA579B1B1E308900B1F708 /* ParseUI.framework */; };
@@ -87,6 +88,7 @@
 		9C8131291B31A1BE00D9CE24 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionViewController.swift; sourceTree = "<group>"; };
 		9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionOverviewViewController.swift; sourceTree = "<group>"; };
+		9C81312F1B330DD600D9CE24 /* ShiftControllerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftControllerInterface.swift; sourceTree = "<group>"; };
 		9C9A672B1B2060A100E31CBB /* Shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
 		9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubmitRoosterViewController.swift; sourceTree = "<group>"; };
 		9CBA579B1B1E308900B1F708 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 			children = (
 				9C2EF5601B1CB1E30067F689 /* Main.storyboard */,
 				9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */,
+				9C81312F1B330DD600D9CE24 /* ShiftControllerInterface.swift */,
 				9CF5E9051B30320E002B7DD6 /* SelectRequestsViewController.swift */,
 				9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */,
 				9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */,
@@ -390,6 +393,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C8131281B31770600D9CE24 /* ActionSheet.swift in Sources */,
+				9C8131301B330DD600D9CE24 /* ShiftControllerInterface.swift in Sources */,
 				9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */,
 				9C81312C1B31BC9600D9CE24 /* SuggestionViewController.swift in Sources */,
 				9CF5E9061B30320E002B7DD6 /* SelectRequestsViewController.swift in Sources */,

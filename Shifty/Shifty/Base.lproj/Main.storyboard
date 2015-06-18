@@ -295,8 +295,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <segue destination="841-aP-XgA" kind="show" identifier="Make Suggestion" id="Z7p-XW-L8l"/>
                         <segue destination="etH-fB-HJ2" kind="show" identifier="See Suggestions" id="M4z-Vm-gTw"/>
+                        <segue destination="SUf-g9-wne" kind="show" identifier="Make Suggestion" id="phH-GS-hz7"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pCR-Qm-5Wc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -338,38 +338,53 @@
             </objects>
             <point key="canvasLocation" x="2380" y="63"/>
         </scene>
-        <!--Jouw Voorstel-->
-        <scene sceneID="U9U-SY-SuF">
+        <!--Stel Diensten Voor-->
+        <scene sceneID="g0o-5V-Z6n">
             <objects>
-                <tableViewController id="841-aP-XgA" customClass="SuggestionViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ch4-xO-7Ts">
+                <viewController id="SUf-g9-wne" customClass="SuggestionViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yrg-VB-qb4"/>
+                        <viewControllerLayoutGuide type="bottom" id="gL3-gd-eDC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ISw-Bz-mGs">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZBd-Y7-rWy">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Shift" id="IdD-sV-daZ">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IdD-sV-daZ" id="nhU-9f-I4Q">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Shift" id="jb3-SK-D9F">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jb3-SK-D9F" id="Jeu-Nd-cw7">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="841-aP-XgA" id="Idb-Ji-okf"/>
-                            <outlet property="delegate" destination="841-aP-XgA" id="w5u-AL-TeI"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Jouw Voorstel" id="29j-fk-dpX">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="7JN-eD-fBh">
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ZBd-Y7-rWy" secondAttribute="bottom" id="Cgk-1i-af6"/>
+                            <constraint firstItem="ZBd-Y7-rWy" firstAttribute="leading" secondItem="ISw-Bz-mGs" secondAttribute="leading" id="DBa-YR-4eH"/>
+                            <constraint firstAttribute="trailing" secondItem="ZBd-Y7-rWy" secondAttribute="trailing" id="d8A-ge-AUf"/>
+                            <constraint firstItem="ZBd-Y7-rWy" firstAttribute="top" secondItem="ISw-Bz-mGs" secondAttribute="top" id="w4v-Ti-Tcb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Stel Diensten Voor" id="UsC-2Y-2fC">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="qxU-xI-aOj">
                             <connections>
-                                <action selector="finishedSuggesting:" destination="841-aP-XgA" id="IYL-hE-XQZ"/>
+                                <action selector="finishedSuggesting:" destination="SUf-g9-wne" id="XVg-ps-jls"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="5Gm-g9-XY0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                    <connections>
+                        <outlet property="tableView" destination="ZBd-Y7-rWy" id="sUS-8i-O1F"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FZc-qe-GoX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2380" y="716"/>
+            <point key="canvasLocation" x="2376" y="744"/>
         </scene>
         <!--Suggestion Overview View Controller-->
         <scene sceneID="HDO-sO-MSa">
