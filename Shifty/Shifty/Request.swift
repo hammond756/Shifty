@@ -10,7 +10,7 @@ import Foundation
 import Parse
 import SwiftDate
 
-class Request
+class Request: HasDate
 {
     var requestedBy: PFUser
     var date: NSDate
@@ -23,9 +23,23 @@ class Request
         dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
     }
     
+    convenience init(parseObject: PFObject)
+    {
+        let date = parseObject["date"] as! NSDate
+        let requestedBy = parseObject["requestedBy"] as! PFUser
+        
+        self.init(date: date, by: requestedBy)
+    }
+    
     func getWeekOfYear() -> String
     {
         return "Week " + String((date - 1.day).weekOfYear)
+    }
+    
+    func setFromParseObject(object: PFObject)
+    {
+        self.date = object["date"] as! NSDate
+        self.requestedBy = object["requestedBy"] as! PFUser
     }
     
 }

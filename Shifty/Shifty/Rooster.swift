@@ -51,7 +51,7 @@ class Rooster
         return today + daysAhead.day
     }
         
-    func requestShifts(withStatus: String, callback: (sections: [String]) -> Void)
+    private func requestParseObjects(withStatus: String, callback: (objects: [PFObject]) -> Void)
     {
         let query = getQueryForStatus(withStatus)
         
@@ -63,30 +63,55 @@ class Rooster
             }
             else if let objects = objects as? [PFObject]
             {
-                var tempShifts = [Shift]()
-                
-                for object in objects
-                {
-                    let shift = self.convertParseObjectToShift(object)
-                    tempShifts.append(shift)
-                }
-                
-                tempShifts.sort { $0.dateObject < $1.dateObject }
-                let sections = self.getSections(tempShifts)
-                self.setShifts(withStatus, shifts: tempShifts, sections: sections)
-                
-                callback(sections: sections)
+                callback(objects: objects)
             }
             
         }
     }
     
+    func requestShifts(withStatus: String, callback: (sections: [String]) -> Void)
+    {
+        requestParseObjects(withStatus) { objects -> Void in
+            
+            var tempShifts = [Shift]()
+            
+            for object in objects
+            {
+                let shift = Shift(parseObject: object)
+                tempShifts.append(shift)
+            }
+            
+            let sections = self.getSections(tempShifts)
+            self.setShifts(withStatus, shifts: tempShifts, sections: sections)
+            
+            callback(sections: sections)
+        }
+    }
+    
+    func requestRequests(callback: (sections: [String]) -> Void)
+    {
+        requestParseObjects("Requested") { objects -> Void in
+            
+            var tempRequests = [Request]()
+            
+            for object in objects
+            {
+                let request = Request(parseObject: object)
+                tempRequests.append(request)
+            }
+            
+            let sections = self.getSections(tempRequests)
+            self.requestedShifs = self.splitIntoSections(tempRequests, sections: sections)
+            
+            callback(sections: sections)
+        }
+    }
     private func setShifts(withStatus: String, shifts: [Shift], sections: [String])
     {
         switch withStatus
         {
-            case "Owned": ownedShifts = splitShiftsIntoSections(shifts, sections: sections)
-            case "Supplied": suppliedShifts = splitShiftsIntoSections(shifts, sections: sections)
+            case "Owned": ownedShifts = splitIntoSections(shifts, sections: sections)
+            case "Supplied": suppliedShifts = splitIntoSections(shifts, sections: sections)
             default: break
         }
     }
@@ -115,105 +140,26 @@ class Rooster
         return query
     }
     
-    func requestRequestedShifts(callback: (sections: [String]) -> Void)
+    func splitIntoSections<T: HasDate>(array: [T], sections: [String]) -> [[T]]
     {
-        let query = getQueryForStatus("Requested")
-        
-        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
-         
-            if error != nil
-            {
-                println(error?.description)
-            }
-            else if let objects = objects as? [PFObject]
-            {
-                var tempRequests = [Request]()
-                
-                for object in objects
-                {
-                    let request = self.convertParseOjbectToRequest(object)
-                    tempRequests.append(request)
-                }
-                
-                tempRequests.sort() { $0.date < $1.date }
-                let sections = self.getSections(tempRequests)
-                self.requestedShifs = self.splitRequestsIntoSections(tempRequests, sections: sections)
-                
-                callback(sections: sections)
-            }
-        }
-    }
-    
-    // TODO: find a way to handle shifts/requests by the same function
-    //
-    //
-    // DOUBLE FUNCTIONS
-    
-    private func convertParseObjectToShift(object: PFObject) -> Shift
-    {
-        let date = object["Date"] as? NSDate
-        let status = object["Status"] as? String
-        let owner = object["Owner"] as? PFUser
-        
-        return Shift(date: date!, stat: status!, objectID: object.objectId!, owner: owner!)
-    }
-    
-    private func convertParseOjbectToRequest(object: PFObject) -> Request
-    {
-        let date = object["date"] as! NSDate
-        let requestedBy = object["requestedBy"] as! PFUser
-        
-        return Request(date: date, by: requestedBy)
-    }
-    
-    private func splitShiftsIntoSections(shifts: [Shift], sections: [String]) -> [[Shift]]
-    {
-        var newShiftArray = [[Shift]]()
+        var sectionedArray = [[T]]()
         
         for section in sections
         {
-            newShiftArray.append(shifts.filter() { $0.getWeekOfYear() == section })
+            sectionedArray.append(array.filter() { $0.getWeekOfYear() == section })
         }
         
-        return newShiftArray
+        return sectionedArray
     }
     
-    private func splitRequestsIntoSections(requests: [Request], sections: [String]) -> [[Request]]
-    {
-        var newShiftArray = [[Request]]()
-        
-        for section in sections
-        {
-            newShiftArray.append(requests.filter() { $0.getWeekOfYear() == section })
-        }
-        
-        return newShiftArray
-    }
-    
-    func getSections(shifts: [Shift]) -> [String]
+    func getSections<T: HasDate>(var array: [T]) -> [String]
     {
         var sections = [String]()
+        array.sort() { $0.date < $1.date }
         
-        for shift in shifts
+        for element in array
         {
-            let weekOfYear = shift.getWeekOfYear()
-            
-            if !contains(sections, weekOfYear)
-            {
-                sections.append(weekOfYear)
-            }
-        }
-        
-        return sections
-    }
-    
-    func getSections(requests: [Request]) -> [String]
-    {
-        var sections = [String]()
-        
-        for shift in requests
-        {
-            let weekOfYear = shift.getWeekOfYear()
+            let weekOfYear = element.getWeekOfYear()
             
             if !contains(sections, weekOfYear)
             {

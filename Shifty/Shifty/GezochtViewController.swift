@@ -18,7 +18,7 @@ class GezochtViewController: UITableViewController
     
     override func viewWillAppear(animated: Bool)
     {
-        rooster.requestRequestedShifts() { sections -> Void in
+        rooster.requestRequests() { sections -> Void in
             
             self.sectionsInTable = sections
             self.tableView.reloadData()

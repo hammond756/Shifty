@@ -10,6 +10,15 @@ import UIKit
 import SwiftDate
 import Parse
 
+extension NSDate: HasDate
+{
+    func getWeekOfYear() -> String {
+        return "Week: " + String(self.weekOfYear)
+    }
+    
+    var date: NSDate { get { return self } set { self.date = newValue } }
+}
+
 class SelectRequestsViewController: UITableViewController
 {
     let amountOfDaysToGenerate = 31
@@ -17,12 +26,14 @@ class SelectRequestsViewController: UITableViewController
     var possibleDates = [NSDate]()
     var sectionedDates = [[NSDate]]()
     var selectedDates = [NSDate]()
+    
+    let rooster = Rooster()
         
     override func viewDidLoad()
     {
         possibleDates = getDates()
-        sectionsInTable = getSections(possibleDates)
-        sectionedDates = splitDatesIntoSections(possibleDates)
+        sectionsInTable = rooster.getSections(possibleDates)
+        sectionedDates = rooster.splitIntoSections(possibleDates, sections: sectionsInTable)
 
         tableView.reloadData()
         super.viewDidLoad()
@@ -61,53 +72,6 @@ class SelectRequestsViewController: UITableViewController
         }
 
         return comingDays
-    }
-    
-    func getSections(dates: [NSDate]) -> [String]
-    {
-        var sections = [String]()
-        
-        for date in dates
-        {
-            if !contains(sections, getWeekOfYear(date))
-            {
-                sections.append(getWeekOfYear(date))
-            }
-        }
-
-        return sections
-    }
-    
-    private func splitDatesIntoSections(dates: [NSDate]) -> [[NSDate]]
-    {
-        var newDateArray = [[NSDate]]()
-        
-        for i in 0..<sectionsInTable.count
-        {
-            newDateArray.append(getSectionItems(dates, section: i))
-        }
-
-        return newDateArray
-    }
-    
-    func getSectionItems(dates: [NSDate], section: Int) -> [NSDate]
-    {
-        var datesInSection = [NSDate]()
-        
-        for date in dates
-        {
-            if getWeekOfYear(date) == sectionsInTable[section]
-            {
-                datesInSection.append(date)
-            }
-        }
-
-        return datesInSection
-    }
-    
-    func getWeekOfYear(date: NSDate) -> String
-    {
-        return "Week " + String(((date - 1.day).weekOfYear))
     }
     
     // tableView delegate fuctions
