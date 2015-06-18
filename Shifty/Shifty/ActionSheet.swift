@@ -170,6 +170,7 @@ class ActionSheet
         actionList.append(acceptAction)
     }
     
+    // optional before segue (now directly from willselectrow)
     func createSuggestAction()
     {
         let suggestAction = UIAlertAction(title: "Doe Suggestie", style: .Default) { action -> Void in

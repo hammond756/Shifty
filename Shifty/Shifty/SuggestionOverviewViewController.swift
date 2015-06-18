@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import Parse
 
-class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource
+class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ActionSheetDelegate
 {
     let rooster = Rooster()
     let helper = Helper()
@@ -19,13 +20,7 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     
     override func viewWillAppear(animated: Bool)
     {
-        rooster.requestSuggestions(associatedRequest) { suggestions -> Void in
-            self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
-                self.suggestions = shifts
-                self.tableView.reloadData()
-            }
-        }
-        
+        refresh()
         super.viewWillAppear(animated)
     }
     
@@ -42,5 +37,31 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    {
+        let selectedShift = suggestions[indexPath.row]
+        let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
+        
+        // TODO: create refuseAction
+        actionSheet.includeActions(["Accept"])
+        
+        let alertController = actionSheet.getAlertController()
+        alertController.presentingViewController?.view = self.view
+        presentViewController(alertController, animated: true, completion: nil)
+        
+        return indexPath
+    }
+    
+    // BUG: doesn't remove objectID of accepted suggest from replies
+    func refresh()
+    {
+        rooster.requestSuggestions(associatedRequest) { suggestions -> Void in
+            self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
+                self.suggestions = shifts
+                self.tableView.reloadData()
+            }
+        }
     }
 }
