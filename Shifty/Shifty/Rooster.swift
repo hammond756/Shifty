@@ -126,11 +126,7 @@ class Rooster
         let query = PFQuery(className: "Shifts").whereKey("objectId", containedIn: iDs)
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
             
-            if error != nil
-            {
-                println(error?.description)
-            }
-            else if let objects = objects as? [PFObject]
+            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error)
             {
                 for object in objects
                 {

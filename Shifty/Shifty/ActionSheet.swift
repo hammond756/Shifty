@@ -25,7 +25,7 @@ class ActionSheet
     
     init(shift: Shift, delegate: ActionSheetDelegate)
     {
-        selectedShift = shift
+        self.selectedShift = shift
         self.delegate = delegate
     }
     
@@ -66,7 +66,6 @@ class ActionSheet
                 {
                     shift[0]["Status"] = "idle"
                     shift[0]["Owner"] = shift[0]["acceptedBy"]
-                    
                     shift[0].saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
                         succes ? self.delegate.refresh() : println(error?.description)
@@ -91,7 +90,6 @@ class ActionSheet
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error)
                 {
                     shift[0]["Status"] = "idle"
-                    
                     shift[0].saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
                         succes ? self.delegate.refresh() : println(error?.description)
