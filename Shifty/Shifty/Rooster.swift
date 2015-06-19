@@ -19,6 +19,8 @@ class Rooster
     var suppliedShifts = [[Shift]]()
     var requestedShifs = [[Request]]()
     
+    let helper = Helper()
+    
     func addRecurringShift(day: String, hour: Int, minute: Int)
     {
         let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag": 7, "Zondag": 1]
@@ -57,11 +59,7 @@ class Rooster
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
             
-            if error != nil
-            {
-                println(error?.description)
-            }
-            else if let objects = objects as? [PFObject]
+            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error)
             {
                 callback(objects: objects)
             }
@@ -111,13 +109,9 @@ class Rooster
     {
         getQueryForStatus("Suggested").getObjectInBackgroundWithId(associatedWith) { (request: PFObject?, error: NSError?) -> Void in
             
-            if error != nil
+            if let request = self.helper.returnObjectAfterErrorCheck(request, error: error)
             {
-                println(error?.description)
-            }
-            else if let request = request
-            {
-                if let suggestions = request["replies"] as? [String]
+                if let suggestions = request[0]["replies"] as? [String]
                 {
                     callback(suggestions: suggestions)
                 }
@@ -157,7 +151,7 @@ class Rooster
         }
     }
     
-    // helper function to get correct query for a given status
+    // function to get correct query for a given status
     private func getQueryForStatus(status: String) -> PFQuery
     {
         var query = PFQuery()
@@ -185,10 +179,12 @@ class Rooster
         return query
     }
     
+    // split an array of generic type T into a two-dimensional array
     func splitIntoSections<T: HasDate>(array: [T], sections: [String]) -> [[T]]
     {
         var sectionedArray = [[T]]()
         
+        // get all elemenents where the week number equals that of the current section
         for section in sections
         {
             sectionedArray.append(array.filter() { $0.getWeekOfYear() == section })
@@ -197,6 +193,7 @@ class Rooster
         return sectionedArray
     }
     
+    // generate array of section titles from an array of generic type T
     func getSections<T: HasDate>(var array: [T]) -> [String]
     {
         var sections = [String]()

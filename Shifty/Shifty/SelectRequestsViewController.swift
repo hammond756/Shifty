@@ -12,7 +12,8 @@ import Parse
 
 extension NSDate: HasDate
 {
-    func getWeekOfYear() -> String {
+    func getWeekOfYear() -> String
+    {
         return "Week: " + String(self.weekOfYear)
     }
     

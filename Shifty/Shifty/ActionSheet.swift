@@ -21,6 +21,8 @@ class ActionSheet
     var actionList = [UIAlertAction]()
     var delegate: ActionSheetDelegate
     
+    let helper = Helper()
+    
     init(shift: Shift, delegate: ActionSheetDelegate)
     {
         selectedShift = shift
@@ -37,23 +39,12 @@ class ActionSheet
             let query = PFQuery(className: "Shifts")
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 
-                if error != nil
+                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error)
                 {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "Supplied"
-                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                    shift[0]["Status"] = "Supplied"
+                    shift[0].saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.delegate.refresh()
-                        }
+                        succes ? self.delegate.refresh() : println(error?.description)
                     }
                 }
             }
@@ -71,25 +62,14 @@ class ActionSheet
             let query = PFQuery(className: "Shifts")
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 
-                if error != nil
+                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error)
                 {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "idle"
-                    shift["Owner"] = shift["acceptedBy"]
+                    shift[0]["Status"] = "idle"
+                    shift[0]["Owner"] = shift[0]["acceptedBy"]
                     
-                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                    shift[0].saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.delegate.refresh()
-                        }
+                        succes ? self.delegate.refresh() : println(error?.description)
                     }
                 }
             }
@@ -108,27 +88,15 @@ class ActionSheet
             let query = PFQuery(className: "Shifts")
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 
-                if error != nil
+                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error)
                 {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "idle"
+                    shift[0]["Status"] = "idle"
                     
-                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                    shift[0].saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.delegate.refresh()
-                        }
+                        succes ? self.delegate.refresh() : println(error?.description)
                     }
                 }
-                
             }
         }
         
@@ -144,24 +112,13 @@ class ActionSheet
             
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
                 
-                if error != nil
+                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error)
                 {
-                    println(error?.description)
-                }
-                else if let shift = shift
-                {
-                    shift["Status"] = "Awaitting Approval"
-                    shift["acceptedBy"] = PFUser.currentUser()
-                    shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
+                    shift[0]["Status"] = "Awaitting Approval"
+                    shift[0]["acceptedBy"] = PFUser.currentUser()
+                    shift[0].saveInBackgroundWithBlock() { (succes, error) -> Void in
                         
-                        if error != nil
-                        {
-                            println(error?.description)
-                        }
-                        else
-                        {
-                            self.delegate.refresh()
-                        }
+                        succes ? self.delegate.refresh() : println(error?.description)
                     }
                 }
             }

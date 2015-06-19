@@ -33,4 +33,17 @@ class Helper
         return label
     }
     
+    func returnObjectAfterErrorCheck(object: AnyObject?, error: NSError?) -> [PFObject]?
+    {
+        if error != nil
+        {
+            println(error?.description)
+        }
+        else if let object = object as? [PFObject]
+        {
+            return object
+        }
+        return nil
+    }
+    
 }
