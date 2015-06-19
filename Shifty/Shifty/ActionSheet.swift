@@ -144,7 +144,6 @@ class ActionSheet
         }
         
         let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel) { action -> Void in
-            
             actionSheetController.dismissViewControllerAnimated(true, completion: nil)
         }
         

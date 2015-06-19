@@ -18,7 +18,7 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
     {
         if !logInSucceeded
         {
-            var loginController = PFLogInViewController()
+            var loginController = CustomPFLoginViewController()
             loginController.signUpController?.delegate = self
             loginController.delegate = self
             presentViewController(loginController, animated: true, completion: nil)
