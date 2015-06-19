@@ -21,7 +21,12 @@ protocol HasDate
     var date: NSDate { get set }
 }
 
-class Shift: Equatable, HasDate
+protocol ExistsInParse
+{
+    init(parseObject: PFObject)
+}
+
+class Shift: Equatable, HasDate, ExistsInParse
 {
     var dateString: String
     var timeString: String
@@ -43,7 +48,7 @@ class Shift: Equatable, HasDate
         self.acceptedBy = acceptedBy?.fetchIfNeeded() as? PFUser
     }
     
-    convenience init(parseObject: PFObject)
+    convenience required init(parseObject: PFObject)
     {
         let date = parseObject["Date"] as! NSDate
         let status = parseObject["Status"] as! String

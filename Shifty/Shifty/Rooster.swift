@@ -58,50 +58,62 @@ class Rooster
         let query = getQueryForStatus(withStatus)
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
-            
             if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error)
             {
                 callback(objects: objects)
             }
-            
         }
     }
     
     func requestShifts(withStatus: String, callback: (sections: [String]) -> Void)
     {
         requestParseObjects(withStatus) { objects -> Void in
-            
             var tempShifts = [Shift]()
-            
             for object in objects
             {
                 let shift = Shift(parseObject: object)
                 tempShifts.append(shift)
             }
-            
             let sections = self.getSections(tempShifts)
             self.setShifts(withStatus, shifts: tempShifts, sections: sections)
-            
             callback(sections: sections)
         }
     }
     
     func requestRequests(callback: (sections: [String]) -> Void)
     {
-        requestParseObjects("Requested") { objects -> Void in
-            
-            var tempRequests = [Request]()
-            
+//        requestParseObjects("Requested") { objects -> Void in
+//            
+//            var tempRequests = [Request]()
+//            
+//            for object in objects
+//            {
+//                let request = Request(parseObject: object)
+//                tempRequests.append(request)
+//            }
+//            
+//            let sections = self.getSections(tempRequests)
+//            self.requestedShifs = self.splitIntoSections(tempRequests, sections: sections)
+//            
+//            callback(sections: sections)
+//        }
+        doRequest("Requested") { (sections: [String], objects: [Request]) -> Void in
+            self.requestedShifs = self.splitIntoSections(objects, sections: sections)
+            callback(sections: sections)
+        }
+    }
+    
+    func doRequest<T: ExistsInParse where T: HasDate>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
+    {
+        requestParseObjects(withStatus) { objects -> Void in
+            var tempObjects = [T]()
             for object in objects
             {
-                let request = Request(parseObject: object)
-                tempRequests.append(request)
+                let element = T(parseObject: object)
+                tempObjects.append(element)
             }
-            
-            let sections = self.getSections(tempRequests)
-            self.requestedShifs = self.splitIntoSections(tempRequests, sections: sections)
-            
-            callback(sections: sections)
+            let sections = self.getSections(tempObjects)
+            callback(sections: sections, objects: tempObjects)
         }
     }
     

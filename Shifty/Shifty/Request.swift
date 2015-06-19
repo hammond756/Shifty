@@ -10,7 +10,7 @@ import Foundation
 import Parse
 import SwiftDate
 
-class Request: HasDate
+class Request: HasDate, ExistsInParse
 {
     var requestedBy: PFUser
     var date: NSDate
@@ -26,7 +26,7 @@ class Request: HasDate
         dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
     }
     
-    convenience init(parseObject: PFObject)
+    convenience required init(parseObject: PFObject)
     {
         let date = parseObject["date"] as! NSDate
         let requestedBy = parseObject["requestedBy"] as! PFUser
