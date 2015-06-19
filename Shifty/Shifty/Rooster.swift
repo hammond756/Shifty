@@ -58,7 +58,7 @@ class Rooster
         let query = getQueryForStatus(withStatus)
         
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
-            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error)
+            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 callback(objects: objects)
             }
@@ -82,23 +82,19 @@ class Rooster
     
     func requestRequests(callback: (sections: [String]) -> Void)
     {
-//        requestParseObjects("Requested") { objects -> Void in
-//            
-//            var tempRequests = [Request]()
-//            
-//            for object in objects
-//            {
-//                let request = Request(parseObject: object)
-//                tempRequests.append(request)
-//            }
-//            
-//            let sections = self.getSections(tempRequests)
-//            self.requestedShifs = self.splitIntoSections(tempRequests, sections: sections)
-//            
-//            callback(sections: sections)
-//        }
-        doRequest("Requested") { (sections: [String], objects: [Request]) -> Void in
-            self.requestedShifs = self.splitIntoSections(objects, sections: sections)
+        requestParseObjects("Requested") { objects -> Void in
+            
+            var tempRequests = [Request]()
+            
+            for object in objects
+            {
+                let request = Request(parseObject: object)
+                tempRequests.append(request)
+            }
+            
+            let sections = self.getSections(tempRequests)
+            self.requestedShifs = self.splitIntoSections(tempRequests, sections: sections)
+            
             callback(sections: sections)
         }
     }
@@ -121,9 +117,9 @@ class Rooster
     {
         getQueryForStatus("Suggested").getObjectInBackgroundWithId(associatedWith) { (request: PFObject?, error: NSError?) -> Void in
             
-            if let request = self.helper.returnObjectAfterErrorCheck(request, error: error)
+            if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
-                if let suggestions = request[0]["replies"] as? [String]
+                if let suggestions = request["replies"] as? [String]
                 {
                     callback(suggestions: suggestions)
                 }
@@ -138,7 +134,7 @@ class Rooster
         let query = PFQuery(className: "Shifts").whereKey("objectId", containedIn: iDs)
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
             
-            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error)
+            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 for object in objects
                 {
