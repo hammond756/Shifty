@@ -74,5 +74,4 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
             self.tableView.reloadData()
         }
     }
-
 }

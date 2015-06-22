@@ -11,6 +11,8 @@ import Parse
 
 class SuggestionViewController: ShiftControllerInterface
 {
+    @IBOutlet weak var submitButton: UIButton!
+    
     // objectID's of shifts
     var selectedShifts = [String]()
     
@@ -21,7 +23,7 @@ class SuggestionViewController: ShiftControllerInterface
     {
         let query = PFQuery(className: "RequestedShifts")
         query.getObjectInBackgroundWithId(requestID) { (request: PFObject?, error: NSError?) -> Void in
-            
+
             if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
                 request.addObjectsFromArray(self.selectedShifts, forKey: "replies")
@@ -34,6 +36,13 @@ class SuggestionViewController: ShiftControllerInterface
                 }
             }
         }
+    }
+    
+    override func viewDidLoad()
+    {
+        submitButton.layer.cornerRadius = 10
+        submitButton.clipsToBounds = true
+        super.viewDidLoad()
     }
     
     // everything to do with the table view

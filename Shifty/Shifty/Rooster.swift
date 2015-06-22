@@ -123,6 +123,10 @@ class Rooster
                 {
                     callback(suggestions: suggestions)
                 }
+                else
+                {
+                    callback(suggestions: [])
+                }
             }
         }
     }

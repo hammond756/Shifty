@@ -20,7 +20,6 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
 
     override func viewDidLoad()
     {
-        navigationController?.navigationBar.backItem?.titleView?.tintColor = UIColor.whiteColor()
         refresh()
         super.viewDidLoad()
     }
@@ -62,6 +61,7 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         return indexPath
     }
     
+    // required from delegate, but not not needed
     func showAlert(alertView: UIAlertController) {
         
     }
@@ -72,7 +72,6 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         rooster.requestSuggestions(associatedRequest) { suggestions -> Void in
             self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
                 self.suggestions = shifts
-                println(shifts)
                 shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                 self.tableView.reloadData()
             }

@@ -312,6 +312,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9xr-eC-5LI">
+                                <rect key="frame" x="260" y="450" width="79" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ENo-r3-0My"/>
+                                    <constraint firstAttribute="width" constant="79" id="IvD-9h-1pr"/>
+                                </constraints>
+                                <state key="normal" title="Invoeren">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="goToSubmitView" destination="WOK-3g-UMK" eventType="touchUpInside" id="pw9-VA-TlO"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Je hebt nog geen rooster ingevoerd" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N9Q-2P-AGd">
+                                <rect key="frame" x="164" y="86" width="272" height="428"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="272" id="F1K-M4-ckk"/>
+                                    <constraint firstAttribute="height" constant="428" id="Gla-HX-RRR"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="55"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZBd-Y7-rWy">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -331,8 +356,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="N9Q-2P-AGd" firstAttribute="centerX" secondItem="9xr-eC-5LI" secondAttribute="centerX" constant="0.5" id="4Wx-Rb-IV2"/>
+                            <constraint firstAttribute="centerY" secondItem="N9Q-2P-AGd" secondAttribute="centerY" id="5hB-b8-Nqc"/>
                             <constraint firstAttribute="bottom" secondItem="ZBd-Y7-rWy" secondAttribute="bottom" id="Cgk-1i-af6"/>
                             <constraint firstItem="ZBd-Y7-rWy" firstAttribute="leading" secondItem="ISw-Bz-mGs" secondAttribute="leading" id="DBa-YR-4eH"/>
+                            <constraint firstAttribute="centerX" secondItem="N9Q-2P-AGd" secondAttribute="centerX" id="EYP-rx-Xu9"/>
+                            <constraint firstItem="N9Q-2P-AGd" firstAttribute="centerY" secondItem="9xr-eC-5LI" secondAttribute="centerY" constant="-165" id="L3F-uk-75j"/>
                             <constraint firstAttribute="trailing" secondItem="ZBd-Y7-rWy" secondAttribute="trailing" id="d8A-ge-AUf"/>
                             <constraint firstItem="ZBd-Y7-rWy" firstAttribute="top" secondItem="ISw-Bz-mGs" secondAttribute="top" id="w4v-Ti-Tcb"/>
                         </constraints>
@@ -346,6 +375,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="submitButton" destination="9xr-eC-5LI" id="Ees-hR-I7m"/>
                         <outlet property="tableView" destination="ZBd-Y7-rWy" id="sUS-8i-O1F"/>
                     </connections>
                 </viewController>
@@ -501,6 +531,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="makeRequestButton" destination="sh7-5y-kF1" id="B1t-Ng-5F9"/>
                         <outlet property="tableView" destination="iif-OG-lqG" id="177-xb-KvD"/>
                         <segue destination="SUf-g9-wne" kind="show" identifier="Make Suggestion" id="xyD-rj-m92"/>
                         <segue destination="etH-fB-HJ2" kind="show" identifier="See Suggestions" id="mDq-2D-4jq"/>
@@ -602,7 +633,13 @@
                             <constraint firstAttribute="centerX" secondItem="gXG-8g-qu0" secondAttribute="centerX" id="w75-AB-gf0"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Aangeboden" id="AUK-p6-0ep"/>
+                    <navigationItem key="navigationItem" title="Aangeboden" id="AUK-p6-0ep">
+                        <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="Yl4-tU-RQW">
+                            <connections>
+                                <action selector="logOutCurrentUser:" destination="N8P-M9-3ib" id="eCV-mk-Nbx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="tFv-yH-W2f" id="e2L-5n-4eD"/>
                     </connections>

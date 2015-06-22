@@ -12,19 +12,16 @@ import SwiftDate
 
 class GezochtViewController: ShiftControllerInterface
 {
+    @IBOutlet weak var makeRequestButton: UIButton!
+    
     var selectedRequestID = ""
     
-//    // naar refresh()
-//    override func viewWillAppear(animated: Bool)
-//    {
-//        rooster.requestRequests() { sections -> Void in
-//            self.sectionsInTable = sections
-//            self.tableView.reloadData()
-//        }
-//        
-//        super.viewWillAppear(animated)
-//    }
-    
+    override func viewDidLoad()
+    {
+        makeRequestButton.layer.cornerRadius = 10
+        makeRequestButton.clipsToBounds = true
+        super.viewDidLoad()
+    }
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
         if segue.identifier == "Make Suggestion"
