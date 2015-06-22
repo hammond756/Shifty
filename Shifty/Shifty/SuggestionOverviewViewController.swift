@@ -59,6 +59,10 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         return indexPath
     }
     
+    func showAlert(alertView: UIAlertController) {
+        
+    }
+    
     // BUG: doesn't remove objectID of accepted suggest from replies
     func refresh()
     {

@@ -13,6 +13,7 @@ import Parse
 protocol ActionSheetDelegate
 {
     func refresh()
+    func showAlert(alertView: UIAlertController)
 }
 
 class ActionSheet
@@ -112,11 +113,18 @@ class ActionSheet
                 
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
-                    shift["Status"] = "Awaitting Approval"
-                    shift["acceptedBy"] = PFUser.currentUser()
-                    shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
-                        
-                        succes ? self.delegate.refresh() : println(error?.description)
+                    // check whether the shift is already accepted by another user
+                    if shift["acceptedBy"] == nil
+                    {
+                        shift["acceptedBy"] = PFUser.currentUser()
+                        shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
+                            
+                            succes ? self.delegate.refresh() : println(error?.description)
+                        }
+                    }
+                    else
+                    {
+                        self.delegate.showAlert(self.getAlertView())
                     }
                 }
             }
@@ -134,6 +142,7 @@ class ActionSheet
         }
     }
     
+    // create ActionSheet that holds all possible actions for a selected cell
     func getAlertController() -> UIAlertController
     {
         let actionSheetController = UIAlertController()
@@ -150,6 +159,20 @@ class ActionSheet
         actionSheetController.addAction(cancelAction)
         
         return actionSheetController
+    }
+    
+    // create an AlertView that shows in the special case that a displayed shift is already accepted by another user
+    func getAlertView() -> UIAlertController
+    {
+        let alertView = UIAlertController(title: nil, message: "Helaas, deze dienst is net voor je weggekaapt.", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Oke, jammer", style: .Cancel) { action -> Void in
+            alertView.dismissViewControllerAnimated(true, completion: nil)
+            self.delegate.refresh()
+        }
+        
+        alertView.addAction(cancelAction)
+        return alertView
     }
     
     func includeActions(actions: [String])

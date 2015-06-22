@@ -80,6 +80,11 @@ class AangebodenViewController: UITableViewController, ActionSheetDelegate
         }
     }
     
+    func showAlert(alertView: UIAlertController)
+    {
+        alertView.popoverPresentationController?.sourceView = self.view
+        presentViewController(alertView, animated: true, completion: nil)
+    }
     // log out
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
     {
