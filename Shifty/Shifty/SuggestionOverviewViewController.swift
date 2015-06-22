@@ -24,7 +24,14 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         super.viewWillAppear(animated)
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func viewDidLoad()
+    {
+        navigationController?.navigationBar.backItem?.titleView?.tintColor = UIColor.whiteColor()
+        super.viewDidLoad()
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         return suggestions.count
     }
     

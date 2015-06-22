@@ -74,7 +74,7 @@ class GezochtViewController: UITableViewController
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
+        let cell = self.tableView.dequeueReusableCellWithIdentifier("Request", forIndexPath: indexPath) as! UITableViewCell
         let date = rooster.requestedShifs[indexPath.section][indexPath.row]
         
         cell.textLabel?.text = date.date.toString(format: DateFormat.Custom("EEEE dd MMM"))
