@@ -365,8 +365,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Je hebt nog geen reactie op je verzoek" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhh-Qd-Ngw">
+                                <rect key="frame" x="164" y="86" width="272" height="428"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="272" id="Car-KO-9W0"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="55"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="sFc-Ul-LrO">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Suggestion" id="o7m-sr-432">
@@ -384,10 +393,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="sFc-Ul-LrO" secondAttribute="bottom" id="Gtf-DQ-8Ch"/>
-                            <constraint firstAttribute="trailing" secondItem="sFc-Ul-LrO" secondAttribute="trailing" id="oXo-sN-Nog"/>
-                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="leading" secondItem="Zc9-wL-NzD" secondAttribute="leading" id="scQ-fl-RAY"/>
-                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="top" secondItem="Zc9-wL-NzD" secondAttribute="top" id="wuY-nE-U18"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="centerX" secondItem="zhh-Qd-Ngw" secondAttribute="centerX" id="5cp-YA-JK9"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="bottom" secondItem="FIk-eA-j0J" secondAttribute="top" id="6MW-de-CxG"/>
+                            <constraint firstItem="zhh-Qd-Ngw" firstAttribute="top" secondItem="MTW-QJ-Xaw" secondAttribute="bottom" constant="22" id="839-GU-izl"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="leading" secondItem="Zc9-wL-NzD" secondAttribute="leading" id="GW7-dM-UU5"/>
+                            <constraint firstAttribute="trailing" secondItem="sFc-Ul-LrO" secondAttribute="trailing" id="J18-Ey-sFS"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="top" secondItem="MTW-QJ-Xaw" secondAttribute="bottom" id="K1P-WD-AZx"/>
+                            <constraint firstItem="zhh-Qd-Ngw" firstAttribute="centerY" secondItem="Zc9-wL-NzD" secondAttribute="centerY" id="QVx-lC-6un"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Suggesties" id="cf0-cd-xC7"/>
@@ -436,7 +448,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="iif-OG-lqG">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Request" id="Wu6-EH-1uD">
@@ -454,18 +466,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="iif-OG-lqG" firstAttribute="top" secondItem="Y1j-LR-gz3" secondAttribute="bottom" id="1Xq-Zs-Uzj"/>
                             <constraint firstItem="FX0-KK-azi" firstAttribute="leading" secondItem="3UD-ou-TEW" secondAttribute="leading" constant="173" id="5Ol-lf-Uti"/>
+                            <constraint firstItem="iif-OG-lqG" firstAttribute="bottom" secondItem="o2r-2l-anj" secondAttribute="top" id="ED1-Qk-m7A"/>
                             <constraint firstItem="FX0-KK-azi" firstAttribute="top" secondItem="Y1j-LR-gz3" secondAttribute="bottom" constant="22" id="IA1-Tr-kgF"/>
                             <constraint firstItem="sh7-5y-kF1" firstAttribute="centerX" secondItem="FX0-KK-azi" secondAttribute="centerX" id="SKk-4I-jL6"/>
                             <constraint firstItem="FX0-KK-azi" firstAttribute="centerY" secondItem="3UD-ou-TEW" secondAttribute="centerY" id="ViT-tI-mt0"/>
                             <constraint firstAttribute="centerX" secondItem="FX0-KK-azi" secondAttribute="centerX" id="XP2-gr-eg3"/>
                             <constraint firstItem="sh7-5y-kF1" firstAttribute="top" secondItem="FX0-KK-azi" secondAttribute="bottom" constant="-57" id="XeD-51-jPL"/>
-                            <constraint firstItem="iif-OG-lqG" firstAttribute="top" secondItem="Y1j-LR-gz3" secondAttribute="bottom" id="df6-Pw-Rc9"/>
-                            <constraint firstAttribute="bottom" secondItem="iif-OG-lqG" secondAttribute="bottom" id="jWO-HC-SJ9"/>
-                            <constraint firstItem="iif-OG-lqG" firstAttribute="leading" secondItem="3UD-ou-TEW" secondAttribute="leading" id="mOh-mr-COH"/>
                             <constraint firstItem="o2r-2l-anj" firstAttribute="top" secondItem="sh7-5y-kF1" secondAttribute="bottom" constant="64" id="pdI-Wz-Vzn"/>
                             <constraint firstItem="sh7-5y-kF1" firstAttribute="centerX" secondItem="FX0-KK-azi" secondAttribute="centerX" id="q07-jj-6jB"/>
-                            <constraint firstAttribute="trailing" secondItem="iif-OG-lqG" secondAttribute="trailing" id="yjc-T3-hG8"/>
+                            <constraint firstItem="iif-OG-lqG" firstAttribute="leading" secondItem="3UD-ou-TEW" secondAttribute="leading" id="rwd-ul-cDJ"/>
+                            <constraint firstItem="iif-OG-lqG" firstAttribute="centerX" secondItem="sh7-5y-kF1" secondAttribute="centerX" id="uJy-Ft-NhC"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
@@ -564,7 +576,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="tFv-yH-W2f">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Shift" id="dav-Vx-o4w">
@@ -583,10 +595,10 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerY" secondItem="gXG-8g-qu0" secondAttribute="centerY" id="Mxn-nW-3dx"/>
-                            <constraint firstItem="tFv-yH-W2f" firstAttribute="top" secondItem="uK4-4U-qUG" secondAttribute="bottom" id="OXf-PC-zL5"/>
-                            <constraint firstAttribute="bottom" secondItem="tFv-yH-W2f" secondAttribute="bottom" id="ksJ-y6-Iap"/>
-                            <constraint firstItem="tFv-yH-W2f" firstAttribute="centerX" secondItem="gXG-8g-qu0" secondAttribute="centerX" id="mDs-96-n8i"/>
-                            <constraint firstItem="tFv-yH-W2f" firstAttribute="leading" secondItem="VPl-Xh-WBP" secondAttribute="leading" id="pa6-Gw-rlP"/>
+                            <constraint firstItem="tFv-yH-W2f" firstAttribute="bottom" secondItem="EBd-pc-Jct" secondAttribute="top" id="ShD-nz-14M"/>
+                            <constraint firstItem="tFv-yH-W2f" firstAttribute="top" secondItem="uK4-4U-qUG" secondAttribute="bottom" id="UDD-ol-o6M"/>
+                            <constraint firstItem="tFv-yH-W2f" firstAttribute="centerX" secondItem="gXG-8g-qu0" secondAttribute="centerX" id="iR6-OA-kJr"/>
+                            <constraint firstItem="tFv-yH-W2f" firstAttribute="leading" secondItem="VPl-Xh-WBP" secondAttribute="leading" id="jfl-Zt-7j9"/>
                             <constraint firstAttribute="centerX" secondItem="gXG-8g-qu0" secondAttribute="centerX" id="w75-AB-gf0"/>
                         </constraints>
                     </view>
