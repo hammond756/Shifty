@@ -33,6 +33,7 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("Suggestion") as! UITableViewCell
+        cell.backgroundColor = UIColor.clearColor()
         
         let shiftForCell = suggestions[indexPath.row]
         cell.textLabel?.text = shiftForCell.dateString

@@ -184,9 +184,10 @@ class Rooster
     }
     
     // split an array of generic type T into a two-dimensional array
-    func splitIntoSections<T: HasDate>(array: [T], sections: [String]) -> [[T]]
+    func splitIntoSections<T: HasDate>(var array: [T], sections: [String]) -> [[T]]
     {
         var sectionedArray = [[T]]()
+        array.sort() { $0.date < $1.date }
         
         // get all elemenents where the week number equals that of the current section
         for section in sections
