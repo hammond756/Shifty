@@ -10,23 +10,20 @@ import UIKit
 import Parse
 import SwiftDate
 
-class GezochtViewController: UITableViewController
+class GezochtViewController: ShiftControllerInterface
 {
-    let rooster = Rooster()
-    let helper = Helper()
-    var sectionsInTable = [String]()
     var selectedRequestID = ""
     
-    // naar refresh()
-    override func viewWillAppear(animated: Bool)
-    {
-        rooster.requestRequests() { sections -> Void in
-            self.sectionsInTable = sections
-            self.tableView.reloadData()
-        }
-        
-        super.viewWillAppear(animated)
-    }
+//    // naar refresh()
+//    override func viewWillAppear(animated: Bool)
+//    {
+//        rooster.requestRequests() { sections -> Void in
+//            self.sectionsInTable = sections
+//            self.tableView.reloadData()
+//        }
+//        
+//        super.viewWillAppear(animated)
+//    }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
@@ -96,6 +93,16 @@ class GezochtViewController: UITableViewController
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return sectionsInTable.count
+    }
+    
+    override func refresh()
+    {
+        rooster.requestRequests() { sections -> Void in
+            self.sectionsInTable = sections
+            sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
+            self.tableView.reloadData()
+        }
+        
     }
     
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)

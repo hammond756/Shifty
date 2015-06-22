@@ -402,7 +402,7 @@
         <!--Gezocht-->
         <scene sceneID="s5E-9e-kka">
             <objects>
-                <viewController id="q59-Xw-TVJ" sceneMemberID="viewController">
+                <viewController id="q59-Xw-TVJ" customClass="GezochtViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Y1j-LR-gz3"/>
                         <viewControllerLayoutGuide type="bottom" id="o2r-2l-anj"/>
@@ -412,7 +412,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sh7-5y-kF1">
-                                <rect key="frame" x="261" y="457" width="97" height="30"/>
+                                <rect key="frame" x="252" y="457" width="97" height="30"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="6Mi-5v-gMT"/>
@@ -426,7 +426,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Niemand is opzoek naar extra diensten" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FX0-KK-azi">
-                                <rect key="frame" x="173" y="86" width="272" height="428"/>
+                                <rect key="frame" x="164" y="86" width="272" height="428"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="428" id="QWm-wg-niT"/>
                                     <constraint firstAttribute="width" constant="272" id="pIF-h5-egU"/>
@@ -446,15 +446,19 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="q59-Xw-TVJ" id="6GJ-Z1-2NH"/>
+                                    <outlet property="delegate" destination="q59-Xw-TVJ" id="xF7-um-1j7"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="FX0-KK-azi" firstAttribute="leading" secondItem="3UD-ou-TEW" secondAttribute="leading" constant="173" id="5Ol-lf-Uti"/>
                             <constraint firstItem="FX0-KK-azi" firstAttribute="top" secondItem="Y1j-LR-gz3" secondAttribute="bottom" constant="22" id="IA1-Tr-kgF"/>
-                            <constraint firstItem="sh7-5y-kF1" firstAttribute="centerX" secondItem="FX0-KK-azi" secondAttribute="centerX" constant="0.5" id="SKk-4I-jL6"/>
+                            <constraint firstItem="sh7-5y-kF1" firstAttribute="centerX" secondItem="FX0-KK-azi" secondAttribute="centerX" id="SKk-4I-jL6"/>
                             <constraint firstItem="FX0-KK-azi" firstAttribute="centerY" secondItem="3UD-ou-TEW" secondAttribute="centerY" id="ViT-tI-mt0"/>
-                            <constraint firstAttribute="centerX" secondItem="FX0-KK-azi" secondAttribute="centerX" constant="-9" id="XP2-gr-eg3"/>
+                            <constraint firstAttribute="centerX" secondItem="FX0-KK-azi" secondAttribute="centerX" id="XP2-gr-eg3"/>
                             <constraint firstItem="sh7-5y-kF1" firstAttribute="top" secondItem="FX0-KK-azi" secondAttribute="bottom" constant="-57" id="XeD-51-jPL"/>
                             <constraint firstItem="iif-OG-lqG" firstAttribute="top" secondItem="Y1j-LR-gz3" secondAttribute="bottom" id="df6-Pw-Rc9"/>
                             <constraint firstAttribute="bottom" secondItem="iif-OG-lqG" secondAttribute="bottom" id="jWO-HC-SJ9"/>
@@ -466,12 +470,18 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="5Ol-lf-Uti"/>
+                                <exclude reference="IA1-Tr-kgF"/>
                                 <exclude reference="q07-jj-6jB"/>
                                 <exclude reference="pdI-Wz-Vzn"/>
                             </mask>
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Gezocht" id="Q5p-9n-QjE">
+                        <barButtonItem key="leftBarButtonItem" title="Uitloggen" id="nIs-8m-c28">
+                            <connections>
+                                <action selector="logOutCurrentUser:" destination="q59-Xw-TVJ" id="qf6-3B-7YH"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="nKd-OB-3Yi">
                             <connections>
                                 <segue destination="UQS-v2-tuY" kind="show" id="qdc-7W-KWG"/>
@@ -479,6 +489,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="tableView" destination="iif-OG-lqG" id="177-xb-KvD"/>
                         <segue destination="SUf-g9-wne" kind="show" identifier="Make Suggestion" id="xyD-rj-m92"/>
                         <segue destination="etH-fB-HJ2" kind="show" identifier="See Suggestions" id="mDq-2D-4jq"/>
                     </connections>
