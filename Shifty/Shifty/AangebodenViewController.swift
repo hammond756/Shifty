@@ -10,12 +10,8 @@ import UIKit
 import Parse
 import SwiftDate
 
-class AangebodenViewController: UITableViewController, ActionSheetDelegate
+class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
 {
-    var sectionsInTable = [String]()
-    let rooster = Rooster()
-    let helper = Helper()
-    
     override func viewWillAppear(animated: Bool)
     {
         refresh()
@@ -72,10 +68,12 @@ class AangebodenViewController: UITableViewController, ActionSheetDelegate
         return indexPath
     }
     
-    func refresh()
+    override func refresh()
     {
-        rooster.requestShifts("Supplied") { sections -> Void in
+        rooster.requestShifts("Supplied")
+        { sections -> Void in
             self.sectionsInTable = sections
+            sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
             self.tableView.reloadData()
         }
     }
