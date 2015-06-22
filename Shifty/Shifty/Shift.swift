@@ -45,7 +45,10 @@ class Shift: Equatable, HasDate, ExistsInParse
         self.status = stat
         self.objectID = objectID
         self.owner = owner
-        self.acceptedBy = acceptedBy?.fetchIfNeeded() as? PFUser
+        self.acceptedBy = acceptedBy
+        
+        self.owner.fetchIfNeededInBackground()
+        self.acceptedBy?.fetchIfNeededInBackground()
     }
     
     convenience required init(parseObject: PFObject)

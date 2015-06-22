@@ -49,7 +49,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
             message = selectedShift.acceptedBy!.username! + " wil jouw dienst overnemen."
             actionSheet.includeActions(["Approve"])
         }
-        else if selectedShift.owner != PFUser.currentUser()
+        else if selectedShift.status == "Awaitting Approval" && selectedShift.owner != PFUser.currentUser()
         {
             message = "Je wil " + selectedShift.owner.username! + " zijn/haar dienst overnemen."
             actionSheet.includeActions(["Approve"])
