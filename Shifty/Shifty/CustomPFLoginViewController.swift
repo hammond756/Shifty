@@ -22,7 +22,8 @@ class CustomPFLoginViewController: PFLogInViewController
     {
         self.logInView?.usernameField?.backgroundColor = .grayColor()
         self.logInView?.passwordField?.backgroundColor = .grayColor()
-        self.logInView?.passwordField?.separatorStyle = .None
-        self.logInView?.usernameField?.separatorStyle = .None
+//        self.logInView?.passwordField?.separatorStyle = .None
+//        self.logInView?.usernameField?.separatorStyle = .None
+        self.logInView?.usernameField?.separatorColor = UIColor.darkGrayColor()
     }
 }

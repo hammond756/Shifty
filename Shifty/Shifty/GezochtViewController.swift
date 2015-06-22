@@ -50,11 +50,7 @@ class GezochtViewController: UITableViewController
         let query = PFQuery(className: "RequestedShifts")
         query.getObjectInBackgroundWithId(selectedRequestID) { (request: PFObject?, error: NSError?) -> Void in
             
-            if error != nil
-            {
-                println(error?.description)
-            }
-            else if let request = request
+            if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
                 if request["requestedBy"] as? PFUser == PFUser.currentUser()
                 {
@@ -64,6 +60,7 @@ class GezochtViewController: UITableViewController
                 {
                     self.performSegueWithIdentifier("Make Suggestion", sender: nil)
                 }
+                
             }
         }
         
