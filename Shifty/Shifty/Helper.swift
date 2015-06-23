@@ -127,6 +127,33 @@ class Helper
         return query
     }
     
+    // <T: HasDate> for consistency?
+    func checkIfDateIsTaken(dateToCheck: NSDate, callback: (taken: Bool) -> Void)
+    {
+        let query = PFQuery(className: "Shifts")
+        query.whereKey("Owner", equalTo: PFUser.currentUser()!)
+        query.findObjectsInBackgroundWithBlock() { (shifts: [AnyObject]?, error: NSError?) -> Void in
+            if let shifts = self.returnObjectAfterErrorCheck(shifts, error: error) as? [PFObject]
+            {
+                for shift in shifts
+                {
+                    let date = shift["Date"] as! NSDate
+                    if date.day == dateToCheck.day && date.month == dateToCheck.date.month
+                    {
+                        println(true)
+                        callback(taken: true)
+                        return
+                    }
+                    else
+                    {
+                        continue
+                    }
+                }
+                callback(taken: false)
+            }
+        }
+    }
+    
     // function that calculates on which date the next occurence is of a given weekday
     func nextOccurenceOfDay(day: String) -> NSDate
     {

@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import Parse
+import SwiftDate
 
 // definiton of protocol that all viewcontrollers incorporating an actionsheet or alertview conform to
 @objc protocol ActionSheetDelegate
@@ -175,18 +176,25 @@ class ActionSheet
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     // check whether the shift is already accepted by another user
-                    if shift["acceptedBy"] == nil
-                    {
-                        shift["acceptedBy"] = PFUser.currentUser()
-                        shift["Status"] = "Awaitting Approval"
-                        shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
-                            
-                            succes ? self.delegate.refresh() : println(error?.description)
+                    self.helper.checkIfDateIsTaken(self.selectedShift.date) { taken -> Void in
+                        if taken
+                        {
+                            self.delegate.showAlert?(self.getAlertViewForImpossibleAcceptAction())
+                            return
                         }
-                    }
-                    else
-                    {
-                        self.delegate.showAlert?(self.getAlertViewForMissedOppurtunity())
+                        else if (shift["acceptedBy"] == nil) && (shift["Owner"] as? PFUser != PFUser.currentUser())
+                        {
+                            shift["acceptedBy"] = PFUser.currentUser()
+                            shift["Status"] = "Awaitting Approval"
+                            shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
+                                
+                                succes ? self.delegate.refresh() : println(error?.description)
+                            }
+                        }
+                        else if shift["acceptedBy"] != nil
+                        {
+                            self.delegate.showAlert?(self.getAlertViewForMissedOppurtunity())
+                        }
                     }
                 }
             }
@@ -233,6 +241,18 @@ class ActionSheet
             self.delegate.refresh()
         }
         
+        alertView.addAction(cancelAction)
+        return alertView
+    }
+    
+    func getAlertViewForImpossibleAcceptAction() -> UIAlertController
+    {
+        let alertView = UIAlertController(title: nil, message: "Je werkt al op deze dag", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Weet ik toch", style: .Cancel) { action -> Void in
+            alertView.dismissViewControllerAnimated(true, completion: nil)
+        }
+    
         alertView.addAction(cancelAction)
         return alertView
     }

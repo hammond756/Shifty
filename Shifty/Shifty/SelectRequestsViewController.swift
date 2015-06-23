@@ -24,7 +24,6 @@ class SelectRequestsViewController: UITableViewController
 {
     let amountOfDaysToGenerate = 31
     var sectionsInTable = [String]()
-    var possibleDates = [NSDate]()
     var sectionedDates = [[NSDate]]()
     var selectedDates = [NSDate]()
     var previousRequests = [NSDate]()
@@ -61,19 +60,26 @@ class SelectRequestsViewController: UITableViewController
         }
     }
     
-    func getDates()
+    func getDates(callback: (possibleDates: [NSDate]) -> Void)
     {
         let today = NSDate()
+        var possibleDates = [NSDate]()
         let alreadySubmitted = previousRequests.map() { String($0.day) + String($0.month) }
         
         for days in 0..<amountOfDaysToGenerate
         {
             let date = today + days.day
-            let check = String(date.day) + String(date.month)
-
-            if !contains(alreadySubmitted, check)
-            {
-                possibleDates.append(date)
+            helper.checkIfDateIsTaken(date) { taken -> Void in
+                let check = String(date.day) + String(date.month)
+                
+                if !taken && !contains(alreadySubmitted, check)
+                {
+                    possibleDates.append(date)
+                }
+                if days == self.amountOfDaysToGenerate - 1
+                {
+                    callback(possibleDates: possibleDates)
+                }
             }
         }
     }
@@ -93,10 +99,13 @@ class SelectRequestsViewController: UITableViewController
                 }
             }
             
-            self.getDates()
-            self.sectionsInTable = self.helper.getSections(self.possibleDates)
-            self.sectionedDates = self.helper.splitIntoSections(self.possibleDates, sections: self.sectionsInTable)
-            self.tableView.reloadData()
+            self.getDates() { possibleDates -> Void in
+                self.sectionsInTable = self.helper.getSections(possibleDates)
+                self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
+                println(self.sectionedDates)
+                self.tableView.reloadData()
+            }
+            
         }
     }
     // tableView delegate fuctions
