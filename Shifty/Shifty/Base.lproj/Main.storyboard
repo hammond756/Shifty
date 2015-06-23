@@ -304,41 +304,70 @@
             </objects>
             <point key="canvasLocation" x="1707" y="-286"/>
         </scene>
-        <!--Selecteer-->
-        <scene sceneID="A2g-fU-dP6">
+        <!--Select Requests View Controller-->
+        <scene sceneID="RKs-o2-kD4">
             <objects>
-                <tableViewController id="UQS-v2-tuY" customClass="SelectRequestsViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="GtP-mi-ZC2">
+                <viewController id="DjC-G7-Pxx" customClass="SelectRequestsViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0MQ-4O-w6w"/>
+                        <viewControllerLayoutGuide type="bottom" id="lJR-iz-ic6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="s6d-Wk-iyN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xq6-8Z-oZb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Date" id="ai5-qg-YG6">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ai5-qg-YG6" id="w4D-g0-Uwa">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="DjC-G7-Pxx" id="NKG-Fv-rc2"/>
+                                    <outlet property="delegate" destination="DjC-G7-Pxx" id="Vvn-yu-Qh9"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mC5-42-hrZ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="IHs-Be-QHW">
+                                        <rect key="frame" x="282" y="225" width="37" height="37"/>
+                                        <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="IHs-Be-QHW" secondAttribute="centerY" id="oys-8A-NLt"/>
+                                    <constraint firstAttribute="centerX" secondItem="IHs-Be-QHW" secondAttribute="centerX" constant="-0.5" id="vAG-5I-tSN"/>
+                                </constraints>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Date" id="jFm-L8-Tm9">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jFm-L8-Tm9" id="ROf-NR-JIp">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="UQS-v2-tuY" id="ojc-1D-R6J"/>
-                            <outlet property="delegate" destination="UQS-v2-tuY" id="49Q-tb-lOb"/>
-                        </connections>
-                    </tableView>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Selecteer" id="roM-Sp-vfE">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="GjE-Gs-RCI">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="finishedSelecting:" destination="UQS-v2-tuY" id="Yf5-vi-4re"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="YGe-8T-S5w" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <constraints>
+                            <constraint firstItem="mC5-42-hrZ" firstAttribute="leading" secondItem="xq6-8Z-oZb" secondAttribute="leading" id="1zu-UO-qvT"/>
+                            <constraint firstItem="xq6-8Z-oZb" firstAttribute="bottom" secondItem="lJR-iz-ic6" secondAttribute="top" id="6rI-5G-c5G"/>
+                            <constraint firstAttribute="trailing" secondItem="xq6-8Z-oZb" secondAttribute="trailing" id="JgX-in-ygl"/>
+                            <constraint firstItem="mC5-42-hrZ" firstAttribute="bottom" secondItem="lJR-iz-ic6" secondAttribute="top" id="OU8-gl-egP"/>
+                            <constraint firstItem="mC5-42-hrZ" firstAttribute="trailing" secondItem="xq6-8Z-oZb" secondAttribute="trailing" id="Obf-ZN-Tmz"/>
+                            <constraint firstItem="xq6-8Z-oZb" firstAttribute="top" secondItem="s6d-Wk-iyN" secondAttribute="top" id="d5y-yT-tqf"/>
+                            <constraint firstItem="xq6-8Z-oZb" firstAttribute="leading" secondItem="s6d-Wk-iyN" secondAttribute="leading" id="hPJ-FN-RN7"/>
+                            <constraint firstItem="mC5-42-hrZ" firstAttribute="top" secondItem="0MQ-4O-w6w" secondAttribute="bottom" id="pu0-C7-lDM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="IHs-Be-QHW" id="by7-7I-uuK"/>
+                        <outlet property="activityView" destination="mC5-42-hrZ" id="rbA-qn-1KV"/>
+                        <outlet property="tableView" destination="xq6-8Z-oZb" id="btF-cA-f1M"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gaA-pd-G29" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2392" y="31"/>
+            <point key="canvasLocation" x="2377" y="41"/>
         </scene>
         <!--Stel Diensten Voor-->
         <scene sceneID="g0o-5V-Z6n">
@@ -544,7 +573,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="UQS-v2-tuY" kind="show" id="jwB-TQ-KYP"/>
+                                    <segue destination="DjC-G7-Pxx" kind="show" id="ZkK-Dm-KGe"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Niemand is op zoek naar extra diensten" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FX0-KK-azi">
@@ -624,7 +653,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="nKd-OB-3Yi">
                             <connections>
-                                <segue destination="UQS-v2-tuY" kind="show" id="qdc-7W-KWG"/>
+                                <segue destination="DjC-G7-Pxx" kind="show" id="fvl-DS-WnA"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -789,8 +818,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qdc-7W-KWG"/>
         <segue reference="YFu-oa-XcF"/>
+        <segue reference="fvl-DS-WnA"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

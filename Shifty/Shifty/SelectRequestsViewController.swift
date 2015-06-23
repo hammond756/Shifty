@@ -20,7 +20,7 @@ extension NSDate: HasDate
     var date: NSDate { get { return self } }
 }
 
-class SelectRequestsViewController: UITableViewController
+class SelectRequestsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
 {
     let amountOfDaysToGenerate = 31
     var sectionsInTable = [String]()
@@ -28,11 +28,15 @@ class SelectRequestsViewController: UITableViewController
     var selectedDates = [NSDate]()
     var previousRequests = [NSDate]()
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var activityView: UIView!
+    @IBOutlet weak var tableView: UITableView!
     let rooster = Rooster(delegate: nil)
     let helper = Helper()
         
     override func viewDidLoad()
     {
+        activityIndicator.startAnimating()
         showOptionsForCurrentUser()
         super.viewDidLoad()
     }
@@ -104,26 +108,28 @@ class SelectRequestsViewController: UITableViewController
                 self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
                 println(self.sectionedDates)
                 self.tableView.reloadData()
+                self.activityIndicator.stopAnimating()
+                self.activityView.hidden = true
             }
             
         }
     }
     // tableView delegate fuctions
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return sectionedDates[section].count
     }
     
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return sectionsInTable[section]
     }
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return sectionedDates.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("Date", forIndexPath: indexPath) as! UITableViewCell
         
@@ -135,14 +141,14 @@ class SelectRequestsViewController: UITableViewController
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedDate = sectionedDates[indexPath.section][indexPath.row]
         selectedDates.append(selectedDate)
         println("Selected \(selectedDate)")
     }
     
-    override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
+    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
     {
         let deselectedDate = sectionedDates[indexPath.section][indexPath.row]
         
