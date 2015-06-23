@@ -14,7 +14,8 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     let rooster = Rooster()
     let helper = Helper()
     var suggestions = [Shift]()
-    var associatedRequest = ""
+    var requestID = ""
+    var request: Request? = nil
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var activityView: UIView!
@@ -23,6 +24,8 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     override func viewDidLoad()
     {
         refresh()
+        let parseObject = PFQuery(className: "RequestedShifts").getObjectWithId(requestID)
+        request = Request(parseObject: parseObject!)
         super.viewDidLoad()
     }
     
@@ -40,7 +43,7 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         cell.textLabel?.text = shiftForCell.dateString
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
         
-        if shiftForCell.status == "Awaitting Approval"
+        if shiftForCell.status == "Awaitting Approval, sug"
         {
             cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
         }
@@ -51,16 +54,16 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = suggestions[indexPath.row]
-        let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: associatedRequest)
+        let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: requestID)
         
         // TODO: create refuseAction
-        if selectedShift.status == "Awaitting Approval"
+        if selectedShift.status == "Awaitting Approval, sug"
         {
             actionSheet.includeActions(["Approve Suggestion"])
         }
         else
         {
-            actionSheet.includeActions(["Accept"])
+            actionSheet.includeActions(["Accept Suggestion"])
         }
         
         
@@ -90,7 +93,7 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     func refresh()
     {
         activityIndicator.startAnimating()
-        rooster.requestSuggestions(associatedRequest) { suggestions -> Void in
+        rooster.requestSuggestions(requestID) { suggestions -> Void in
             self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
                 self.suggestions = shifts
                 shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)

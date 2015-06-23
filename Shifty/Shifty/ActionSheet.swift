@@ -45,7 +45,7 @@ class ActionSheet
             
             let query = PFQuery(className: "Shifts")
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-                
+                println(shift)
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     shift["Status"] = "Supplied"
@@ -75,14 +75,18 @@ class ActionSheet
     {
         approveShiftChange()
         
-        let approveSuggestionAction = UIAlertAction(title: "Goedkeuren", style: .Default) { action -> Void in
+        // will only have effect if request != nil
+        let approveSuggestionAction = UIAlertAction(title: "Goedkeuren, sug", style: .Default) { action -> Void in
             let query = PFQuery(className: "RequestedShifts")
-            query.getObjectInBackgroundWithId(self.associatedRequest!) { (request: PFObject?, error: NSError?) -> Void in
+            let associatedRequestID = self.selectedShift.suggestedTo!.objectId
+            println("Suggestionaction \(associatedRequestID)")
+            query.getObjectInBackgroundWithId(associatedRequestID!) { (request: PFObject?, error: NSError?) -> Void in
                 
                 if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
                 {
                     request.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         self.delegate.popViewController?()
+                        self.delegate.refresh()
                     }
                 }
             }
@@ -91,21 +95,48 @@ class ActionSheet
         actionList.append(approveSuggestionAction)
     }
     
+    func createAcceptSuggestionAction()
+    {
+        let acceptSuggestionAction = UIAlertAction(title: "Accepteren", style: .Default) { action -> Void in
+            
+            let query = PFQuery(className: "Shifts")
+            
+            query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
+                
+                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
+                {
+                    // check whether the shift is already accepted by another user
+                    if shift["acceptedBy"] == nil
+                    {
+                        shift["acceptedBy"] = PFUser.currentUser()
+                        shift["Status"] = "Awaitting Approval, sug"
+                        shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
+                            
+                            succes ? self.delegate.refresh() : println(error?.description)
+                        }
+                    }
+                }
+            }
+        }
+        
+        actionList.append(acceptSuggestionAction)
+    }
+    
     // update properties in application and in the database
     private func approveShiftChange()
     {
-        selectedShift.status = "idle"
-        selectedShift.owner = selectedShift.acceptedBy!
-        
         let query = PFQuery(className: "Shifts")
+        println("Approve shift change of \(selectedShift.objectID)")
         query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
             
             if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
             {
                 shift["Status"] = "idle"
                 shift["Owner"] = shift["acceptedBy"]
+                shift.removeObjectForKey("acceptedBy")
+                shift.removeObjectForKey("suggestedTo")
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                    
+                    // self.selectedShift.status = "idle"
                     succes ? self.delegate.refresh() : println(error?.description)
                 }
             }
@@ -269,6 +300,7 @@ class ActionSheet
             case "Accept": createAcceptAction()
             case "Delete": createDeleteAction()
             case "Approve Suggestion": createApproveSuggestionAction()
+            case "Accept Suggestion": createAcceptSuggestionAction()
             default: break
             }
         }

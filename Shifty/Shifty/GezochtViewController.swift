@@ -32,7 +32,7 @@ class GezochtViewController: ShiftControllerInterface
         if segue.identifier == "See Suggestions"
         {
             let sovc = segue.destinationViewController as! SuggestionOverviewViewController
-            sovc.associatedRequest = selectedRequestID
+            sovc.requestID = selectedRequestID
         }
     }
     

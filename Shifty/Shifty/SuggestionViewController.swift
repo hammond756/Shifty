@@ -18,6 +18,8 @@ class SuggestionViewController: ShiftControllerInterface
     
     // objectID of associated request
     var requestID = ""
+    var request: Request? = nil
+    var parseObject: PFObject? = nil
     
     @IBAction func finishedSuggesting(sender: UIBarButtonItem)
     {
@@ -48,6 +50,7 @@ class SuggestionViewController: ShiftControllerInterface
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     shift["Status"] = "Suggested"
+                    shift["suggestedTo"] = self.parseObject!
                     shift.saveInBackground()
                 }
             }
@@ -58,6 +61,8 @@ class SuggestionViewController: ShiftControllerInterface
     {
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
+        parseObject = PFQuery(className: "RequestedShifts").getObjectWithId(requestID)
+        request = Request(parseObject: parseObject!)
         super.viewDidLoad()
     }
     

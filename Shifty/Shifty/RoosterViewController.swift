@@ -66,6 +66,10 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         {
             message = "Je hebt deze dienst voorgesteld aan een collega"
         }
+        if selectedShift.status == "Awaitting Approval, sug"
+        {
+            actionSheet.includeActions(["Approve Suggestion"])
+        }
         
         let alertController = actionSheet.getAlertController()
         alertController.message = message
@@ -87,6 +91,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         {
         case "Supplied": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
         case "Awaitting Approval": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
+        case "Awaitting Approval, sug": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
         case "Suggested": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
         default: break
         }

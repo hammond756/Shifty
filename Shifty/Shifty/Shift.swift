@@ -16,14 +16,16 @@ class Shift: ContentInterface
     var status: String
     var createdFrom: PFObject
     var acceptedBy: PFUser?
+    var suggestedTo: PFObject?
     
-    init(date: NSDate, owner: PFUser, objectID: String, status: String, acceptedBy: PFUser?, createdFrom: PFObject)
+    init(date: NSDate, owner: PFUser, objectID: String, status: String, acceptedBy: PFUser?, createdFrom: PFObject, suggestedTo: PFObject?)
     {
         timeString = date.toString(format: DateFormat.Custom("HH:mm"))
         
         self.status = status
         self.createdFrom = createdFrom
         self.acceptedBy = acceptedBy
+        self.suggestedTo = suggestedTo
         
         self.createdFrom.fetchIfNeededInBackground()
         self.acceptedBy?.fetchIfNeededInBackground()
@@ -37,13 +39,9 @@ class Shift: ContentInterface
         let status = parseObject["Status"] as! String
         let owner = parseObject["Owner"] as! PFUser
         let createdFrom = parseObject["createdFrom"] as! PFObject
-        var acceptedBy: PFUser? = nil
+        let suggestedTo = parseObject["suggestedTo"] as? PFObject
+        var acceptedBy = parseObject["accptedBy"] as? PFUser
         
-        if let hasBeenAcceptedBy = parseObject["acceptedBy"] as? PFUser
-        {
-            acceptedBy = hasBeenAcceptedBy
-        }
-        
-        self.init(date: date, owner: owner, objectID: parseObject.objectId!, status: status, acceptedBy: acceptedBy, createdFrom: createdFrom)
+        self.init(date: date, owner: owner, objectID: parseObject.objectId!, status: status, acceptedBy: acceptedBy, createdFrom: createdFrom, suggestedTo: suggestedTo)
     }
 }
