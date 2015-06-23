@@ -23,6 +23,51 @@ class Rooster
     
     func addRecurringShift(day: String, hour: Int, minute: Int)
     {
+        checkDoubleEntries(day) { noDoubleEntries -> Void in
+            if noDoubleEntries
+            {
+                let shift = PFObject(className: "FixedShifts")
+                
+                shift["Day"] = day
+                shift["Hour"] = hour
+                shift["Minute"] = minute
+                shift["Owner"] = PFUser.currentUser()
+                shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                    if succes
+                    {
+                        self.generateRecurringShifts(shift)
+                    }
+                }
+            }
+        }
+    }
+    
+    func checkDoubleEntries(day: String, callback: (noDoubleEntries: Bool) -> Void)
+    {
+        let query = PFQuery(className: "FixedShifts")
+        query.whereKey("Owner", equalTo: PFUser.currentUser()!)
+        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+            if let ownedShifts = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
+            {
+                for shift in ownedShifts
+                {
+                    if shift["Day"] as! String == day
+                    {
+                        callback(noDoubleEntries: false)
+                        return
+                    }
+                }
+                callback(noDoubleEntries: true)
+            }
+        }
+    }
+    
+    func generateRecurringShifts(fixedShift: PFObject)
+    {
+        let day = fixedShift["Day"] as! String
+        let hour = fixedShift["Hour"] as! Int
+        let minute = fixedShift["Minute"] as! Int
+        
         let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag": 7, "Zondag": 1]
         
         var firstOccurrenceDate = nextOccurenceOfDay(dayDict[day]!).set(componentsDict: ["hour": hour, "minute": minute])
@@ -36,7 +81,6 @@ class Rooster
             shift["Owner"] = PFUser.currentUser()
             shift.saveInBackground()
         }
-        
     }
     
     // function that calculates on which date the next occurence is of a given weekday
