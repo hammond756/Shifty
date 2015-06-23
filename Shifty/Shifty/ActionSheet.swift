@@ -10,14 +10,16 @@ import Foundation
 import UIKit
 import Parse
 
+// definiton of protocol that all viewcontrollers incorporating an actionsheet or alertview conform to
 @objc protocol ActionSheetDelegate
 {
     func refresh()
-    optional func showAlert(alertView: UIAlertController)
     func switchStateOfActivityView(on: Bool)
     optional func popViewController()
+    optional func showAlert(alertView: UIAlertController)
 }
 
+// handles the creation of UIAlertControllers throughout the application
 class ActionSheet
 {
     var selectedShift: Shift
@@ -68,6 +70,7 @@ class ActionSheet
         actionList.append(approveAction)
     }
     
+    // appriving a suggestion needs extra behaviour on top of approveShiftChange, namely removing the request
     func createApproveSuggestionAction()
     {
         approveShiftChange()
@@ -88,9 +91,11 @@ class ActionSheet
         actionList.append(approveSuggestionAction)
     }
     
+    // update properties in application and in the database
     private func approveShiftChange()
     {
-        self.selectedShift.status = "idle"
+        selectedShift.status = "idle"
+        selectedShift.owner = selectedShift.acceptedBy!
         
         let query = PFQuery(className: "Shifts")
         query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
@@ -163,6 +168,7 @@ class ActionSheet
         actionList.append(acceptAction)
     }
     
+    // destructive button on the actionsheet
     func createDeleteAction()
     {
         let deleteAction = UIAlertAction(title: "Verwijderen", style: .Destructive) { action -> Void in
@@ -186,10 +192,7 @@ class ActionSheet
             actionSheetController.dismissViewControllerAnimated(true, completion: nil)
         }
         
-        
-        
         actionSheetController.addAction(cancelAction)
-        
         return actionSheetController
     }
     
@@ -207,6 +210,7 @@ class ActionSheet
         return alertView
     }
     
+    // shows UIAlertView warning user that he/she is about to delete something
     func getConfirmationAlertView() -> UIAlertController
     {
         let alertView = UIAlertController(title: nil, message: "Je staat op het punt je diensten te verwijderen.", preferredStyle: .Alert)
@@ -215,7 +219,7 @@ class ActionSheet
             alertView.dismissViewControllerAnimated(true, completion: nil)
         }
         
-        // prefroms the actual operation.
+        // prefroms the actual deletion.
         let confirmAction = UIAlertAction(title: "I know", style: .Destructive) { action -> Void in
             self.delegate.switchStateOfActivityView(true)
             
@@ -252,6 +256,7 @@ class ActionSheet
         return alertView
     }
     
+    // function to easily include one or more actions in the actionsheet
     func includeActions(actions: [String])
     {
         for action in actions
