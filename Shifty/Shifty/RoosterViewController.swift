@@ -37,8 +37,6 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     }
     
     // everything to do with the table view
-
-    
     // an action sheet gets called depending on the status of the selected shift
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
@@ -64,6 +62,10 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         {
             actionSheet.includeActions(["Revoke"])
         }
+        if selectedShift.status == "Suggested"
+        {
+            message = "Je hebt deze dienst voorgesteld aan een collega"
+        }
         
         let alertController = actionSheet.getAlertController()
         alertController.message = message
@@ -85,6 +87,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         {
         case "Supplied": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
         case "Awaitting Approval": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
+        case "Suggested": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
         default: break
         }
         

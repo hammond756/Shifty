@@ -36,6 +36,22 @@ class SuggestionViewController: ShiftControllerInterface
                 }
             }
         }
+        
+        updateShiftStatuses(selectedShifts)
+    }
+    
+    func updateShiftStatuses(shiftIDs: [String])
+    {
+        for ID in shiftIDs
+        {
+            PFQuery(className: "Shifts").getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
+                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
+                {
+                    shift["Status"] = "Suggested"
+                    shift.saveInBackground()
+                }
+            }
+        }
     }
     
     override func viewDidLoad()
