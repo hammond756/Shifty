@@ -86,10 +86,12 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         
     }
     
-    func showAlert(alertView: UIAlertController) {
-        
+    func showAlert(alertView: UIAlertController)
+    {
+        alertView.popoverPresentationController?.sourceView = self.view
+        presentViewController(alertView, animated: true, completion: nil)
     }
-    
+        
     @IBAction func logOutCurrentRooster(sender: UIBarButtonItem)
     {
         helper.logOut(self)

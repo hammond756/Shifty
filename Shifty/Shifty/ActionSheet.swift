@@ -14,6 +14,7 @@ protocol ActionSheetDelegate
 {
     func refresh()
     func showAlert(alertView: UIAlertController)
+    func switchStateOfActivityView(on: Bool)
 }
 
 class ActionSheet
@@ -125,7 +126,7 @@ class ActionSheet
                     }
                     else
                     {
-                        self.delegate.showAlert(self.getAlertView())
+                        self.delegate.showAlert(self.getAlertViewForMissedOppurtunity())
                     }
                 }
             }
@@ -136,33 +137,8 @@ class ActionSheet
     
     func createDeleteAction()
     {
-        let deleteAction = UIAlertAction(title: "Verwijder", style: .Destructive) { action -> Void in
-            
-            let shiftQuery = PFQuery(className: "Shifts")
-                .whereKey("createdFrom", equalTo: self.selectedShift.createdFrom)
-                .whereKey("Owner", equalTo: PFUser.currentUser()!)
-                .whereKey("Status", notContainedIn: ["Awaitting Approval", "Supplied"])
-            
-            shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
-               
-                if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
-                {
-                    for (i,object) in enumerate(objects)
-                    {
-                        if i == objects.count - 1
-                        {
-                            object.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                                succes ? self.delegate.refresh() : println(error?.description)
-                            }
-                            return
-                        }
-                        object.deleteInBackground()
-                    }
-                }
-            }
-            
-            let fixedShift = PFQuery(className: "FixedShifts").getObjectWithId(self.selectedShift.createdFrom.objectId!)
-            fixedShift?.deleteInBackground()
+        let deleteAction = UIAlertAction(title: "Verwijderen", style: .Destructive) { action -> Void in
+            self.delegate.showAlert(self.getConfirmationAlertView())
         }
         
         actionList.append(deleteAction)
@@ -191,13 +167,15 @@ class ActionSheet
             actionSheetController.dismissViewControllerAnimated(true, completion: nil)
         }
         
+        
+        
         actionSheetController.addAction(cancelAction)
         
         return actionSheetController
     }
     
     // create an AlertView that shows in the special case that a displayed shift is already accepted by another user
-    func getAlertView() -> UIAlertController
+    func getAlertViewForMissedOppurtunity() -> UIAlertController
     {
         let alertView = UIAlertController(title: nil, message: "Helaas, deze dienst is net voor je weggekaapt.", preferredStyle: .Alert)
         
@@ -206,6 +184,50 @@ class ActionSheet
             self.delegate.refresh()
         }
         
+        alertView.addAction(cancelAction)
+        return alertView
+    }
+    
+    func getConfirmationAlertView() -> UIAlertController
+    {
+        let alertView = UIAlertController(title: nil, message: "Je staat op het punt je diensten te verwijderen.", preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Laat maar", style: .Cancel) { action -> Void in
+            alertView.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        // prefroms the actual operation
+        let confirmAction = UIAlertAction(title: "I know", style: .Destructive) { action -> Void in
+            self.delegate.switchStateOfActivityView(true)
+            
+            let shiftQuery = PFQuery(className: "Shifts")
+                .whereKey("createdFrom", equalTo: self.selectedShift.createdFrom)
+                .whereKey("Owner", equalTo: PFUser.currentUser()!)
+                .whereKey("Status", notContainedIn: ["Awaitting Approval", "Supplied"])
+            
+            shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+                
+                if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
+                {
+                    for (i,object) in enumerate(objects)
+                    {
+                        if i == objects.count - 1
+                        {
+                            object.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                                succes ? self.delegate.refresh() : println(error?.description)
+                            }
+                            return
+                        }
+                        object.deleteInBackground()
+                    }
+                }
+            }
+            
+            let fixedShift = PFQuery(className: "FixedShifts").getObjectWithId(self.selectedShift.createdFrom.objectId!)
+            fixedShift?.deleteInBackground()
+        }
+        
+        alertView.addAction(confirmAction)
         alertView.addAction(cancelAction)
         return alertView
     }

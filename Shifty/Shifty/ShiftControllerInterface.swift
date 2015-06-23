@@ -67,6 +67,20 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
         return indexPath
     }
     
+    func switchStateOfActivityView(on: Bool)
+    {
+        if !on
+        {
+            activityIndicator.stopAnimating()
+            activityView.hidden = true
+        }
+        if on
+        {
+            activityIndicator.startAnimating()
+            activityView.hidden = false
+        }
+    }
+    
     // actions on action sheet call refresh when they are done, so the view can reload properly
     func refresh()
     {
@@ -75,8 +89,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
             self.sectionsInTable = sections
             sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
             self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
-            self.activityView.hidden = true
+            self.switchStateOfActivityView(false)
         }
     }
 }

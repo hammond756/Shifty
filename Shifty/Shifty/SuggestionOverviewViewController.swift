@@ -64,8 +64,23 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     }
     
     // required from delegate, but not not needed
-    func showAlert(alertView: UIAlertController) {
+    func showAlert(alertView: UIAlertController)
+    {
         
+    }
+    
+    func switchStateOfActivityView(on: Bool)
+    {
+        if !on
+        {
+            activityIndicator.stopAnimating()
+            activityView.hidden = true
+        }
+        if on
+        {
+            activityIndicator.startAnimating()
+            activityView.hidden = false
+        }
     }
     
     // BUG: doesn't remove objectID of accepted suggest from replies
@@ -77,8 +92,7 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
                 self.suggestions = shifts
                 shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                 self.tableView.reloadData()
-                self.activityIndicator.stopAnimating()
-                self.activityView.hidden = true
+                self.switchStateOfActivityView(false)
             }
         }
     }
