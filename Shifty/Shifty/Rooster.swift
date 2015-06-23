@@ -10,6 +10,12 @@ import Parse
 import SwiftDate
 import Foundation
 
+@objc protocol RoosterDelegate
+{
+    func switchStateOfActivityView(on: Bool)
+    optional func popViewController()
+}
+
 class Rooster
 {
     // constant for duration of fixed schedule
@@ -18,8 +24,14 @@ class Rooster
     var ownedShifts = [[Shift]]()
     var suppliedShifts = [[Shift]]()
     var requestedShifs = [[Request]]()
+    var delegate: RoosterDelegate?
     
     let helper = Helper()
+    
+    init(delegate: RoosterDelegate?)
+    {
+        self.delegate = delegate
+    }
     
     func registerFixedShift(day: String, hour: Int, minute: Int)
     {
@@ -61,7 +73,13 @@ class Rooster
             shift["Owner"] = PFUser.currentUser()
             shift["createdFrom"] = fixedShift
             fixedShift["lastEntry"] = firstOccurrenceDate! + (7 * week).day
-            shift.saveInBackground()
+            shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                if week == self.amountOfRecurringWeeks - 1
+                {
+                    self.delegate!.switchStateOfActivityView(false)
+                    self.delegate!.popViewController!()
+                }
+            }
             fixedShift.saveInBackground()
         }
     }

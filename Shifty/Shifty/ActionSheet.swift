@@ -45,7 +45,6 @@ class ActionSheet
             
             let query = PFQuery(className: "Shifts")
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-                println(shift)
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     shift["Status"] = "Supplied"
@@ -75,11 +74,9 @@ class ActionSheet
     {
         approveShiftChange()
         
-        // will only have effect if request != nil
         let approveSuggestionAction = UIAlertAction(title: "Goedkeuren, sug", style: .Default) { action -> Void in
             let query = PFQuery(className: "RequestedShifts")
             let associatedRequestID = self.selectedShift.suggestedTo!.objectId
-            println("Suggestionaction \(associatedRequestID)")
             query.getObjectInBackgroundWithId(associatedRequestID!) { (request: PFObject?, error: NSError?) -> Void in
                 
                 if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
@@ -126,7 +123,6 @@ class ActionSheet
     private func approveShiftChange()
     {
         let query = PFQuery(className: "Shifts")
-        println("Approve shift change of \(selectedShift.objectID)")
         query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
             
             if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject

@@ -15,7 +15,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
     @IBOutlet weak var activityView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
-    let rooster = Rooster()
+    let rooster = Rooster(delegate: nil)
     let helper = Helper()
     var sectionsInTable = [String]()
     

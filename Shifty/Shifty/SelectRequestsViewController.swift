@@ -29,7 +29,7 @@ class SelectRequestsViewController: UITableViewController
     var selectedDates = [NSDate]()
     var previousRequests = [NSDate]()
     
-    let rooster = Rooster()
+    let rooster = Rooster(delegate: nil)
     let helper = Helper()
         
     override func viewDidLoad()
