@@ -196,13 +196,14 @@ class ActionSheet
             alertView.dismissViewControllerAnimated(true, completion: nil)
         }
         
-        // prefroms the actual operation
+        // prefroms the actual operation.
         let confirmAction = UIAlertAction(title: "I know", style: .Destructive) { action -> Void in
             self.delegate.switchStateOfActivityView(true)
             
             let shiftQuery = PFQuery(className: "Shifts")
                 .whereKey("createdFrom", equalTo: self.selectedShift.createdFrom)
                 .whereKey("Owner", equalTo: PFUser.currentUser()!)
+                // remove this constraint?
                 .whereKey("Status", notContainedIn: ["Awaitting Approval", "Supplied"])
             
             shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in

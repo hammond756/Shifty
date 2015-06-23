@@ -30,6 +30,12 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(animated: Bool)
+    {
+        rooster.updateSchedule()
+        super.viewWillAppear(animated)
+    }
+    
     // everything to do with the table view
 
     

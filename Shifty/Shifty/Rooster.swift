@@ -21,7 +21,7 @@ class Rooster
     
     let helper = Helper()
     
-    func addRecurringShift(day: String, hour: Int, minute: Int)
+    func registerFixedShift(day: String, hour: Int, minute: Int)
     {
         checkDoubleEntries(day) { noDoubleEntries -> Void in
             if noDoubleEntries
@@ -32,17 +32,18 @@ class Rooster
                 shift["Hour"] = hour
                 shift["Minute"] = minute
                 shift["Owner"] = PFUser.currentUser()
+                shift["lastEntry"] = self.nextOccurenceOfDay(day).set(componentsDict: ["hour": hour, "minute": minute])
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                     if succes
                     {
-                        self.generateRecurringShifts(shift)
+                        self.generateInitialShifts(shift)
                     }
                 }
             }
         }
     }
     
-    func checkDoubleEntries(day: String, callback: (noDoubleEntries: Bool) -> Void)
+    private func checkDoubleEntries(day: String, callback: (noDoubleEntries: Bool) -> Void)
     {
         let query = PFQuery(className: "FixedShifts")
         query.whereKey("Owner", equalTo: PFUser.currentUser()!)
@@ -62,15 +63,14 @@ class Rooster
         }
     }
     
-    func generateRecurringShifts(fixedShift: PFObject)
+    // samenvoegen met generate additional shift
+    private func generateInitialShifts(fixedShift: PFObject)
     {
         let day = fixedShift["Day"] as! String
         let hour = fixedShift["Hour"] as! Int
         let minute = fixedShift["Minute"] as! Int
         
-        let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag": 7, "Zondag": 1]
-        
-        var firstOccurrenceDate = nextOccurenceOfDay(dayDict[day]!).set(componentsDict: ["hour": hour, "minute": minute])
+        var firstOccurrenceDate = nextOccurenceOfDay(day).set(componentsDict: ["hour": hour, "minute": minute])
         
         for week in 0..<amountOfRecurringWeeks
         {
@@ -80,15 +80,57 @@ class Rooster
             shift["Status"] = "idle"
             shift["Owner"] = PFUser.currentUser()
             shift["createdFrom"] = fixedShift
+            fixedShift["lastEntry"] = firstOccurrenceDate! + (7 * week).day
             shift.saveInBackground()
+            fixedShift.saveInBackground()
+        }
+    }
+    
+    private func generateAdditionalShift(fixedShift: PFObject)
+    {
+        let day = fixedShift["Day"] as! String
+        let hour = fixedShift["Hour"] as! Int
+        let minute = fixedShift["Minute"] as! Int
+        let date = fixedShift["lastEntry"] as! NSDate + 1.week
+        
+        let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag": 7, "Zondag": 1]
+
+        let shift = PFObject(className: "Shifts")
+        shift["Date"] = date
+        shift["Status"] = "idle"
+        shift["Owner"] = PFUser.currentUser()
+        shift["createdFrom"] = fixedShift
+        fixedShift["lastEntry"] = date
+        shift.saveInBackground()
+        fixedShift.saveInBackground()
+    }
+    
+    func updateSchedule()
+    {
+        let query = PFQuery(className: "FixedShifts")
+            .whereKey("Owner", equalTo: PFUser.currentUser()!)
+        
+        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+            if let fixedShifts = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
+            {
+                for fixed in fixedShifts
+                {
+                    if fixed["lastEntry"] as! NSDate - self.amountOfRecurringWeeks.weeks < NSDate()
+                    {
+                        self.generateAdditionalShift(fixed)
+                    }
+                }
+            }
         }
     }
     
     // function that calculates on which date the next occurence is of a given weekday
-    private func nextOccurenceOfDay(day: Int) -> NSDate
+    private func nextOccurenceOfDay(day: String) -> NSDate
     {
+        let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag": 7, "Zondag": 1]
+
         let today = NSDate()
-        var daysAhead = day - today.weekday
+        var daysAhead = dayDict[day]! - today.weekday
         
         if daysAhead < 0
         {
@@ -97,7 +139,37 @@ class Rooster
         
         return today + daysAhead.day
     }
-        
+    
+    func requestShifts(withStatus: String, callback: (sections: [String]) -> Void)
+    {
+        doRequest(withStatus) { (sections: [String], objects: [Shift]) -> Void in
+            self.setShifts(withStatus, shifts: objects, sections: sections)
+            callback(sections: sections)
+        }
+    }
+    
+    func requestRequests(callback: (sections: [String]) -> Void)
+    {
+        doRequest("Requested") { (sections: [String], objects: [Request]) -> Void in
+            self.requestedShifs = self.helper.splitIntoSections(objects, sections: sections)
+            callback(sections: sections)
+        }
+    }
+    
+    private func doRequest<T: ExistsInParse where T: HasDate>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
+    {
+        requestParseObjects(withStatus) { objects -> Void in
+            var tempObjects = [T]()
+            for object in objects
+            {
+                let element = T(parseObject: object)
+                tempObjects.append(element)
+            }
+            let sections = self.helper.getSections(tempObjects)
+            callback(sections: sections, objects: tempObjects)
+        }
+    }
+    
     private func requestParseObjects(withStatus: String, callback: (objects: [PFObject]) -> Void)
     {
         let query = getQueryForStatus(withStatus)
@@ -110,53 +182,6 @@ class Rooster
         }
     }
     
-    func requestShifts(withStatus: String, callback: (sections: [String]) -> Void)
-    {
-        requestParseObjects(withStatus) { objects -> Void in
-            var tempShifts = [Shift]()
-            for object in objects
-            {
-                let shift = Shift(parseObject: object)
-                tempShifts.append(shift)
-            }
-            let sections = self.getSections(tempShifts)
-            self.setShifts(withStatus, shifts: tempShifts, sections: sections)
-            callback(sections: sections)
-        }
-    }
-    
-    func requestRequests(callback: (sections: [String]) -> Void)
-    {
-        requestParseObjects("Requested") { objects -> Void in
-            
-            var tempRequests = [Request]()
-            
-            for object in objects
-            {
-                let request = Request(parseObject: object)
-                tempRequests.append(request)
-            }
-            
-            let sections = self.getSections(tempRequests)
-            self.requestedShifs = self.splitIntoSections(tempRequests, sections: sections)
-            
-            callback(sections: sections)
-        }
-    }
-    
-    func doRequest<T: ExistsInParse where T: HasDate>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
-    {
-        requestParseObjects(withStatus) { objects -> Void in
-            var tempObjects = [T]()
-            for object in objects
-            {
-                let element = T(parseObject: object)
-                tempObjects.append(element)
-            }
-            let sections = self.getSections(tempObjects)
-            callback(sections: sections, objects: tempObjects)
-        }
-    }
     
     func requestSuggestions(associatedWith: String, callback: (suggestions: [String]) -> Void)
     {
@@ -198,8 +223,8 @@ class Rooster
     {
         switch withStatus
         {
-            case "Owned": ownedShifts = splitIntoSections(shifts, sections: sections)
-            case "Supplied": suppliedShifts = splitIntoSections(shifts, sections: sections)
+            case "Owned": ownedShifts = helper.splitIntoSections(shifts, sections: sections)
+            case "Supplied": suppliedShifts = helper.splitIntoSections(shifts, sections: sections)
             default: break
         }
     }
@@ -230,39 +255,5 @@ class Rooster
         }
         
         return query
-    }
-    
-    // split an array of generic type T into a two-dimensional array
-    func splitIntoSections<T: HasDate>(var array: [T], sections: [String]) -> [[T]]
-    {
-        var sectionedArray = [[T]]()
-        array.sort() { $0.date < $1.date }
-        
-        // get all elemenents where the week number equals that of the current section
-        for section in sections
-        {
-            sectionedArray.append(array.filter() { $0.getWeekOfYear() == section })
-        }
-        
-        return sectionedArray
-    }
-    
-    // generate array of section titles from an array of generic type T
-    func getSections<T: HasDate>(var array: [T]) -> [String]
-    {
-        var sections = [String]()
-        array.sort() { $0.date < $1.date }
-        
-        for element in array
-        {
-            let weekOfYear = element.getWeekOfYear()
-            
-            if !contains(sections, weekOfYear)
-            {
-                sections.append(weekOfYear)
-            }
-        }
-        
-        return sections
     }
 }

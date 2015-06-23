@@ -49,7 +49,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         if let time = extractTimeComponents(timeField.text)
         {
             let rooster = Rooster()
-            rooster.addRecurringShift(day, hour: time[0], minute: time[1])
+            rooster.registerFixedShift(day, hour: time[0], minute: time[1])
         }
         
         dayField.text = ""
