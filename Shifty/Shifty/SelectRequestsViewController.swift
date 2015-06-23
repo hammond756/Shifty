@@ -14,7 +14,7 @@ extension NSDate: HasDate
 {
     func getWeekOfYear() -> String
     {
-        return "Week: " + String(self.weekOfYear)
+        return "Week: " + String((self - 1.day).weekOfYear)
     }
     
     var date: NSDate { get { return self } set { self.date = newValue } }
@@ -27,22 +27,21 @@ class SelectRequestsViewController: UITableViewController
     var possibleDates = [NSDate]()
     var sectionedDates = [[NSDate]]()
     var selectedDates = [NSDate]()
+    var previousRequests = [NSDate]()
     
     let rooster = Rooster()
+    let helper = Helper()
         
     override func viewDidLoad()
     {
-        possibleDates = getDates()
-        sectionsInTable = rooster.getSections(possibleDates)
-        sectionedDates = rooster.splitIntoSections(possibleDates, sections: sectionsInTable)
-        
-        tableView.reloadData()
+        showOptionsForCurrentUser()
         super.viewDidLoad()
     }
     
     @IBAction func finishedSelecting(sender: UIBarButtonItem)
     {
-        for date in selectedDates
+        println(selectedDates)
+        for (i,date) in enumerate(selectedDates)
         {
             let request = PFObject(className: "RequestedShifts")
             request["date"] = date
@@ -54,7 +53,7 @@ class SelectRequestsViewController: UITableViewController
                 {
                     println(error?.description)
                 }
-                else if succes
+                else if succes && i == self.selectedDates.count - 1
                 {
                     self.navigationController?.popViewControllerAnimated(false)
                 }
@@ -62,19 +61,44 @@ class SelectRequestsViewController: UITableViewController
         }
     }
     
-    func getDates() -> [NSDate]
+    func getDates()
     {
         let today = NSDate()
-        var comingDays = [NSDate]()
+        let alreadySubmitted = previousRequests.map() { String($0.day) + String($0.month) }
         
         for days in 0..<amountOfDaysToGenerate
         {
-            comingDays.append(today + days.day)
-        }
+            let date = today + days.day
+            let check = String(date.day) + String(date.month)
 
-        return comingDays
+            if !contains(alreadySubmitted, check)
+            {
+                possibleDates.append(date)
+            }
+        }
     }
     
+    func showOptionsForCurrentUser()
+    {
+        let query = PFQuery(className: "RequestedShifts")
+        query.whereKey("requestedBy", equalTo: PFUser.currentUser()!)
+        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if let requests = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
+            {
+                for request in requests
+                {
+                    let date = request["date"] as! NSDate
+                    self.previousRequests.append(date)
+                }
+            }
+            
+            self.getDates()
+            self.sectionsInTable = self.rooster.getSections(self.possibleDates)
+            self.sectionedDates = self.rooster.splitIntoSections(self.possibleDates, sections: self.sectionsInTable)
+            self.tableView.reloadData()
+        }
+    }
     // tableView delegate fuctions
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
@@ -106,6 +130,7 @@ class SelectRequestsViewController: UITableViewController
     {
         let selectedDate = sectionedDates[indexPath.section][indexPath.row]
         selectedDates.append(selectedDate)
+        println("Selected \(selectedDate)")
     }
     
     override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
@@ -115,6 +140,7 @@ class SelectRequestsViewController: UITableViewController
         if let index = find(selectedDates, deselectedDate)
         {
             selectedDates.removeAtIndex(index)
+            println(deselectedDate)
         }
     }
     
