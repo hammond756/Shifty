@@ -81,7 +81,7 @@ class ActionSheet
     // add a action the the action sheet that revokes a shift from the marketplace and save change in the database
     func createRevokeAction()
     {
-        let revokeAction = UIAlertAction(title: "Terugrekken", style: .Default) { action -> Void in
+        let revokeAction = UIAlertAction(title: "Terugtrekken", style: .Default) { action -> Void in
             
             self.selectedShift.status = "idle"
             
@@ -117,6 +117,7 @@ class ActionSheet
                     if shift["acceptedBy"] == nil
                     {
                         shift["acceptedBy"] = PFUser.currentUser()
+                        shift["Status"] = "Awaitting Approval"
                         shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
                             
                             succes ? self.delegate.refresh() : println(error?.description)
