@@ -95,12 +95,14 @@ class GezochtViewController: ShiftControllerInterface
     
     override func refresh()
     {
+        activityIndicator.startAnimating()
         rooster.requestRequests() { sections -> Void in
             self.sectionsInTable = sections
             sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
             self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.activityView.hidden = true
         }
-        
     }
     
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)

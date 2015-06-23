@@ -17,6 +17,8 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     var associatedRequest = ""
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var activityView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad()
     {
@@ -69,11 +71,14 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     // BUG: doesn't remove objectID of accepted suggest from replies
     func refresh()
     {
+        activityIndicator.startAnimating()
         rooster.requestSuggestions(associatedRequest) { suggestions -> Void in
             self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
                 self.suggestions = shifts
                 shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                 self.tableView.reloadData()
+                self.activityIndicator.stopAnimating()
+                self.activityView.hidden = true
             }
         }
     }

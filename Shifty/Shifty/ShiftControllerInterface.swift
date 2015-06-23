@@ -12,6 +12,8 @@ import Parse
 class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
     @IBOutlet weak var tableView: UITableView! = nil
+    @IBOutlet weak var activityView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     let rooster = Rooster()
     let helper = Helper()
@@ -68,10 +70,13 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
     // actions on action sheet call refresh when they are done, so the view can reload properly
     func refresh()
     {
+        activityIndicator.startAnimating()
         rooster.requestShifts("Owned") { sections -> Void in
             self.sectionsInTable = sections
             sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
             self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.activityView.hidden = true
         }
     }
 }

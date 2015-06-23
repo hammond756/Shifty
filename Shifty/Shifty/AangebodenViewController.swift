@@ -70,11 +70,13 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
     
     override func refresh()
     {
-        rooster.requestShifts("Supplied")
-        { sections -> Void in
+        activityIndicator.startAnimating()
+        rooster.requestShifts("Supplied") { sections -> Void in
             self.sectionsInTable = sections
             sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
             self.tableView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.activityView.hidden = true
         }
     }
     
