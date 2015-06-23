@@ -8,41 +8,14 @@
 
 import Foundation
 import Parse
-import SwiftDate
 
-class Request: HasDate, ExistsInParse
+class Request: ContentInterface
 {
-    var requestedBy: PFUser
-    var date: NSDate
-    var dateString: String
-    var objectID: String
-    
-    init(date: NSDate, by: PFUser, objectID: String)
-    {
-        self.date = date
-        self.requestedBy = by
-        self.objectID = objectID
-        
-        dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
-    }
-    
     convenience required init(parseObject: PFObject)
     {
         let date = parseObject["date"] as! NSDate
         let requestedBy = parseObject["requestedBy"] as! PFUser
         
-        self.init(date: date, by: requestedBy, objectID: parseObject.objectId!)
+        self.init(date: date, owner: requestedBy, objectID: parseObject.objectId!)
     }
-    
-    func getWeekOfYear() -> String
-    {
-        return "Week " + String((date - 1.day).weekOfYear)
-    }
-    
-    func setFromParseObject(object: PFObject)
-    {
-        self.date = object["date"] as! NSDate
-        self.requestedBy = object["requestedBy"] as! PFUser
-    }
-    
 }

@@ -10,7 +10,23 @@ import Foundation
 import Parse
 import SwiftDate
 
-class ContentInterface
+protocol HasDate
+{
+    func getWeekOfYear() -> String
+    var date: NSDate { get }
+}
+
+protocol ExistsInParse
+{
+    init(parseObject: PFObject)
+}
+
+func == (lhs: ContentInterface, rhs: ContentInterface) -> Bool
+{
+    return lhs.objectID == rhs.objectID
+}
+
+class ContentInterface: HasDate, ExistsInParse, Equatable
 {
     var date: NSDate
     var owner: PFUser
@@ -23,14 +39,15 @@ class ContentInterface
         self.owner = owner
         self.objectID = objectID
         
+        self.owner.fetchIfNeededInBackground()
         dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
     }
     
-    convenience init(object: PFObject)
+    convenience required init(parseObject: PFObject)
     {
-        let date = object["Date"] as! NSDate
-        let owner = object["Owner"] as! PFUser
-        let objectID = object.objectId!
+        let date = parseObject["Date"] as! NSDate
+        let owner = parseObject["Owner"] as! PFUser
+        let objectID = parseObject.objectId!
         
         self.init(date: date, owner: owner, objectID: objectID)
     }

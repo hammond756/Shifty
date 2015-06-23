@@ -14,10 +14,10 @@ extension NSDate: HasDate
 {
     func getWeekOfYear() -> String
     {
-        return "Week: " + String((self - 1.day).weekOfYear)
+        return "Week " + String((self - 1.day).weekOfYear)
     }
     
-    var date: NSDate { get { return self } set { self.date = newValue } }
+    var date: NSDate { get { return self } }
 }
 
 class SelectRequestsViewController: UITableViewController
@@ -94,8 +94,8 @@ class SelectRequestsViewController: UITableViewController
             }
             
             self.getDates()
-            self.sectionsInTable = self.rooster.getSections(self.possibleDates)
-            self.sectionedDates = self.rooster.splitIntoSections(self.possibleDates, sections: self.sectionsInTable)
+            self.sectionsInTable = self.helper.getSections(self.possibleDates)
+            self.sectionedDates = self.helper.splitIntoSections(self.possibleDates, sections: self.sectionsInTable)
             self.tableView.reloadData()
         }
     }

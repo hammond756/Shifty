@@ -75,7 +75,7 @@ class GezochtViewController: ShiftControllerInterface
         cell.textLabel?.text = date.date.toString(format: DateFormat.Custom("EEEE dd MMM"))
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
-        if date.requestedBy == PFUser.currentUser()
+        if date.owner == PFUser.currentUser()
         {
             cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
         }

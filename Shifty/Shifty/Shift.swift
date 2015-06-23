@@ -10,48 +10,25 @@ import Foundation
 import SwiftDate
 import Parse
 
-func == (lhs: Shift, rhs: Shift) -> Bool
+class Shift: ContentInterface
 {
-    return lhs.objectID == rhs.objectID
-}
-
-protocol HasDate
-{
-    func getWeekOfYear() -> String
-    var date: NSDate { get set }
-}
-
-protocol ExistsInParse
-{
-    init(parseObject: PFObject)
-}
-
-class Shift: Equatable, HasDate, ExistsInParse
-{
-    var dateString: String
     var timeString: String
-    var date: NSDate
     var status: String
-    var objectID: String
-    var owner: PFUser
     var createdFrom: PFObject
     var acceptedBy: PFUser?
     
-    init(date: NSDate, stat: String, objectID: String, owner: PFUser, acceptedBy: PFUser?, createdFrom: PFObject)
+    init(date: NSDate, owner: PFUser, objectID: String, status: String, acceptedBy: PFUser?, createdFrom: PFObject)
     {
-        self.date = date
-        dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
         timeString = date.toString(format: DateFormat.Custom("HH:mm"))
         
-        self.status = stat
-        self.objectID = objectID
-        self.owner = owner
+        self.status = status
         self.createdFrom = createdFrom
         self.acceptedBy = acceptedBy
         
-        self.owner.fetchIfNeededInBackground()
         self.createdFrom.fetchIfNeededInBackground()
         self.acceptedBy?.fetchIfNeededInBackground()
+        
+        super.init(date: date, owner: owner, objectID: objectID)
     }
     
     convenience required init(parseObject: PFObject)
@@ -67,11 +44,6 @@ class Shift: Equatable, HasDate, ExistsInParse
             acceptedBy = hasBeenAcceptedBy
         }
         
-        self.init(date: date, stat: status, objectID: parseObject.objectId!, owner: owner, acceptedBy: acceptedBy, createdFrom: createdFrom)
-    }
-    
-    func getWeekOfYear() -> String
-    {
-        return "Week " + String((date - 1.day).weekOfYear)
+        self.init(date: date, owner: owner, objectID: parseObject.objectId!, status: status, acceptedBy: acceptedBy, createdFrom: createdFrom)
     }
 }
