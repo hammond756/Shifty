@@ -134,6 +134,40 @@ class ActionSheet
         actionList.append(acceptAction)
     }
     
+    func createDeleteAction()
+    {
+        let deleteAction = UIAlertAction(title: "Verwijder", style: .Destructive) { action -> Void in
+            
+            let shiftQuery = PFQuery(className: "Shifts")
+                .whereKey("createdFrom", equalTo: self.selectedShift.createdFrom)
+                .whereKey("Owner", equalTo: PFUser.currentUser()!)
+                .whereKey("Status", notContainedIn: ["Awaitting Approval", "Supplied"])
+            
+            shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+               
+                if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
+                {
+                    for (i,object) in enumerate(objects)
+                    {
+                        if i == objects.count - 1
+                        {
+                            object.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                                succes ? self.delegate.refresh() : println(error?.description)
+                            }
+                            return
+                        }
+                        object.deleteInBackground()
+                    }
+                }
+            }
+            
+            let fixedShift = PFQuery(className: "FixedShifts").getObjectWithId(self.selectedShift.createdFrom.objectId!)
+            fixedShift?.deleteInBackground()
+        }
+        
+        actionList.append(deleteAction)
+    }
+    
     // optional before segue (now directly from willselectrow)
     func createSuggestAction()
     {
@@ -186,6 +220,7 @@ class ActionSheet
             case "Revoke": createRevokeAction()
             case "Approve": createApproveAction()
             case "Accept": createAcceptAction()
+            case "Delete": createDeleteAction()
             default: break
             }
         }

@@ -38,11 +38,11 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
-        var message = ""
+        var message = "Wat ga je hiermee doen?"
         
         if selectedShift.status == "idle"
         {
-            actionSheet.includeActions(["Supply"])
+            actionSheet.includeActions(["Supply", "Delete"])
         }
         if selectedShift.status == "Awaitting Approval" && selectedShift.owner == PFUser.currentUser()
         {

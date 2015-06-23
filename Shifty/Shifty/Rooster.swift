@@ -79,6 +79,7 @@ class Rooster
             shift["Date"] = firstOccurrenceDate! + (7 * week).day
             shift["Status"] = "idle"
             shift["Owner"] = PFUser.currentUser()
+            shift["createdFrom"] = fixedShift
             shift.saveInBackground()
         }
     }

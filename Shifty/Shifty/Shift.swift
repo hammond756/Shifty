@@ -34,9 +34,10 @@ class Shift: Equatable, HasDate, ExistsInParse
     var status: String
     var objectID: String
     var owner: PFUser
+    var createdFrom: PFObject
     var acceptedBy: PFUser?
     
-    init(date: NSDate, stat: String, objectID: String, owner: PFUser, acceptedBy: PFUser?)
+    init(date: NSDate, stat: String, objectID: String, owner: PFUser, acceptedBy: PFUser?, createdFrom: PFObject)
     {
         self.date = date
         dateString = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
@@ -45,9 +46,11 @@ class Shift: Equatable, HasDate, ExistsInParse
         self.status = stat
         self.objectID = objectID
         self.owner = owner
+        self.createdFrom = createdFrom
         self.acceptedBy = acceptedBy
         
         self.owner.fetchIfNeededInBackground()
+        self.createdFrom.fetchIfNeededInBackground()
         self.acceptedBy?.fetchIfNeededInBackground()
     }
     
@@ -56,6 +59,7 @@ class Shift: Equatable, HasDate, ExistsInParse
         let date = parseObject["Date"] as! NSDate
         let status = parseObject["Status"] as! String
         let owner = parseObject["Owner"] as! PFUser
+        let createdFrom = parseObject["createdFrom"] as! PFObject
         var acceptedBy: PFUser? = nil
         
         if let hasBeenAcceptedBy = parseObject["acceptedBy"] as? PFUser
@@ -63,20 +67,11 @@ class Shift: Equatable, HasDate, ExistsInParse
             acceptedBy = hasBeenAcceptedBy
         }
         
-        self.init(date: date, stat: status, objectID: parseObject.objectId!, owner: owner, acceptedBy: acceptedBy)
+        self.init(date: date, stat: status, objectID: parseObject.objectId!, owner: owner, acceptedBy: acceptedBy, createdFrom: createdFrom)
     }
     
     func getWeekOfYear() -> String
     {
         return "Week " + String((date - 1.day).weekOfYear)
     }
-    
-    func setFromParseObject(object: PFObject)
-    {
-        self.date = object["Date"] as! NSDate
-        self.status = object["Status"] as! String
-        self.owner = object["Owner"] as! PFUser
-    }
-    
-    
 }
