@@ -43,7 +43,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
-        let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
+        let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: nil)
         var message = "Wat ga je hiermee doen?"
         
         if selectedShift.status == "idle"

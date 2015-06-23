@@ -171,6 +171,10 @@ class Rooster
                     callback(suggestions: [])
                 }
             }
+            else
+            {
+                return
+            }
         }
     }
     

@@ -26,7 +26,7 @@ class SuggestionViewController: ShiftControllerInterface
 
             if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
-                request.addObjectsFromArray(self.selectedShifts, forKey: "replies")
+                request.addUniqueObjectsFromArray(self.selectedShifts, forKey: "replies")
                 request.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                     
                     if succes
@@ -50,7 +50,11 @@ class SuggestionViewController: ShiftControllerInterface
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
-        selectedShifts.append(selectedShift.objectID)
+        if selectedShift.status == "idle"
+        {
+            selectedShifts.append(selectedShift.objectID)
+        }
+        // else: "Je hebt diensten geselecteerd die al in behandeling zijn"
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)

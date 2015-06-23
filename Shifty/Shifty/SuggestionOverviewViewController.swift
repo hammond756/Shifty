@@ -51,10 +51,18 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = suggestions[indexPath.row]
-        let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
+        let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: associatedRequest)
         
         // TODO: create refuseAction
-        actionSheet.includeActions(["Accept"])
+        if selectedShift.status == "Awaitting Approval"
+        {
+            actionSheet.includeActions(["Approve Suggestion"])
+        }
+        else
+        {
+            actionSheet.includeActions(["Accept"])
+        }
+        
         
         let alertController = actionSheet.getAlertController()
         alertController.presentingViewController?.view = self.view
@@ -64,11 +72,6 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     }
     
     // required from delegate, but not not needed
-    func showAlert(alertView: UIAlertController)
-    {
-        
-    }
-    
     func switchStateOfActivityView(on: Bool)
     {
         if !on
@@ -95,5 +98,10 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
                 self.switchStateOfActivityView(false)
             }
         }
+    }
+    
+    func popViewController()
+    {
+        navigationController?.popViewControllerAnimated(false)
     }
 }

@@ -54,7 +54,7 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = rooster.suppliedShifts[indexPath.section][indexPath.row]
-        let actionSheet = ActionSheet(shift: selectedShift, delegate: self)
+        let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: nil)
         
         if selectedShift.owner != PFUser.currentUser()
         {

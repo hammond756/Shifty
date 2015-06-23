@@ -41,21 +41,13 @@ class GezochtViewController: ShiftControllerInterface
         let request = rooster.requestedShifs[indexPath.section][indexPath.row]
         selectedRequestID = request.objectID
         
-        let query = PFQuery(className: "RequestedShifts")
-        query.getObjectInBackgroundWithId(selectedRequestID) { (request: PFObject?, error: NSError?) -> Void in
-            
-            if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
-            {
-                if request["requestedBy"] as? PFUser == PFUser.currentUser()
-                {
-                    self.performSegueWithIdentifier("See Suggestions", sender: nil)
-                }
-                else
-                {
-                    self.performSegueWithIdentifier("Make Suggestion", sender: nil)
-                }
-                
-            }
+        if request.owner == PFUser.currentUser()
+        {
+            self.performSegueWithIdentifier("See Suggestions", sender: nil)
+        }
+        else
+        {
+            self.performSegueWithIdentifier("Make Suggestion", sender: nil)
         }
         
         return indexPath
