@@ -105,11 +105,27 @@
                                     <action selector="submitRooster" destination="EbF-JY-d39" eventType="touchUpInside" id="hid-cv-6Kn"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="a16-ms-Ap3">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <subviews>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="U2B-lU-dXw">
+                                        <rect key="frame" x="282" y="225" width="37" height="37"/>
+                                        <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="U2B-lU-dXw" secondAttribute="centerY" id="5bt-qO-fuR"/>
+                                    <constraint firstAttribute="centerX" secondItem="U2B-lU-dXw" secondAttribute="centerX" constant="-0.5" id="xRz-u6-WEb"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="a16-ms-Ap3" secondAttribute="trailing" id="0Pe-o4-YLE"/>
                             <constraint firstItem="ULV-CV-l5q" firstAttribute="leading" secondItem="ncw-61-RfW" secondAttribute="trailing" constant="8" id="1P3-dA-Axx"/>
                             <constraint firstItem="qaH-d0-Jz1" firstAttribute="leading" secondItem="ULV-CV-l5q" secondAttribute="trailing" constant="8" id="3H7-mS-z4Z"/>
+                            <constraint firstItem="a16-ms-Ap3" firstAttribute="bottom" secondItem="UQh-hO-idB" secondAttribute="top" id="4Ud-G2-2vM"/>
                             <constraint firstAttribute="centerX" secondItem="ULV-CV-l5q" secondAttribute="centerX" constant="-8.5" id="59Q-9Y-TD3"/>
                             <constraint firstItem="ncw-61-RfW" firstAttribute="leading" secondItem="9JL-G2-JWe" secondAttribute="leadingMargin" constant="121" id="5KZ-cE-oQ3"/>
                             <constraint firstItem="qaH-d0-Jz1" firstAttribute="leading" secondItem="ULV-CV-l5q" secondAttribute="trailing" constant="8" symbolic="YES" id="6I7-r8-ZCY"/>
@@ -121,6 +137,8 @@
                             <constraint firstAttribute="centerY" secondItem="ULV-CV-l5q" secondAttribute="centerY" constant="1" id="gPa-6H-g2l"/>
                             <constraint firstItem="ULV-CV-l5q" firstAttribute="leading" secondItem="ncw-61-RfW" secondAttribute="trailing" constant="8" symbolic="YES" id="ll8-6z-E71"/>
                             <constraint firstItem="ULV-CV-l5q" firstAttribute="centerY" secondItem="ncw-61-RfW" secondAttribute="centerY" constant="-1" id="nVK-g4-Zdj"/>
+                            <constraint firstItem="a16-ms-Ap3" firstAttribute="top" secondItem="ygV-si-8q6" secondAttribute="bottom" id="oqW-54-h1R"/>
+                            <constraint firstItem="a16-ms-Ap3" firstAttribute="leading" secondItem="9JL-G2-JWe" secondAttribute="leading" id="prU-we-xe0"/>
                             <constraint firstItem="ncw-61-RfW" firstAttribute="width" secondItem="qaH-d0-Jz1" secondAttribute="width" id="qQH-AW-O0g"/>
                             <constraint firstAttribute="centerX" secondItem="ULV-CV-l5q" secondAttribute="centerX" constant="4.5" id="r1n-hI-ADO"/>
                             <constraint firstItem="qaH-d0-Jz1" firstAttribute="top" secondItem="ULV-CV-l5q" secondAttribute="top" id="vlV-S6-119"/>
@@ -160,6 +178,8 @@
                     </view>
                     <navigationItem key="navigationItem" title="Nieuwe Shift" id="G1I-K2-sK5"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="U2B-lU-dXw" id="EyG-gP-Kpf"/>
+                        <outlet property="activityView" destination="a16-ms-Ap3" id="JS2-wL-aRY"/>
                         <outlet property="dayField" destination="ncw-61-RfW" id="9Ng-WN-AD2"/>
                         <outlet property="submitButton" destination="qaH-d0-Jz1" id="a9X-a1-kR4"/>
                         <outlet property="timeField" destination="ULV-CV-l5q" id="qfH-6S-wSG"/>

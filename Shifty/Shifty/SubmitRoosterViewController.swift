@@ -9,11 +9,13 @@
 import UIKit
 import Parse
 
-class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate
+class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, RoosterDelegate
 {    
     @IBOutlet weak var dayField: UITextField!
     @IBOutlet weak var timeField: UITextField!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var activityView: UIView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var textFieldSetBeingEdited: Int? = nil
     var shiftPicker = UIPickerView()
@@ -21,6 +23,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     // set properties of UI elements and asign the delegate/datasource of the UIPickerView
     override func viewDidLoad()
     {
+        switchStateOfActivityView(false)
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         
@@ -29,9 +32,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         shiftPicker.delegate = self
         shiftPicker.dataSource = self
         
-        let length = textFieldArray.count
-        
-        for i in 0..<length
+        for i in 0..<textFieldArray.count
         {
             textFieldArray[i].tintColor = UIColor.clearColor()
             textFieldArray[i].inputView = shiftPicker
@@ -48,12 +49,32 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         
         if let time = extractTimeComponents(timeField.text)
         {
-            let rooster = Rooster()
+            let rooster = Rooster(delegate: self)
+            switchStateOfActivityView(true)
             rooster.registerFixedShift(day, hour: time[0], minute: time[1])
         }
         
         dayField.text = ""
         timeField.text = ""
+    }
+    
+    func popViewController()
+    {
+        navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func switchStateOfActivityView(on: Bool)
+    {
+        if !on
+        {
+            activityIndicator.stopAnimating()
+            activityView.hidden = true
+        }
+        if on
+        {
+            activityIndicator.startAnimating()
+            activityView.hidden = false
+        }
     }
     
     // get two integers [hour, minute] from string format HH:mm
