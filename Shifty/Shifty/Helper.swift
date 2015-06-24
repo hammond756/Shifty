@@ -154,6 +154,21 @@ class Helper
         }
     }
     
+    func updateShiftStatuses(shiftIDs: [String], newStatus: String, suggestedTo: PFObject?)
+    {
+        for ID in shiftIDs
+        {
+            PFQuery(className: "Shifts").getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
+                if let shift = self.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
+                {
+                    shift["Status"] = newStatus
+                    newStatus == "Suggested" ? (shift["suggestedTo"] = suggestedTo!) : shift.removeObjectForKey("suggestedTo")
+                    shift.saveInBackground()
+                }
+            }
+        }
+    }
+    
     // function that calculates on which date the next occurence is of a given weekday
     func nextOccurenceOfDay(day: String) -> NSDate
     {

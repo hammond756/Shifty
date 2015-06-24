@@ -43,7 +43,6 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
     
     @IBAction func finishedSelecting(sender: UIBarButtonItem)
     {
-        println(selectedDates)
         for (i,date) in enumerate(selectedDates)
         {
             let request = PFObject(className: "RequestedShifts")
@@ -106,7 +105,6 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
             self.getDates() { possibleDates -> Void in
                 self.sectionsInTable = self.helper.getSections(possibleDates)
                 self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
-                println(self.sectionedDates)
                 self.tableView.reloadData()
                 self.activityIndicator.stopAnimating()
                 self.activityView.hidden = true

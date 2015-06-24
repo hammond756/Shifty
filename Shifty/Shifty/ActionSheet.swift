@@ -82,9 +82,11 @@ class ActionSheet
                 
                 if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
                 {
+                    let suggestedShiftIDs = request["replies"] as! [String]
                     request.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         self.delegate.popViewController?()
                         self.delegate.refresh()
+                        self.helper.updateShiftStatuses(suggestedShiftIDs, newStatus: "idle", suggestedTo: nil)
                     }
                 }
             }

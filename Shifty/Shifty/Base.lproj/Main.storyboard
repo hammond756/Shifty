@@ -304,7 +304,7 @@
             </objects>
             <point key="canvasLocation" x="1707" y="-286"/>
         </scene>
-        <!--Select Requests View Controller-->
+        <!--Selecteer Data-->
         <scene sceneID="RKs-o2-kD4">
             <objects>
                 <viewController id="DjC-G7-Pxx" customClass="SelectRequestsViewController" customModule="Shifty" customModuleProvider="target" sceneMemberID="viewController">
@@ -316,7 +316,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xq6-8Z-oZb">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="xq6-8Z-oZb">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -359,6 +359,13 @@
                             <constraint firstItem="mC5-42-hrZ" firstAttribute="top" secondItem="0MQ-4O-w6w" secondAttribute="bottom" id="pu0-C7-lDM"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Selecteer Data" id="3fz-Yt-Msl">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="mIy-rd-GFM">
+                            <connections>
+                                <action selector="finishedSelecting:" destination="DjC-G7-Pxx" id="eV4-vT-jcx"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="IHs-Be-QHW" id="by7-7I-uuK"/>
                         <outlet property="activityView" destination="mC5-42-hrZ" id="rbA-qn-1KV"/>
