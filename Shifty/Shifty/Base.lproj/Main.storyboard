@@ -320,7 +320,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Date" id="ai5-qg-YG6">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="ai5-qg-YG6">
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ai5-qg-YG6" id="w4D-g0-Uwa">
                                             <autoresizingMask key="autoresizingMask"/>
@@ -526,25 +526,47 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="centerY" secondItem="H6k-ze-lwB" secondAttribute="centerY" id="LTt-iV-KeQ"/>
-                                    <constraint firstAttribute="centerX" secondItem="H6k-ze-lwB" secondAttribute="centerX" constant="-0.5" id="ycz-fZ-ZLw"/>
+                                    <constraint firstAttribute="centerX" secondItem="H6k-ze-lwB" secondAttribute="centerX" constant="-0.5" id="L46-En-AVh"/>
+                                    <constraint firstAttribute="centerY" secondItem="H6k-ze-lwB" secondAttribute="centerY" id="M1z-L1-D5B"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="leading" secondItem="Zc9-wL-NzD" secondAttribute="leading" id="3LC-Zg-99g"/>
                             <constraint firstItem="8TH-6n-DGy" firstAttribute="trailing" secondItem="sFc-Ul-LrO" secondAttribute="trailing" id="5Ht-fS-K4q"/>
                             <constraint firstItem="sFc-Ul-LrO" firstAttribute="centerX" secondItem="zhh-Qd-Ngw" secondAttribute="centerX" id="5cp-YA-JK9"/>
                             <constraint firstItem="sFc-Ul-LrO" firstAttribute="bottom" secondItem="FIk-eA-j0J" secondAttribute="top" id="6MW-de-CxG"/>
                             <constraint firstItem="zhh-Qd-Ngw" firstAttribute="top" secondItem="MTW-QJ-Xaw" secondAttribute="bottom" constant="22" id="839-GU-izl"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="centerX" secondItem="zhh-Qd-Ngw" secondAttribute="centerX" id="CAC-Ph-GVF"/>
+                            <constraint firstAttribute="trailing" secondItem="sFc-Ul-LrO" secondAttribute="trailing" id="DxO-aS-sdX"/>
                             <constraint firstItem="sFc-Ul-LrO" firstAttribute="leading" secondItem="Zc9-wL-NzD" secondAttribute="leading" id="GW7-dM-UU5"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="top" secondItem="MTW-QJ-Xaw" secondAttribute="bottom" id="HSs-b4-4v5"/>
                             <constraint firstAttribute="trailing" secondItem="sFc-Ul-LrO" secondAttribute="trailing" id="J18-Ey-sFS"/>
                             <constraint firstItem="sFc-Ul-LrO" firstAttribute="top" secondItem="MTW-QJ-Xaw" secondAttribute="bottom" id="K1P-WD-AZx"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="trailing" secondItem="8TH-6n-DGy" secondAttribute="trailing" id="Q0D-EA-sGh"/>
                             <constraint firstItem="zhh-Qd-Ngw" firstAttribute="centerY" secondItem="Zc9-wL-NzD" secondAttribute="centerY" id="QVx-lC-6un"/>
-                            <constraint firstItem="8TH-6n-DGy" firstAttribute="bottom" secondItem="FIk-eA-j0J" secondAttribute="top" id="hvp-31-KZJ"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="top" secondItem="8TH-6n-DGy" secondAttribute="top" id="ZMU-zt-mUi"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="leading" secondItem="8TH-6n-DGy" secondAttribute="leading" id="eCF-jt-aRb"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="bottom" secondItem="8TH-6n-DGy" secondAttribute="bottom" id="ip2-1F-Rxp"/>
                             <constraint firstItem="8TH-6n-DGy" firstAttribute="top" secondItem="sFc-Ul-LrO" secondAttribute="top" id="mCT-jt-rBl"/>
                             <constraint firstItem="8TH-6n-DGy" firstAttribute="leading" secondItem="sFc-Ul-LrO" secondAttribute="leading" id="wxM-vE-cAi"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="bottom" secondItem="FIk-eA-j0J" secondAttribute="top" id="xqv-ap-W1Z"/>
+                            <constraint firstItem="sFc-Ul-LrO" firstAttribute="leading" secondItem="Zc9-wL-NzD" secondAttribute="leading" id="yby-j8-TEd"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="5Ht-fS-K4q"/>
+                                <exclude reference="mCT-jt-rBl"/>
+                                <exclude reference="wxM-vE-cAi"/>
+                                <exclude reference="3LC-Zg-99g"/>
+                                <exclude reference="5cp-YA-JK9"/>
+                                <exclude reference="6MW-de-CxG"/>
+                                <exclude reference="GW7-dM-UU5"/>
+                                <exclude reference="J18-Ey-sFS"/>
+                                <exclude reference="K1P-WD-AZx"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Suggesties" id="cf0-cd-xC7"/>
                     <connections>

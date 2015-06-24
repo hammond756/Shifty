@@ -17,7 +17,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     {
         performSegueWithIdentifier("Submit Rooster", sender: nil)
     }
-    
+
     override func viewDidLoad()
     {
         // display the current user's username in the navigation bar
@@ -33,6 +33,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     override func viewWillAppear(animated: Bool)
     {
         rooster.updateSchedule()
+        getData()
         super.viewWillAppear(animated)
     }
     
@@ -44,31 +45,31 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: nil)
         var message = "Wat ga je hiermee doen?"
         
-        if selectedShift.status == "idle"
+        if selectedShift.status == Status.idle
         {
-            actionSheet.includeActions(["Supply", "Delete"])
+            actionSheet.includeActions([Action.supply, Action.delete])
         }
-        if selectedShift.status == "Awaitting Approval" && selectedShift.owner == PFUser.currentUser()
+        if selectedShift.status == Status.awaitting && selectedShift.owner == PFUser.currentUser()
         {
             message = selectedShift.acceptedBy!.username! + " wil jouw dienst overnemen."
-            actionSheet.includeActions(["Approve", "Disapprove"])
+            actionSheet.includeActions([Action.approve, Action.disapprove])
         }
-        else if selectedShift.status == "Awaitting Approval" && selectedShift.owner != PFUser.currentUser()
+        else if selectedShift.status == Status.awaitting && selectedShift.owner != PFUser.currentUser()
         {
             message = "Je wil " + selectedShift.owner.username! + " zijn/haar dienst overnemen."
-            actionSheet.includeActions(["Approve", "Disapprove"])
+            actionSheet.includeActions([Action.approve, Action.disapprove])
         }
-        if selectedShift.status == "Supplied"
+        if selectedShift.status == Status.supplied
         {
-            actionSheet.includeActions(["Revoke"])
+            actionSheet.includeActions([Action.revoke])
         }
-        if selectedShift.status == "Suggested"
+        if selectedShift.status == Status.suggested
         {
             message = "Je hebt deze dienst voorgesteld aan een collega"
         }
-        if selectedShift.status == "Awaitting Approval, sug"
+        if selectedShift.status == Status.awaittingFromSug
         {
-            actionSheet.includeActions(["Approve Suggestion"])
+            actionSheet.includeActions([Action.approveSug])
         }
         
         let alertController = actionSheet.getAlertController()
@@ -89,15 +90,14 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         
         switch shiftForCell.status
         {
-        case "Supplied": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
-        case "Awaitting Approval": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
-        case "Awaitting Approval, sug": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
-        case "Suggested": cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
+        case Status.supplied: cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
+        case Status.awaitting: cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
+        case Status.awaittingFromSug: cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
+        case Status.suggested: cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
         default: break
         }
         
         return cell
-        
     }
     
     func showAlert(alertView: UIAlertController)
@@ -106,11 +106,11 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         presentViewController(alertView, animated: true, completion: nil)
     }
     
-    // actions on action sheet call refresh when they are done, so the view can reload properly
+    // actions on action sheet getData() when the corresponding changes are saved, so the view can reload properly
     func getData()
     {
         switchStateOfActivityView(true)
-        rooster.requestShifts("Owned") { sections -> Void in
+        rooster.requestShifts(Status.owned) { sections -> Void in
             self.refresh(sections)
         }
     }

@@ -24,14 +24,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
     
     // stores the section header titles (eg. Week 34)
     var sectionsInTable = [String]()
-    
-    // ShiftControllerInterface ViewControllers refresh their data every time they appear
-    override func viewWillAppear(animated: Bool)
-    {
-        refresh()
-        super.viewWillAppear(animated)
-    }
-    
+        
     // get number of rows for a section
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
@@ -41,7 +34,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
     // generate cell with commonly shared properties
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(Constant.reuseCell, forIndexPath: indexPath) as! UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
@@ -67,6 +60,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
         activityView.hidden = !on
     }
     
+    // reload the table view
     func refresh(sections: [String])
     {
         sectionsInTable = sections

@@ -21,7 +21,7 @@ class Rooster
     
     let helper = Helper()
     
-    func registerFixedShift(day: String, hour: Int, minute: Int, callback: (object: PFObject) -> Void)
+    func registerFixedShift(day: String, hour: Int, minute: Int, callback: (object: PFObject?) -> Void)
     {
         helper.checkDoubleEntries(day) { noDoubleEntries -> Void in
             if noDoubleEntries
@@ -40,9 +40,13 @@ class Rooster
                     }
                 }
             }
+            else
+            {
+                callback(object: nil)
+            }
         }
     }
-       
+    
     // samenvoegen met generate additional shift
     func generateInitialShifts(fixedShift: PFObject, callback: () -> Void)
     {

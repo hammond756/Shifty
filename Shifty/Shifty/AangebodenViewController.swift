@@ -14,8 +14,7 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
 {
     override func viewWillAppear(animated: Bool)
     {
-        refresh()
-        
+        getData()
         super.viewWillAppear(animated)
     }
     
@@ -42,7 +41,7 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
         
         if selectedShift.owner != PFUser.currentUser()
         {
-            actionSheet.includeActions(["Accept"])
+            actionSheet.includeActions([Action.accept])
         }
         
         let alertController = actionSheet.getAlertController()
@@ -55,7 +54,7 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
     func getData()
     {
         switchStateOfActivityView(true)
-        rooster.requestShifts("Supplied") { sections -> Void in
+        rooster.requestShifts(Status.supplied) { sections -> Void in
             self.refresh(sections)
         }
     }

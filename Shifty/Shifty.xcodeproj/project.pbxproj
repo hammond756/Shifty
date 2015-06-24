@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9C2D7B0D1B3ACF52005146DE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2D7B0C1B3ACF52005146DE /* Constants.swift */; };
 		9C2EF55D1B1CB1E30067F689 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C2EF55C1B1CB1E30067F689 /* AppDelegate.swift */; };
 		9C2EF5621B1CB1E30067F689 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9C2EF5601B1CB1E30067F689 /* Main.storyboard */; };
 		9C2EF5641B1CB1E30067F689 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9C2EF5631B1CB1E30067F689 /* Images.xcassets */; };
@@ -60,6 +61,7 @@
 /* Begin PBXFileReference section */
 		247A6B8380310E2BE9669A39 /* Pods-Shifty.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Shifty.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Shifty/Pods-Shifty.debug.xcconfig"; sourceTree = "<group>"; };
 		522CDEC5F1F741F7B49AE007 /* Pods_Shifty.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Shifty.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9C2D7B0C1B3ACF52005146DE /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		9C2EF5571B1CB1E20067F689 /* Shifty.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Shifty.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C2EF55B1B1CB1E30067F689 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9C2EF55C1B1CB1E30067F689 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 				9CBA579D1B1E362900B1F708 /* LogInViewController.swift */,
 				9C8131331B34509400D9CE24 /* CustomPFLoginViewController.swift */,
 				9C81312F1B330DD600D9CE24 /* ShiftControllerInterface.swift */,
+				9C2D7B0C1B3ACF52005146DE /* Constants.swift */,
 				9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */,
 				9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */,
 				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
@@ -409,6 +412,7 @@
 				9CF5E90A1B307E1A002B7DD6 /* Request.swift in Sources */,
 				9CFB6DEB1B23B1910010393E /* RoosterViewController.swift in Sources */,
 				9CBA579E1B1E362900B1F708 /* LogInViewController.swift in Sources */,
+				9C2D7B0D1B3ACF52005146DE /* Constants.swift in Sources */,
 				9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */,
 				9CFB6DE91B2072EF0010393E /* Rooster.swift in Sources */,
 				9C81312E1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift in Sources */,

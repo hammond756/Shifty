@@ -17,15 +17,29 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
 
     override func viewDidLoad()
     {
-        refresh()
-        let parseObject = PFQuery(className: "RequestedShifts").getObjectWithId(requestID)
+        getData()
+        let parseObject = PFQuery(className: ParseClass.requests).getObjectWithId(requestID)
         request = Request(parseObject: parseObject!)
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        getData()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return suggestions.count
+    }
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    {
+        return nil
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
@@ -36,26 +50,28 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
         cell.textLabel?.text = shiftForCell.dateString
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
         
-        if shiftForCell.status == "Awaitting Approval, sug"
+        if shiftForCell.status == Status.awaittingFromSug
         {
             cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
         }
         
+        println("deque")
+        
         return cell
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = suggestions[indexPath.row]
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: requestID)
         
-        if selectedShift.status == "Awaitting Approval, sug"
+        if selectedShift.status == Status.awaittingFromSug
         {
-            actionSheet.includeActions(["Approve Suggestion", "Disapprove Suggestion"])
+            actionSheet.includeActions([Action.approveSug, /*Action.disapproveSug*/])
         }
-        else if selectedShift.status == "Suggested"
+        if selectedShift.status == Status.suggested
         {
-            actionSheet.includeActions(["Accept Suggestion"])
+            actionSheet.includeActions([Action.acceptSug])
         }
         
         let alertController = actionSheet.getAlertController()
@@ -72,6 +88,7 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
         rooster.requestSuggestions(requestID) { suggestions -> Void in
             self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
                 self.suggestions = shifts
+                println(shifts)
                 shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
                 self.tableView.reloadData()
                 self.switchStateOfActivityView(false)

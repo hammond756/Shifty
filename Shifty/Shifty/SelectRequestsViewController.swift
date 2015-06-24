@@ -20,23 +20,17 @@ extension NSDate: HasDate
     var date: NSDate { get { return self } }
 }
 
-class SelectRequestsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate
+class SelectRequestsViewController: ShiftControllerInterface
 {
     let amountOfDaysToGenerate = 31
-    var sectionsInTable = [String]()
+
     var sectionedDates = [[NSDate]]()
     var selectedDates = [NSDate]()
     var previousRequests = [NSDate]()
-    
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var activityView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-    let rooster = Rooster()
-    let helper = Helper()
         
     override func viewDidLoad()
     {
-        activityIndicator.startAnimating()
+        switchStateOfActivityView(true)
         showOptionsForCurrentUser()
         super.viewDidLoad()
     }
@@ -45,12 +39,11 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
     {
         for (i,date) in enumerate(selectedDates)
         {
-            let request = PFObject(className: "RequestedShifts")
-            request["date"] = date
-            request["requestedBy"] = PFUser.currentUser()
+            let request = PFObject(className: ParseClass.requests)
+            request[ParseKey.date] = date
+            request[ParseKey.requestedBy] = PFUser.currentUser()
             
             request.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                
                 if error != nil
                 {
                     println(error?.description)
@@ -89,15 +82,15 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
     
     func showOptionsForCurrentUser()
     {
-        let query = PFQuery(className: "RequestedShifts")
-        query.whereKey("requestedBy", equalTo: PFUser.currentUser()!)
+        let query = PFQuery(className: ParseClass.requests)
+        query.whereKey(ParseKey.requestedBy, equalTo: PFUser.currentUser()!)
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
             
             if let requests = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 for request in requests
                 {
-                    let date = request["date"] as! NSDate
+                    let date = request[ParseKey.date] as! NSDate
                     self.previousRequests.append(date)
                 }
             }
@@ -106,35 +99,24 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
                 self.sectionsInTable = self.helper.getSections(possibleDates)
                 self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
                 self.tableView.reloadData()
-                self.activityIndicator.stopAnimating()
-                self.activityView.hidden = true
+                self.switchStateOfActivityView(false)
             }
             
         }
     }
+    
     // tableView delegate fuctions
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return sectionedDates[section].count
     }
     
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        return sectionsInTable[section]
-    }
-    
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return sectionedDates.count
-    }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Date", forIndexPath: indexPath) as! UITableViewCell
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
+        let dateForCell = sectionedDates[indexPath.section][indexPath.row]
         
-        let date = sectionedDates[indexPath.section][indexPath.row]
-        
-        cell.textLabel?.text = date.toString(format: DateFormat.Custom("EEEE dd MMM"))
-        cell.textLabel?.textAlignment = NSTextAlignment.Center
+        cell.textLabel?.text = dateForCell.toString(format: DateFormat.Custom("EEEE dd MMM"))
         
         return cell
     }
@@ -152,7 +134,6 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
         if let index = find(selectedDates, deselectedDate)
         {
             selectedDates.removeAtIndex(index)
-            println(deselectedDate)
         }
     }
     

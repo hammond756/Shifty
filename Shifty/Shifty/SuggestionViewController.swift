@@ -21,14 +21,19 @@ class SuggestionViewController: ShiftControllerInterface
     var request: Request? = nil
     var parseObject: PFObject? = nil
     
+    override func viewWillAppear(animated: Bool) {
+        getData()
+        super.viewWillAppear(animated)
+    }
+    
     @IBAction func finishedSuggesting(sender: UIBarButtonItem)
     {
-        let query = PFQuery(className: "RequestedShifts")
+        let query = PFQuery(className: ParseClass.requests)
         query.getObjectInBackgroundWithId(requestID) { (request: PFObject?, error: NSError?) -> Void in
 
             if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
-                request.addUniqueObjectsFromArray(self.selectedShifts, forKey: "replies")
+                request.addUniqueObjectsFromArray(self.selectedShifts, forKey: ParseKey.replies)
                 request.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                     
                     if succes
@@ -39,24 +44,35 @@ class SuggestionViewController: ShiftControllerInterface
             }
         }
         
-        helper.updateShiftStatuses(selectedShifts, newStatus: "Suggested", suggestedTo: parseObject) { }
+        helper.updateShiftStatuses(selectedShifts, newStatus: Status.suggested, suggestedTo: parseObject) { }
     }
     
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
+        let shiftForCell = rooster.ownedShifts[indexPath.section][indexPath.row]
+        
+        cell.textLabel?.text = shiftForCell.dateString
+        cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
+        
+        return cell
+    }
     override func viewDidLoad()
     {
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
-        parseObject = PFQuery(className: "RequestedShifts").getObjectWithId(requestID)
+        
+        parseObject = PFQuery(className: ParseClass.requests).getObjectWithId(requestID)
         request = Request(parseObject: parseObject!)
+        
         super.viewDidLoad()
     }
     
     // everything to do with the table view
-    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
-        if selectedShift.status == "idle"
+        
+        if selectedShift.status == Status.idle
         {
             selectedShifts.append(selectedShift.objectID)
         }
@@ -70,6 +86,14 @@ class SuggestionViewController: ShiftControllerInterface
         if let index = find(selectedShifts, deselectedShift.objectID)
         {
             selectedShifts.removeAtIndex(index)
+        }
+    }
+    
+    func getData()
+    {
+        switchStateOfActivityView(true)
+        rooster.requestShifts(Status.owned) { sections -> Void in
+            self.refresh(sections)
         }
     }
 }

@@ -52,10 +52,25 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         {
             switchStateOfActivityView(true)
             rooster.registerFixedShift(day, hour: time[0], minute: time[1]) { shift -> Void in
-                self.rooster.generateInitialShifts(shift) { () -> Void in
-                    self.switchStateOfActivityView(false)
-                    self.navigationController?.popViewControllerAnimated(true)
+                if let shift = shift
+                {
+                    self.rooster.generateInitialShifts(shift) { () -> Void in
+                        self.switchStateOfActivityView(false)
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
                 }
+                else
+                {
+                    self.switchStateOfActivityView(false)
+                    let alertView = UIAlertController(title: nil, message: "Je hebt al een dienst op deze dag", preferredStyle: .Alert)
+                    let cancelAction = UIAlertAction(title: "Ohja", style: .Cancel) { action -> Void in
+                        alertView.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                    alertView.addAction(cancelAction)
+                    alertView.popoverPresentationController?.sourceView = self.view
+                    self.presentViewController(alertView, animated: true, completion: nil)
+                }
+                
             }
         }
         
@@ -65,16 +80,8 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     func switchStateOfActivityView(on: Bool)
     {
-        if !on
-        {
-            activityIndicator.stopAnimating()
-            activityView.hidden = true
-        }
-        if on
-        {
-            activityIndicator.startAnimating()
-            activityView.hidden = false
-        }
+        on ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+        activityView.hidden = !on
     }
     
     // get two integers [hour, minute] from string format HH:mm
@@ -92,29 +99,23 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     // put info on selected picker rows in the textfields
     func updateTextFields()
     {
-        dayField.text = pickerData[0][shiftPicker.selectedRowInComponent(0)]
-        timeField.text = pickerData[1][shiftPicker.selectedRowInComponent(1)]
+        dayField.text = Constant.pickerData[0][shiftPicker.selectedRowInComponent(0)]
+        timeField.text = Constant.pickerData[1][shiftPicker.selectedRowInComponent(1)]
     }
-    
-    // delegate functions + data for picker view
-    let pickerData = [
-        ["Maandag","Dinsdag","Woensdag","Donderdag","Vrijdag","Zaterdag","Zondag"],
-        ["15:00", "15:30", "16:30", "17:00", "18:00", "18:30"]
-    ]
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
     {
-        return pickerData[component].count
+        return Constant.pickerData[component].count
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int
     {
-        return pickerData.count
+        return Constant.pickerData.count
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String
     {
-        return pickerData[component][row]
+        return Constant.pickerData[component][row]
     }
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
     {

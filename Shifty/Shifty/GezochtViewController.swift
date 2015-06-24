@@ -22,14 +22,21 @@ class GezochtViewController: ShiftControllerInterface
         makeRequestButton.clipsToBounds = true
         super.viewDidLoad()
     }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        getData()
+        super.viewWillAppear(animated)
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
-        if segue.identifier == "Make Suggestion"
+        if segue.identifier == Segue.makeSuggestion
         {
             let svc = segue.destinationViewController as! SuggestionViewController
             svc.requestID = selectedRequestID
         }
-        if segue.identifier == "See Suggestions"
+        if segue.identifier == Segue.seeSuggestions
         {
             let sovc = segue.destinationViewController as! SuggestionOverviewViewController
             sovc.requestID = selectedRequestID
@@ -43,11 +50,11 @@ class GezochtViewController: ShiftControllerInterface
         
         if request.owner == PFUser.currentUser()
         {
-            self.performSegueWithIdentifier("See Suggestions", sender: nil)
+            self.performSegueWithIdentifier(Segue.seeSuggestions, sender: nil)
         }
         else
         {
-            self.performSegueWithIdentifier("Make Suggestion", sender: nil)
+            self.performSegueWithIdentifier(Segue.makeSuggestion, sender: nil)
         }
         
         return indexPath

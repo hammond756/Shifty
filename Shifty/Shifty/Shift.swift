@@ -30,6 +30,8 @@ class Shift: ContentInterface
         self.createdFrom.fetchIfNeededInBackground()
         self.acceptedBy?.fetchIfNeededInBackground()
         
+        println(self.acceptedBy)
+        
         super.init(date: date, owner: owner, objectID: objectID)
     }
     
@@ -40,7 +42,7 @@ class Shift: ContentInterface
         let owner = parseObject["Owner"] as! PFUser
         let createdFrom = parseObject["createdFrom"] as! PFObject
         let suggestedTo = parseObject["suggestedTo"] as? PFObject
-        var acceptedBy = parseObject["accptedBy"] as? PFUser
+        var acceptedBy = parseObject["acceptedBy"] as? PFUser
         
         self.init(date: date, owner: owner, objectID: parseObject.objectId!, status: status, acceptedBy: acceptedBy, createdFrom: createdFrom, suggestedTo: suggestedTo)
     }
