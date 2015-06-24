@@ -140,7 +140,6 @@ class Helper
                     let date = shift["Date"] as! NSDate
                     if date.day == dateToCheck.day && date.month == dateToCheck.date.month
                     {
-                        println(true)
                         callback(taken: true)
                         return
                     }
@@ -154,16 +153,26 @@ class Helper
         }
     }
     
-    func updateShiftStatuses(shiftIDs: [String], newStatus: String, suggestedTo: PFObject?)
+    func updateShiftStatuses(shiftIDs: [String], newStatus: String, suggestedTo: PFObject?, callback: () -> Void)
     {
         for ID in shiftIDs
         {
             PFQuery(className: "Shifts").getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
                 if let shift = self.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
+                    let Owner = "Owner"
+                    println("\(ID): \(shift[Owner])")
                     shift["Status"] = newStatus
-                    newStatus == "Suggested" ? (shift["suggestedTo"] = suggestedTo!) : shift.removeObjectForKey("suggestedTo")
-                    shift.saveInBackground()
+                    switch newStatus
+                    {
+                    case "Suggested": shift["suggestedTo"] = suggestedTo!
+                    case "idle": shift.removeObjectForKey("suggestedTo")
+                    case "Supplied": shift.removeObjectForKey("acceptedBy")
+                    default: break
+                    }
+                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        callback()
+                    }
                 }
             }
         }

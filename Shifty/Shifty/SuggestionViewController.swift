@@ -39,23 +39,8 @@ class SuggestionViewController: ShiftControllerInterface
             }
         }
         
-        helper.updateShiftStatuses(selectedShifts, newStatus: "Suggested", suggestedTo: parseObject)
+        helper.updateShiftStatuses(selectedShifts, newStatus: "Suggested", suggestedTo: parseObject) { }
     }
-    
-//    func updateShiftStatuses(shiftIDs: [String])
-//    {
-//        for ID in shiftIDs
-//        {
-//            PFQuery(className: "Shifts").getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
-//                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
-//                {
-//                    shift["Status"] = "Suggested"
-//                    shift["suggestedTo"] = self.parseObject!
-//                    shift.saveInBackground()
-//                }
-//            }
-//        }
-//    }
     
     override func viewDidLoad()
     {

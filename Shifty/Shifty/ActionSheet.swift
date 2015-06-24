@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Parse
 import SwiftDate
+import Darwin
 
 // definiton of protocol that all viewcontrollers incorporating an actionsheet or alertview conform to
 @objc protocol ActionSheetDelegate
@@ -86,13 +87,41 @@ class ActionSheet
                     request.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         self.delegate.popViewController?()
                         self.delegate.refresh()
-                        self.helper.updateShiftStatuses(suggestedShiftIDs, newStatus: "idle", suggestedTo: nil)
+                        self.helper.updateShiftStatuses(suggestedShiftIDs, newStatus: "idle", suggestedTo: nil) { }
                     }
                 }
             }
         }
         
         actionList.append(approveSuggestionAction)
+    }
+    
+    func createDisapproveAction()
+    {
+        let disapproveAction = UIAlertAction(title: "Afkeuren", style: .Default) { action -> Void in
+            // =nil may be irrelevant
+            self.selectedShift.acceptedBy = nil
+            self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: "Supplied", suggestedTo: nil) { () -> Void in
+                self.delegate.refresh()
+            }
+        }
+        
+        actionList.append(disapproveAction)
+    }
+    
+    // WAAROM?????? Owner verandert out of the blue
+    func createDisapproveSuggestionAction()
+    {
+        let disapproveAction = UIAlertAction(title: "Afkeuren, sug", style: .Default) { action -> Void in
+            // =nil may be irrelevant
+            self.selectedShift.acceptedBy = nil
+            println(self.selectedShift.owner)
+            self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: "idle", suggestedTo: nil) { () -> Void in
+                self.delegate.refresh()
+            }
+        }
+        
+        actionList.append(disapproveAction)
     }
     
     func createAcceptSuggestionAction()
@@ -319,6 +348,8 @@ class ActionSheet
             case "Delete": createDeleteAction()
             case "Approve Suggestion": createApproveSuggestionAction()
             case "Accept Suggestion": createAcceptSuggestionAction()
+            case "Disapprove": createDisapproveAction()
+                case "Disapprove Suggestion": createDisapproveSuggestionAction()
             default: break
             }
         }

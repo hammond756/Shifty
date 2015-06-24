@@ -54,14 +54,15 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = suggestions[indexPath.row]
+        println("Action sheet")
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: requestID)
         
         // TODO: create refuseAction
         if selectedShift.status == "Awaitting Approval, sug"
         {
-            actionSheet.includeActions(["Approve Suggestion"])
+            actionSheet.includeActions(["Approve Suggestion", "Disapprove Suggestion"])
         }
-        else
+        else if selectedShift.status == "Suggested"
         {
             actionSheet.includeActions(["Accept Suggestion"])
         }
