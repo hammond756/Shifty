@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, RoosterDelegate
+class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate
 {    
     @IBOutlet weak var dayField: UITextField!
     @IBOutlet weak var timeField: UITextField!
@@ -19,6 +19,7 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     var textFieldSetBeingEdited: Int? = nil
     var shiftPicker = UIPickerView()
+    let rooster = Rooster()
     
     // set properties of UI elements and asign the delegate/datasource of the UIPickerView
     override func viewDidLoad()
@@ -49,18 +50,17 @@ class SubmitRoosterViewController: UIViewController, UIPickerViewDelegate, UIPic
         
         if let time = extractTimeComponents(timeField.text)
         {
-            let rooster = Rooster(delegate: self)
             switchStateOfActivityView(true)
-            rooster.registerFixedShift(day, hour: time[0], minute: time[1])
+            rooster.registerFixedShift(day, hour: time[0], minute: time[1]) { shift -> Void in
+                self.rooster.generateInitialShifts(shift) { () -> Void in
+                    self.switchStateOfActivityView(false)
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
         }
         
         dayField.text = ""
         timeField.text = ""
-    }
-    
-    func popViewController()
-    {
-        navigationController?.popViewControllerAnimated(true)
     }
     
     func switchStateOfActivityView(on: Bool)

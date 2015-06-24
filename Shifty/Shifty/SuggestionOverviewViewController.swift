@@ -11,7 +11,7 @@ import Parse
 
 class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ActionSheetDelegate
 {
-    let rooster = Rooster(delegate: nil)
+    let rooster = Rooster()
     let helper = Helper()
     var suggestions = [Shift]()
     var requestID = ""

@@ -10,12 +10,6 @@ import Parse
 import SwiftDate
 import Foundation
 
-@objc protocol RoosterDelegate
-{
-    func switchStateOfActivityView(on: Bool)
-    optional func popViewController()
-}
-
 class Rooster
 {
     // constant for duration of fixed schedule
@@ -24,16 +18,10 @@ class Rooster
     var ownedShifts = [[Shift]]()
     var suppliedShifts = [[Shift]]()
     var requestedShifs = [[Request]]()
-    var delegate: RoosterDelegate?
     
     let helper = Helper()
     
-    init(delegate: RoosterDelegate?)
-    {
-        self.delegate = delegate
-    }
-    
-    func registerFixedShift(day: String, hour: Int, minute: Int)
+    func registerFixedShift(day: String, hour: Int, minute: Int, callback: (object: PFObject) -> Void)
     {
         helper.checkDoubleEntries(day) { noDoubleEntries -> Void in
             if noDoubleEntries
@@ -48,7 +36,7 @@ class Rooster
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                     if succes
                     {
-                        self.generateInitialShifts(shift)
+                        callback(object: shift)
                     }
                 }
             }
@@ -56,7 +44,7 @@ class Rooster
     }
        
     // samenvoegen met generate additional shift
-    private func generateInitialShifts(fixedShift: PFObject)
+    func generateInitialShifts(fixedShift: PFObject, callback: () -> Void)
     {
         let day = fixedShift["Day"] as! String
         let hour = fixedShift["Hour"] as! Int
@@ -76,8 +64,7 @@ class Rooster
             shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                 if week == self.amountOfRecurringWeeks - 1
                 {
-                    self.delegate!.switchStateOfActivityView(false)
-                    self.delegate!.popViewController!()
+                    callback()
                 }
             }
             fixedShift.saveInBackground()

@@ -38,7 +38,7 @@ class Helper
     {
         if error != nil
         {
-            println(error?.description)
+            println("\(object?.description), \(error?.description)")
             return nil
         }
         

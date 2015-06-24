@@ -31,7 +31,7 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var activityView: UIView!
     @IBOutlet weak var tableView: UITableView!
-    let rooster = Rooster(delegate: nil)
+    let rooster = Rooster()
     let helper = Helper()
         
     override func viewDidLoad()
