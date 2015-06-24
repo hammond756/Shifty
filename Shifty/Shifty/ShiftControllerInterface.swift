@@ -48,44 +48,30 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
         return cell
     }
     
+    // get titles from sectionsInTable and put them in the section headers
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return sectionsInTable[section]
     }
     
+    // return number of sections
     func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
         return sectionsInTable.count
     }
     
-    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
-    {
-        return indexPath
-    }
-    
+    // toggle activity indicator view on (true) off (false)
     func switchStateOfActivityView(on: Bool)
     {
-        if !on
-        {
-            activityIndicator.stopAnimating()
-            activityView.hidden = true
-        }
-        if on
-        {
-            activityIndicator.startAnimating()
-            activityView.hidden = false
-        }
+        on ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
+        activityView.hidden = !on
     }
     
-    // actions on action sheet call refresh when they are done, so the view can reload properly
-    func refresh()
+    func refresh(sections: [String])
     {
-        activityIndicator.startAnimating()
-        rooster.requestShifts("Owned") { sections -> Void in
-            self.sectionsInTable = sections
-            sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
-            self.tableView.reloadData()
-            self.switchStateOfActivityView(false)
-        }
+        sectionsInTable = sections
+        sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
+        tableView.reloadData()
+        switchStateOfActivityView(false)
     }
 }

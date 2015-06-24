@@ -35,7 +35,7 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
         return cell
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = rooster.suppliedShifts[indexPath.section][indexPath.row]
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: nil)
@@ -52,14 +52,11 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
         return indexPath
     }
     
-    override func refresh()
+    func getData()
     {
-        activityIndicator.startAnimating()
+        switchStateOfActivityView(true)
         rooster.requestShifts("Supplied") { sections -> Void in
-            self.sectionsInTable = sections
-            sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
-            self.tableView.reloadData()
-            self.switchStateOfActivityView(false)
+            self.refresh(sections)
         }
     }
     

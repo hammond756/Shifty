@@ -9,17 +9,11 @@
 import UIKit
 import Parse
 
-class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ActionSheetDelegate
+class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDelegate
 {
-    let rooster = Rooster()
-    let helper = Helper()
     var suggestions = [Shift]()
     var requestID = ""
     var request: Request? = nil
-    
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var activityView: UIView!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     override func viewDidLoad()
     {
@@ -29,17 +23,16 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         super.viewDidLoad()
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return suggestions.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Suggestion") as! UITableViewCell
-        cell.backgroundColor = UIColor.clearColor()
-        
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
         let shiftForCell = suggestions[indexPath.row]
+        
         cell.textLabel?.text = shiftForCell.dateString
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
         
@@ -51,13 +44,11 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         return cell
     }
     
-    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = suggestions[indexPath.row]
-        println("Action sheet")
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: requestID)
         
-        // TODO: create refuseAction
         if selectedShift.status == "Awaitting Approval, sug"
         {
             actionSheet.includeActions(["Approve Suggestion", "Disapprove Suggestion"])
@@ -67,7 +58,6 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
             actionSheet.includeActions(["Accept Suggestion"])
         }
         
-        
         let alertController = actionSheet.getAlertController()
         alertController.presentingViewController?.view = self.view
         presentViewController(alertController, animated: true, completion: nil)
@@ -75,25 +65,10 @@ class SuggestionOverviewViewController: UIViewController, UITableViewDelegate, U
         return indexPath
     }
     
-    // required from delegate, but not not needed
-    func switchStateOfActivityView(on: Bool)
-    {
-        if !on
-        {
-            activityIndicator.stopAnimating()
-            activityView.hidden = true
-        }
-        if on
-        {
-            activityIndicator.startAnimating()
-            activityView.hidden = false
-        }
-    }
-    
     // BUG: doesn't remove objectID of accepted suggest from replies
-    func refresh()
+    func getData()
     {
-        activityIndicator.startAnimating()
+        switchStateOfActivityView(true)
         rooster.requestSuggestions(requestID) { suggestions -> Void in
             self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
                 self.suggestions = shifts

@@ -143,7 +143,6 @@ class SelectRequestsViewController: UIViewController, UITableViewDataSource, UIT
     {
         let selectedDate = sectionedDates[indexPath.section][indexPath.row]
         selectedDates.append(selectedDate)
-        println("Selected \(selectedDate)")
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)

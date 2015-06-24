@@ -36,7 +36,7 @@ class GezochtViewController: ShiftControllerInterface
         }
     }
     
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let request = rooster.requestedShifs[indexPath.section][indexPath.row]
         selectedRequestID = request.objectID
@@ -73,15 +73,11 @@ class GezochtViewController: ShiftControllerInterface
         return cell
     }
     
-    override func refresh()
+    func getData()
     {
         activityIndicator.startAnimating()
         rooster.requestRequests() { sections -> Void in
-            self.sectionsInTable = sections
-            sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
-            self.tableView.reloadData()
-            self.activityIndicator.stopAnimating()
-            self.activityView.hidden = true
+            self.refresh(sections)
         }
     }
     

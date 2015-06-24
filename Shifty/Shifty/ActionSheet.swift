@@ -15,7 +15,7 @@ import Darwin
 // definiton of protocol that all viewcontrollers incorporating an actionsheet or alertview conform to
 @objc protocol ActionSheetDelegate
 {
-    func refresh()
+    func getData()
     func switchStateOfActivityView(on: Bool)
     optional func popViewController()
     optional func showAlert(alertView: UIAlertController)
@@ -52,7 +52,7 @@ class ActionSheet
                     shift["Status"] = "Supplied"
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
-                        succes ? self.delegate.refresh() : println(error?.description)
+                        succes ? self.delegate.getData() : println(error?.description)
                     }
                 }
             }
@@ -86,7 +86,7 @@ class ActionSheet
                     let suggestedShiftIDs = request["replies"] as! [String]
                     request.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         self.delegate.popViewController?()
-                        self.delegate.refresh()
+                        self.delegate.getData()
                         self.helper.updateShiftStatuses(suggestedShiftIDs, newStatus: "idle", suggestedTo: nil) { }
                     }
                 }
@@ -102,7 +102,7 @@ class ActionSheet
             // =nil may be irrelevant
             self.selectedShift.acceptedBy = nil
             self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: "Supplied", suggestedTo: nil) { () -> Void in
-                self.delegate.refresh()
+                self.delegate.getData()
             }
         }
         
@@ -117,7 +117,7 @@ class ActionSheet
             self.selectedShift.acceptedBy = nil
             println(self.selectedShift.owner)
             self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: "idle", suggestedTo: nil) { () -> Void in
-                self.delegate.refresh()
+                self.delegate.getData()
             }
         }
         
@@ -141,7 +141,7 @@ class ActionSheet
                         shift["Status"] = "Awaitting Approval, sug"
                         shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
                             
-                            succes ? self.delegate.refresh() : println(error?.description)
+                            succes ? self.delegate.getData() : println(error?.description)
                         }
                     }
                 }
@@ -165,7 +165,7 @@ class ActionSheet
                 shift.removeObjectForKey("suggestedTo")
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                     // self.selectedShift.status = "idle"
-                    succes ? self.delegate.refresh() : println(error?.description)
+                    succes ? self.delegate.getData() : println(error?.description)
                 }
             }
         }
@@ -186,7 +186,7 @@ class ActionSheet
                     shift["Status"] = "idle"
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
-                        succes ? self.delegate.refresh() : println(error?.description)
+                        succes ? self.delegate.getData() : println(error?.description)
                     }
                 }
             }
@@ -219,7 +219,7 @@ class ActionSheet
                             shift["Status"] = "Awaitting Approval"
                             shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
                                 
-                                succes ? self.delegate.refresh() : println(error?.description)
+                                succes ? self.delegate.getData() : println(error?.description)
                             }
                         }
                         else if shift["acceptedBy"] != nil
@@ -269,7 +269,7 @@ class ActionSheet
         
         let cancelAction = UIAlertAction(title: "Oke, jammer", style: .Cancel) { action -> Void in
             alertView.dismissViewControllerAnimated(true, completion: nil)
-            self.delegate.refresh()
+            self.delegate.getData()
         }
         
         alertView.addAction(cancelAction)
@@ -316,7 +316,7 @@ class ActionSheet
                         if i == objects.count - 1
                         {
                             object.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                                succes ? self.delegate.refresh() : println(error?.description)
+                                succes ? self.delegate.getData() : println(error?.description)
                             }
                             return
                         }

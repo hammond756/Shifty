@@ -38,7 +38,7 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     
     // everything to do with the table view
     // an action sheet gets called depending on the status of the selected shift
-    override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: nil)
@@ -76,8 +76,6 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         alertController.popoverPresentationController?.sourceView = self.view
         self.presentViewController(alertController, animated: true, completion: nil)
         
-        super.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-        
         return indexPath
     }
     
@@ -107,7 +105,16 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         alertView.popoverPresentationController?.sourceView = self.view
         presentViewController(alertView, animated: true, completion: nil)
     }
-        
+    
+    // actions on action sheet call refresh when they are done, so the view can reload properly
+    func getData()
+    {
+        switchStateOfActivityView(true)
+        rooster.requestShifts("Owned") { sections -> Void in
+            self.refresh(sections)
+        }
+    }
+    
     @IBAction func logOutCurrentRooster(sender: UIBarButtonItem)
     {
         helper.logOut(self)
