@@ -26,29 +26,13 @@ class AangebodenViewController: ShiftControllerInterface, ActionSheetDelegate
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
-        
-        cell.backgroundColor = UIColor.clearColor()
-        
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
         let shiftForCell = rooster.suppliedShifts[indexPath.section][indexPath.row]
-        let date = shiftForCell.dateString
-        let time = shiftForCell.timeString
                 
-        cell.textLabel?.text = date
-        cell.accessoryView = helper.createTimeLabel(time)
-        cell.textLabel?.textAlignment = NSTextAlignment.Center
+        cell.textLabel?.text = shiftForCell.dateString
+        cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
         
         return cell
-    }
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
-    {
-        return sectionsInTable[section]
-    }
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    {
-        return sectionsInTable.count
     }
     
     override func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?

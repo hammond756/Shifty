@@ -60,29 +60,17 @@ class GezochtViewController: ShiftControllerInterface
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = self.tableView.dequeueReusableCellWithIdentifier("Request", forIndexPath: indexPath) as! UITableViewCell
-        cell.backgroundColor = UIColor.clearColor()
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
+        let requestForCell = rooster.requestedShifs[indexPath.section][indexPath.row]
         
-        let date = rooster.requestedShifs[indexPath.section][indexPath.row]
-        cell.textLabel?.text = date.date.toString(format: DateFormat.Custom("EEEE dd MMM"))
-        cell.textLabel?.textAlignment = NSTextAlignment.Center
+        cell.textLabel?.text = requestForCell.dateString
         
-        if date.owner == PFUser.currentUser()
+        if requestForCell.owner == PFUser.currentUser()
         {
             cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
         }
         
         return cell
-    }
-    
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
-    {
-        return sectionsInTable[section]
-    }
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    {
-        return sectionsInTable.count
     }
     
     override func refresh()

@@ -5,20 +5,27 @@
 //  Created by Aron Hammond on 18/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
+//  Parent class for ViewControllers that show TableViews with shifts. They share common
+//  properties and outlets. This saves having duplicate functions/property initialization
 
 import UIKit
 import Parse
 
 class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableViewDataSource
 {
+    // outlets
     @IBOutlet weak var tableView: UITableView! = nil
     @IBOutlet weak var activityView: UIView!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-
+    
+    // classes: see comments in respective files for more information
     let rooster = Rooster()
     let helper = Helper()
+    
+    // stores the section header titles (eg. Week 34)
     var sectionsInTable = [String]()
     
+    // ShiftControllerInterface ViewControllers refresh their data every time they appear
     override func viewWillAppear(animated: Bool)
     {
         refresh()
@@ -31,22 +38,11 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
         return rooster.ownedShifts[section].count
     }
     
-    // generate (reuse) cell.
+    // generate cell with commonly shared properties
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Shift", forIndexPath: indexPath) as! UITableViewCell
-        
-        // reset background color (cell color also gets reused)
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
-        
-        // get info from shift at indexPath
-        let shiftForCell = rooster.ownedShifts[indexPath.section][indexPath.row]
-        let date = shiftForCell.dateString
-        let time = shiftForCell.timeString
-        
-        // set cell properties
-        cell.textLabel?.text = date
-        cell.accessoryView = helper.createTimeLabel(time)
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         
         return cell

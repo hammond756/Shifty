@@ -12,11 +12,10 @@ import ParseUI
 
 class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate
 {
-    var logInSucceeded = false
-    
     override func viewDidAppear(animated: Bool)
     {
-        if !logInSucceeded
+        // if there is no user logged-in, show the loginController, else go to tab bar controller
+        if (PFUser.currentUser() == nil)
         {
             var loginController = CustomPFLoginViewController()
             loginController.signUpController?.delegate = self
@@ -31,17 +30,16 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
         super.viewDidAppear(animated)
     }
     
-    // delegate functions
+    // dismiss loginView when log-in is succesfull
     func logInViewController(logInController: PFLogInViewController, didLogInUser user: PFUser)
     {
-        logInSucceeded = true
         dismissViewControllerAnimated(false, completion: nil)
     }
     
+    // auto log-in after sign-up
     func signUpViewController(signUpController: PFSignUpViewController, didSignUpUser user: PFUser)
     {
         PFUser.logInWithUsername(user.username!, password: user.password!)
-        logInSucceeded = true
         dismissViewControllerAnimated(false, completion: nil)
     }
     

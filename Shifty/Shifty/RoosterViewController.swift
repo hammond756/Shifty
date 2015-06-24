@@ -84,8 +84,10 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
-        
         let shiftForCell = rooster.ownedShifts[indexPath.section][indexPath.row]
+        
+        cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
+        cell.textLabel!.text = shiftForCell.dateString
         
         switch shiftForCell.status
         {
