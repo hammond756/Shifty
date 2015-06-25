@@ -21,7 +21,7 @@ import Parse
     optional func showAlertMessage(message: String)
 }
 
-// handles the creation of UIAlertControllers throughout the application
+//  handles the creation of UIAlertControllers throughout the application
 class ActionSheet
 {
     // information to know what to manipulate
@@ -183,7 +183,7 @@ class ActionSheet
     }
     
     // update properties in application and in the database
-    private func approveShiftChange()
+    func approveShiftChange()
     {
         // ask for shift with specific objectID
         let query = PFQuery(className: ParseClass.shifts)

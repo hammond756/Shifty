@@ -14,11 +14,8 @@ class CustomPFLoginViewController: PFLogInViewController
     // set properties vor loginView
     override func viewDidLoad()
     {
-        //self.view.backgroundColor = UIColor.darkGrayColor()
         let shiftyLogoView = UIImageView(image: UIImage(named: "SHIFTY-logo.png"))
-        shiftyLogoView.contentMode = UIViewContentMode.ScaleAspectFit
         
-        self.logInView?.logo?.contentMode = .ScaleAspectFit
         (self.logInView?.logo as! UIImageView).image = shiftyLogoView.image
         (self.signUpController?.signUpView?.logo as! UIImageView).image = shiftyLogoView.image
         
@@ -31,11 +28,13 @@ class CustomPFLoginViewController: PFLogInViewController
     // settings for subViews
     override func viewDidLayoutSubviews()
     {
+        // set style for loginController
         self.logInView?.usernameField?.backgroundColor = .grayColor()
         self.logInView?.passwordField?.backgroundColor = .grayColor()
         self.logInView?.usernameField?.separatorColor = .darkGrayColor()
         self.logInView?.passwordField?.separatorColor = .darkGrayColor()
         
+        // set style for signUpController
         self.signUpController?.signUpView?.emailField?.backgroundColor = .grayColor()
         self.signUpController?.signUpView?.usernameField?.backgroundColor = .grayColor()
         self.signUpController?.signUpView?.passwordField?.backgroundColor = .grayColor()

@@ -76,7 +76,7 @@ class SubmitRoosterViewController: UIViewController
     }
     
     // create and present alertView with supplied message and cancel button
-    private func showAlertMessage(message: String)
+    func showAlertMessage(message: String)
     {
         let alertView = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
         
@@ -90,21 +90,21 @@ class SubmitRoosterViewController: UIViewController
     }
     
     // toggle activity indicator view on (true) off (false)
-    private func setActivityViewActive(on: Bool)
+    func setActivityViewActive(on: Bool)
     {
         on ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
         activityView.hidden = !on
     }
     
     // get two integers [hour, minute] from string format HH:mm
-    private func extractTimeComponents(time: String) -> [Int]
+    func extractTimeComponents(time: String) -> [Int]
     {
         let timeArray = split(time) { $0 == ":" }
         return timeArray.map { $0.toInt()! }
     }
     
     // put info on selected picker rows in the textfields
-    private func updateTextFields()
+    func updateTextFields()
     {
         dayField.text = Constant.pickerData[0][shiftPicker.selectedRowInComponent(0)]
         timeField.text = Constant.pickerData[1][shiftPicker.selectedRowInComponent(1)]

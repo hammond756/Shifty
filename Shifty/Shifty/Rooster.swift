@@ -62,7 +62,7 @@ class Rooster
     }
     
     // generate an extra shift weeksAhead weeks ahead
-    private func generateAdditionalShift(fixedShift: PFObject, weeksAhead: Int, callback: () -> Void)
+    func generateAdditionalShift(fixedShift: PFObject, weeksAhead: Int, callback: () -> Void)
     {
         let date = fixedShift[ParseKey.lastEntry] as! NSDate + weeksAhead.week
         
@@ -114,7 +114,7 @@ class Rooster
     }
     
     // set array corresponding with withStatus
-    private func setShifts(withStatus: String, shifts: [Shift], sections: [String])
+    func setShifts(withStatus: String, shifts: [Shift], sections: [String])
     {
         switch withStatus
         {
@@ -134,7 +134,7 @@ class Rooster
     }
     
     // genarilized function to get data from Parse database (works with ContentInterface subclasses)
-    private func doRequest<T: ContentInterface>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
+    func doRequest<T: ContentInterface>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
     {
         requestParseObjects(withStatus) { objects -> Void in
             var tempObjects = [T]()
@@ -149,7 +149,7 @@ class Rooster
     }
     
     // function to get PFObjects associated with withStatus
-    private func requestParseObjects(withStatus: String, callback: (objects: [PFObject]) -> Void)
+    func requestParseObjects(withStatus: String, callback: (objects: [PFObject]) -> Void)
     {
         let query = helper.getQueryForStatus(withStatus)
         
