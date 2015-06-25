@@ -702,7 +702,7 @@
         <scene sceneID="ajx-4d-uKr">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="NZ6-na-FKV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Gezocht" id="o08-wD-zLr"/>
+                    <tabBarItem key="tabBarItem" title="Gezocht" image="feed_in_filled" id="o08-wD-zLr"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="Xk9-0h-Mdl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -725,7 +725,7 @@
         <scene sceneID="U5d-zQ-Eu8">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hnq-Xa-XO1" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Aangebonden" id="fbI-SK-hRO"/>
+                    <tabBarItem key="tabBarItem" title="Aangebonden" image="feed_out_filled" id="fbI-SK-hRO"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="rkQ-iN-F3t">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -829,7 +829,7 @@
         <scene sceneID="0aC-0v-8Rc">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Vds-h7-IeV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Rooster" id="KSK-hR-mpJ"/>
+                    <tabBarItem key="tabBarItem" title="Rooster" image="RoosterView" id="KSK-hR-mpJ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="bVf-Ko-QXo">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -845,6 +845,11 @@
             <point key="canvasLocation" x="1060" y="-286"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="RoosterView" width="26" height="26"/>
+        <image name="feed_in_filled" width="25" height="25"/>
+        <image name="feed_out_filled" width="25" height="25"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="2I4-n6-2yS"/>
         <segue reference="fvl-DS-WnA"/>

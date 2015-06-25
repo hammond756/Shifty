@@ -160,20 +160,21 @@ class Helper
     
     func updateShiftStatuses(shiftIDs: [String], newStatus: String, suggestedTo: PFObject?, callback: () -> Void)
     {
-        for ID in shiftIDs
-        {
-            // ask for shift with specific objectID
-            let query = PFQuery(className: ParseClass.shifts)
-            query.getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
-                if let shift = self.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
+        // ask for all shifts objects corresponding with IDs in shiftIDs
+        let query = PFQuery(className: ParseClass.shifts)
+        query.whereKey(ParseKey.objectID, containedIn: shiftIDs)
+        query.findObjectsInBackgroundWithBlock() { (shifts: [AnyObject]?, error: NSError?) -> Void in
+            if let shifts = self.returnObjectAfterErrorCheck(shifts, error: error) as? [PFObject]
+            {
+                for shift in shifts
                 {
                     shift[ParseKey.status] = newStatus
                     switch newStatus
                     {
-                        case Status.suggested:  shift[ParseKey.suggestedTo] = suggestedTo!
-                        case Status.idle:       shift.removeObjectForKey(ParseKey.suggestedTo)
-                        case Status.supplied:   shift.removeObjectForKey(ParseKey.acceptedBy)
-                        default: break
+                    case Status.suggested:  shift[ParseKey.suggestedTo] = suggestedTo!
+                    case Status.idle:       shift.removeObjectForKey(ParseKey.suggestedTo)
+                    case Status.supplied:   shift.removeObjectForKey(ParseKey.acceptedBy)
+                    default: break
                     }
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         callback()

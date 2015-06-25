@@ -61,9 +61,10 @@ extension SuggestionViewController: UITableViewDataSource
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
         cell.selectionStyle = .Default
         
-        if shiftForCell.date.day != request!.date.day
+        // dim shifts that are irrelevant
+        if !shiftForCell.isOnSameDayAs(request!.date) || shiftForCell.status != Status.idle
         {
-            cell.backgroundColor = UIColor.blackColor()
+            cell.textLabel?.textColor = UIColor.lightGrayColor()
         }
         
         return cell
@@ -77,9 +78,14 @@ extension SuggestionViewController: UITableViewDelegate
     {
         let selectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
         
-        if selectedShift.status == Status.idle
+        if selectedShift.status == Status.idle && selectedShift.isOnSameDayAs(request!.date)
         {
             selectedShifts.append(selectedShift.objectID)
+        }
+        // disable selection
+        else
+        {
+            tableView.deselectRowAtIndexPath(indexPath, animated: false)
         }
     }
     

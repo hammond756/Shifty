@@ -12,7 +12,7 @@ import Parse
 import SwiftDate
 
 // protocol that is needed for some functions with generic types
-protocol HasDate
+protocol HasDate: Equatable
 {
     func getWeekOfYear() -> String
     var date: NSDate { get }
@@ -61,5 +61,14 @@ class ContentInterface: HasDate, ExistsInParse, Equatable
     func getWeekOfYear() -> String
     {
         return "Week " + String((date - 1.day).weekOfYear)
+    }
+    
+    func isOnSameDayAs(other: NSDate) -> Bool
+    {
+        let sameDay = date.day == other.day
+        let sameMonth = date.month == other.month
+        let sameYear = date.year == other.year
+        
+        return sameDay && sameMonth && sameYear
     }
 }
