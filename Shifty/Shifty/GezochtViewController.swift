@@ -73,6 +73,7 @@ extension GezochtViewController: UITableViewDataSource
         let requestForCell = rooster.requestedShifs[indexPath.section][indexPath.row]
         
         cell.textLabel?.text = requestForCell.dateString
+        cell.accessoryType = .DisclosureIndicator
         
         if requestForCell.owner == PFUser.currentUser()
         {
