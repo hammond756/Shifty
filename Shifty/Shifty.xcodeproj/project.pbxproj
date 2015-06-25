@@ -163,6 +163,9 @@
 				9C9A672B1B2060A100E31CBB /* Shift.swift */,
 				9CF5E9051B30320E002B7DD6 /* SelectRequestsViewController.swift */,
 				9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */,
+				9C2D7B0C1B3ACF52005146DE /* Constants.swift */,
+				9C8131291B31A1BE00D9CE24 /* Helper.swift */,
+				9CFB6DE81B2072EF0010393E /* Rooster.swift */,
 			);
 			name = Checked;
 			sourceTree = "<group>";
@@ -197,9 +200,6 @@
 				9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */,
 				9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
-				9C2D7B0C1B3ACF52005146DE /* Constants.swift */,
-				9C8131291B31A1BE00D9CE24 /* Helper.swift */,
-				9CFB6DE81B2072EF0010393E /* Rooster.swift */,
 				9C8131271B31770600D9CE24 /* ActionSheet.swift */,
 				9C8131311B3433DD00D9CE24 /* ContentInterface.swift */,
 			);

@@ -30,12 +30,6 @@ class SuggestionViewController: ShiftControllerInterface
     var request: Request? = nil
     var parseObject: PFObject? = nil
     
-    override func viewWillAppear(animated: Bool)
-    {
-        getData()
-        super.viewWillAppear(animated)
-    }
-    
     override func viewDidLoad()
     {
         submitButton.layer.cornerRadius = 10
@@ -47,7 +41,7 @@ class SuggestionViewController: ShiftControllerInterface
         super.viewDidLoad()
     }
     
-    func getData()
+    override func getData()
     {
         setActivityViewActive(true)
         rooster.requestShifts(Status.owned) { sections -> Void in

@@ -14,15 +14,8 @@ class SuggestionOverviewViewController: ShiftControllerInterface
     var suggestions = [Shift]()
     var requestID = ""
     var request: Request? = nil
-
-    override func viewDidLoad()
-    {
-        getData()
-        super.viewDidLoad()
-    }
     
-    // BUG: doesn't remove objectID of accepted suggest from replies
-    func getData()
+    override func getData()
     {
         setActivityViewActive(true)
         rooster.requestSuggestions(requestID) { suggestions -> Void in
@@ -32,7 +25,6 @@ class SuggestionOverviewViewController: ShiftControllerInterface
             self.setActivityViewActive(false)
         }
     }
-
 }
 
 extension SuggestionOverviewViewController: ActionSheetDelegate

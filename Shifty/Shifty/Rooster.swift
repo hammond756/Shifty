@@ -5,6 +5,8 @@
 //  Created by Aron Hammond on 04/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
+//  Handles everything to do with getting (creating) objects from (in) the database and saving them for use
+//  inside the application.
 
 import Parse
 import SwiftDate
@@ -21,6 +23,7 @@ class Rooster
     
     let helper = Helper()
     
+    // write values to FixedShifts object in Parse
     func registerFixedShift(day: String, hour: Int, minute: Int, callback: (object: PFObject?) -> Void)
     {
         helper.checkDoubleEntries(day) { noDoubleEntries -> Void in
@@ -32,6 +35,7 @@ class Rooster
                 shift[ParseKey.hour] = hour
                 shift[ParseKey.minute] = minute
                 shift[ParseKey.owner] = PFUser.currentUser()
+                // the date of the next 'day' where 'day' is a weekday (eg. the  date of next monday)
                 let firstEntry = self.helper.nextOccurenceOfDay(day).set(componentsDict: ["hour": hour, "minute": minute])
                 shift[ParseKey.lastEntry] = firstEntry
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
@@ -48,6 +52,7 @@ class Rooster
         }
     }
     
+    // generate amountOfRecurringWeeks weeks in the database
     func generateInitialShifts(fixedShift: PFObject, callback: () -> Void)
     {
         for week in 0..<amountOfRecurringWeeks
@@ -56,6 +61,7 @@ class Rooster
         }
     }
     
+    // generate an extra shift weeksAhead weeks ahead
     private func generateAdditionalShift(fixedShift: PFObject, weeksAhead: Int, callback: () -> Void)
     {
         let date = fixedShift[ParseKey.lastEntry] as! NSDate + weeksAhead.week
@@ -77,16 +83,18 @@ class Rooster
         }
     }
     
+    // used to alsways keep the database stocked with shifts amountOfRecurringWeeks weeks ahead
     func updateSchedule()
     {
+        // ask for fixed shifts owned by the current user
         let query = PFQuery(className: ParseClass.fixed)
         query.whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
-        
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
             if let fixedShifts = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 for fixed in fixedShifts
                 {
+                    // is the last generated shift is less than amountOfRecurringWeeks weeks ahead:
                     if fixed[ParseKey.lastEntry] as! NSDate - self.amountOfRecurringWeeks.weeks < NSDate()
                     {
                         self.generateAdditionalShift(fixed, weeksAhead: 1) { }
@@ -96,6 +104,7 @@ class Rooster
         }
     }
     
+    // withStatus: Status.supplied or Status.owned (gets and stores supplied and owned shifts respectively)
     func requestShifts(withStatus: String, callback: (sections: [String]) -> Void)
     {
         doRequest(withStatus) { (sections: [String], objects: [Shift]) -> Void in
@@ -104,6 +113,7 @@ class Rooster
         }
     }
     
+    // set array corresponding with withStatus
     private func setShifts(withStatus: String, shifts: [Shift], sections: [String])
     {
         switch withStatus
@@ -114,6 +124,7 @@ class Rooster
         }
     }
     
+    // requests and stores requests
     func requestRequests(callback: (sections: [String]) -> Void)
     {
         doRequest(Status.requested) { (sections: [String], objects: [Request]) -> Void in
@@ -122,6 +133,7 @@ class Rooster
         }
     }
     
+    // genarilized function to get data from Parse database (works with ContentInterface subclasses)
     private func doRequest<T: ContentInterface>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
     {
         requestParseObjects(withStatus) { objects -> Void in
@@ -136,6 +148,7 @@ class Rooster
         }
     }
     
+    // function to get PFObjects associated with withStatus
     private func requestParseObjects(withStatus: String, callback: (objects: [PFObject]) -> Void)
     {
         let query = helper.getQueryForStatus(withStatus)
@@ -148,10 +161,11 @@ class Rooster
         }
     }
     
+    // get request associated with specific ID and pass it to requestShiftsFromRequest
     func requestSuggestions(associatedWith: String, callback: (suggestions: [Shift]) -> Void)
     {
+        // ask for RequestedShifts object with specific objectID
         PFQuery(className: ParseClass.requests).getObjectInBackgroundWithId(associatedWith) { (request: PFObject?, error: NSError?) -> Void in
-            
             if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
                 self.requestShiftsFromRequest(request) { shifts -> Void in
@@ -165,35 +179,19 @@ class Rooster
         }
     }
     
+    // get alls shifts that point to a specific request in the database and pass them to the callback
     func requestShiftsFromRequest(request: PFObject, callback: (shifts: [Shift]) -> Void)
     {
         var shifts = [Shift]()
         
+        // ask for all Shift objects that are suggestedTo the request
         let query = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.suggestedTo, equalTo: request)
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
-            
             if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 for object in objects
                 {
-                    shifts.append(Shift(parseObject: object))
-                }
-                callback(shifts: shifts)
-            }
-        }
-    }
-    
-    func requestShiftsFromIDs(iDs: [String], callback: (shifts: [Shift]) -> Void)
-    {
-        var shifts = [Shift]()
-        
-        let query = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.objectID, containedIn: iDs)
-        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
-            
-            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
-            {
-                for object in objects
-                {
+                    // create Shift instances and append them to the array
                     shifts.append(Shift(parseObject: object))
                 }
                 callback(shifts: shifts)

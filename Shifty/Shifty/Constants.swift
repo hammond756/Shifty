@@ -5,30 +5,33 @@
 //  Created by Aron Hammond on 24/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
+//  Collection of structs to represent string constants throughout the code
 
 import Foundation
 import UIKit
 
+// assortment of reused string constants
 struct constant
 {
     let reuseCell = "cell"
     
-    // cannot set weekDays as pickerData[0]
     let pickerData = [
         [
-            Weekdays.monday,
-            Weekdays.tuesday,
-            Weekdays.wednesday,
-            Weekdays.thursday,
-            Weekdays.friday,
-            Weekdays.saturday,
-            Weekdays.sunday
+            Weekday.monday,
+            Weekday.tuesday,
+            Weekday.wednesday,
+            Weekday.thursday,
+            Weekday.friday,
+            Weekday.saturday,
+            Weekday.sunday
         ],
         ["15:00", "15:30", "16:30", "17:00", "18:00", "18:30"]
     ]
 }
+let Constant = constant()
 
-struct weekdays
+// days of the week in dutch
+struct weekday
 {
     let monday = "Maandag"
     let tuesday = "Dinsdag"
@@ -38,21 +41,18 @@ struct weekdays
     let saturday = "Zaterdag"
     let sunday = "Zondag"
 }
+let Weekday = weekday()
 
-// rename Weekday
-let Weekdays = weekdays()
-
-let Constant = constant()
-
+// segue identifiers
 struct segue
 {
     let makeSuggestion = "Make Suggestion"
     let seeSuggestions = "See Suggestions"
     let logIn = "Logged In"
 }
-
 let Segue = segue()
 
+// all possible statusses
 struct status
 {
     let awaitting = "Awaitting Approval"
@@ -63,9 +63,9 @@ struct status
     let suggested = "Suggested"
     let supplied = "Supplied"
 }
-
 let Status = status()
 
+// all possible actions
 struct action
 {
     let accept = "Accept"
@@ -78,9 +78,9 @@ struct action
     let revoke = "Revoke"
     let supply = "Supply"
 }
-
 let Action = action()
 
+// all AlertController labels
 struct label
 {
     let accept = "Accepteren"
@@ -91,27 +91,27 @@ struct label
     let revoke = "Terugtrekken"
     let supply = "Aanbieden"
 }
-
 let Label = label()
 
+// cell highlighting colors
 struct highlight
 {
     let supplied = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
     let awaitting = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
     let owner = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
 }
-
 let Highlight = highlight()
 
+// all Parse classes
 struct parseClass
 {
     let fixed = "FixedShifts"
     let requests = "RequestedShifts"
     let shifts = "Shifts"
 }
-
 let ParseClass = parseClass()
 
+// all Parse keys
 struct parseKey
 {
     let acceptedBy = "acceptedBy"
@@ -128,5 +128,4 @@ struct parseKey
     let status = "Status"
     let suggestedTo = "suggestedTo"
 }
-
 let ParseKey = parseKey()

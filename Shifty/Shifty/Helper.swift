@@ -5,6 +5,8 @@
 //  Created by Aron Hammond on 17/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
+//  Collection of functions that are shared in different classes
+//  concern transforming data, errorchecking, query making and other things
 
 import Foundation
 import Parse
@@ -34,6 +36,7 @@ class Helper
         return label
     }
     
+    // fucntion for de-cluttering error checking in Parse requests
     func returnObjectAfterErrorCheck(object: AnyObject?, error: NSError?) -> AnyObject?
     {
         if error != nil
@@ -69,7 +72,6 @@ class Helper
         for element in array
         {
             let weekOfYear = element.getWeekOfYear()
-            
             if !contains(sections, weekOfYear)
             {
                 sections.append(weekOfYear)
@@ -79,16 +81,18 @@ class Helper
         return sections
     }
     
+    // check the FixedShifts if there is an enty owned by the current user on a certain day
     func checkDoubleEntries(day: String, callback: (noDoubleEntries: Bool) -> Void)
     {
+        // get fixed shifts owned by the user
         let query = PFQuery(className: ParseClass.fixed)
         query.whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
-        
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
             if let ownedShifts = self.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 for shift in ownedShifts
                 {
+                    // when found, pass 'false' and return from function
                     if shift[ParseKey.day] as! String == day
                     {
                         callback(noDoubleEntries: false)
@@ -107,6 +111,7 @@ class Helper
         
         if status == Status.owned
         {
+            // ask for shifts either owned or accepted by the user
             let isOwner = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
             let hasAccepted = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.acceptedBy, equalTo: PFUser.currentUser()!)
             
@@ -114,22 +119,24 @@ class Helper
         }
         else if status == Status.supplied
         {
+            // ask for all supplied shifts
             query = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.status, equalTo: Status.supplied)
         }
         else if status == Status.requested
         {
+            // ask for requests
             query = PFQuery(className: ParseClass.requests)
         }
         
         return query
     }
     
-    // <T: HasDate> for consistency?
+    // passes 'true' to callback if the user owns a shift on the given date
     func checkIfDateIsTaken(dateToCheck: NSDate, callback: (taken: Bool) -> Void)
     {
+        // ask for all shifts owned by current user
         let query = PFQuery(className: ParseClass.shifts)
         query.whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
-        
         query.findObjectsInBackgroundWithBlock() { (shifts: [AnyObject]?, error: NSError?) -> Void in
             if let shifts = self.returnObjectAfterErrorCheck(shifts, error: error) as? [PFObject]
             {
@@ -155,8 +162,8 @@ class Helper
     {
         for ID in shiftIDs
         {
+            // ask for shift with specific objectID
             let query = PFQuery(className: ParseClass.shifts)
-            
             query.getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
                 if let shift = self.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
@@ -180,13 +187,13 @@ class Helper
     func nextOccurenceOfDay(day: String) -> NSDate
     {
         let dayDict = [
-            Weekdays.monday:    2,
-            Weekdays.tuesday:   3,
-            Weekdays.wednesday: 4,
-            Weekdays.thursday:  5,
-            Weekdays.friday:    6,
-            Weekdays.saturday:  7,
-            Weekdays.sunday:    1
+            Weekday.monday:    2,
+            Weekday.tuesday:   3,
+            Weekday.wednesday: 4,
+            Weekday.thursday:  5,
+            Weekday.friday:    6,
+            Weekday.saturday:  7,
+            Weekday.sunday:    1
         ]
         
         let today = NSDate()

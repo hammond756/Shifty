@@ -5,12 +5,11 @@
 //  Created by Aron Hammond on 17/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
+//  Creates a UIAlertController whose actions can easily be set
 
 import Foundation
 import UIKit
 import Parse
-import SwiftDate
-import Darwin
 
 // definiton of protocol that all viewcontrollers incorporating an actionsheet or alertview conform to
 @objc protocol ActionSheetDelegate
@@ -24,6 +23,7 @@ import Darwin
 // handles the creation of UIAlertControllers throughout the application
 class ActionSheet
 {
+    // information to know what to manipulate
     var selectedShift: Shift
     var associatedRequest: String?
     var actionList = [UIAlertAction]()
@@ -45,14 +45,17 @@ class ActionSheet
             
             self.selectedShift.status = Status.supplied
             
+            // ask for parse object with the objectID of the selectedShift
             let query = PFQuery(className: ParseClass.shifts)
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     shift[ParseKey.status] = Status.supplied
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        
-                        succes ? self.delegate.getData() : println(error?.description)
+                        if succes
+                        {
+                            self.delegate.getData()
+                        }
                     }
                 }
             }
@@ -89,6 +92,7 @@ class ActionSheet
                         shift.removeObjectForKey(ParseKey.suggestedTo)
                         shift[ParseKey.status] = Status.idle
                         shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                            // start reloading data at last item
                             if succes && i == associatedShifts.count - 1
                             {
                                 self.delegate.getData()
@@ -116,8 +120,7 @@ class ActionSheet
     func createDisapproveAction()
     {
         let disapproveAction = UIAlertAction(title: Label.disapprove, style: .Default) { action -> Void in
-            // =nil may be irrelevant
-            self.selectedShift.acceptedBy = nil
+            // set status back to Status.idle and remove acceptedBy
             self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: Status.supplied, suggestedTo: nil) { () -> Void in
                 self.delegate.getData()
             }
@@ -126,10 +129,10 @@ class ActionSheet
         actionList.append(disapproveAction)
     }
     
-    // WAAROM?????? Owner verandert out of the blue
     func createDisapproveSuggestionAction()
     {
         let disapproveSuggestionAction = UIAlertAction(title: Label.disapprove, style: .Default) { action -> Void in
+            // ask for shift object with specific ID
             let query = PFQuery(className: ParseClass.shifts)
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
@@ -150,14 +153,13 @@ class ActionSheet
         actionList.append(disapproveSuggestionAction)
     }
     
+    // accept a shift suggested to the user's request
     func createAcceptSuggestionAction()
     {
         let acceptSuggestionAction = UIAlertAction(title: Label.accept, style: .Default) { action -> Void in
-            
+            // ask for shift object with specific ID
             let query = PFQuery(className: ParseClass.shifts)
-            
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
-                
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     // check whether the shift is already accepted by another user
@@ -166,8 +168,10 @@ class ActionSheet
                         shift[ParseKey.acceptedBy] = PFUser.currentUser()
                         shift[ParseKey.status] = Status.awaittingFromSug
                         shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
-                            
-                            succes ? self.delegate.getData() : println(error?.description)
+                            if succes
+                            {
+                                self.delegate.getData()
+                            }
                         }
                     }
                 }
@@ -347,8 +351,9 @@ class ActionSheet
                 }
             }
             
-            let fixedShift = PFQuery(className: ParseClass.fixed).getObjectWithId(self.selectedShift.createdFrom.objectId!)
-            fixedShift?.deleteInBackground()
+            PFQuery(className: ParseClass.fixed).getObjectInBackgroundWithId(self.selectedShift.createdFrom.objectId!) { (fixedShift: PFObject?, error: NSError?) -> Void in
+                fixedShift?.deleteInBackground()
+            }
         }
         
         alertView.addAction(confirmAction)
