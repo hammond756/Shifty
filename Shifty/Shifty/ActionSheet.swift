@@ -129,15 +129,25 @@ class ActionSheet
     // WAAROM?????? Owner verandert out of the blue
     func createDisapproveSuggestionAction()
     {
-        let disapproveAction = UIAlertAction(title: Label.disapprove, style: .Default) { action -> Void in
-            // acceptedBy=nil may be irrelevant
-            self.selectedShift.acceptedBy = nil
-            self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: Status.idle, suggestedTo: nil) { () -> Void in
-                self.delegate.getData()
+        let disapproveSuggestionAction = UIAlertAction(title: Label.disapprove, style: .Default) { action -> Void in
+            let query = PFQuery(className: ParseClass.shifts)
+            query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
+                if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
+                {
+                    shift.removeObjectForKey(ParseKey.suggestedTo)
+                    shift.removeObjectForKey(ParseKey.acceptedBy)
+                    shift[ParseKey.status] = Status.idle
+                    shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                        if succes
+                        {
+                            self.delegate.getData()
+                        }
+                    }
+                }
             }
         }
         
-        actionList.append(disapproveAction)
+        actionList.append(disapproveSuggestionAction)
     }
     
     func createAcceptSuggestionAction()

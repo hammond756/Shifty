@@ -86,7 +86,7 @@ extension SuggestionOverviewViewController: UITableViewDelegate
         
         if selectedShift.status == Status.awaittingFromSug
         {
-            actionSheet.includeActions([Action.approveSug, /*Action.disapproveSug*/])
+            actionSheet.includeActions([Action.approveSug, Action.disapproveSug])
         }
         if selectedShift.status == Status.suggested
         {

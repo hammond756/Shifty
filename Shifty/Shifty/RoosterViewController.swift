@@ -127,7 +127,7 @@ extension RoosterViewController: UITableViewDelegate
         }
         if selectedShift.status == Status.awaittingFromSug
         {
-            actionSheet.includeActions([Action.approveSug])
+            actionSheet.includeActions([Action.approveSug, Action.disapproveSug])
         }
         
         let alertController = actionSheet.getAlertController()
