@@ -60,7 +60,7 @@ class ContentInterface: HasDate, ExistsInParse, Equatable
     // return a string with the week of the year, adjust for monday as first day (eg. "Week 34")
     func getWeekOfYear() -> String
     {
-        return "Week " + String((date - 1.day).weekOfYear)
+        return "Week " + String(date.weekOfYear)
     }
     
     func isOnSameDayAs(other: NSDate) -> Bool

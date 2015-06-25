@@ -18,7 +18,7 @@ extension NSDate: HasDate
 {
     func getWeekOfYear() -> String
     {
-        return "Week " + String((self - 1.day).weekOfYear)
+        return "Week " + String(self.weekOfYear)
     }
     
     var date: NSDate { get { return self } }
