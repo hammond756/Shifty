@@ -33,7 +33,7 @@
 		9C81312A1B31A1BE00D9CE24 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8131291B31A1BE00D9CE24 /* Helper.swift */; };
 		9C81312C1B31BC9600D9CE24 /* SuggestionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */; };
 		9C81312E1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */; };
-		9C8131301B330DD600D9CE24 /* ShiftControllerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C81312F1B330DD600D9CE24 /* ShiftControllerInterface.swift */; };
+		9C8131301B330DD600D9CE24 /* ShiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C81312F1B330DD600D9CE24 /* ShiftViewController.swift */; };
 		9C8131321B3433DE00D9CE24 /* ContentInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8131311B3433DD00D9CE24 /* ContentInterface.swift */; };
 		9C8131341B34509400D9CE24 /* CustomPFLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8131331B34509400D9CE24 /* CustomPFLoginViewController.swift */; };
 		9C9A672C1B2060A100E31CBB /* Shift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C9A672B1B2060A100E31CBB /* Shift.swift */; };
@@ -91,7 +91,7 @@
 		9C8131291B31A1BE00D9CE24 /* Helper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionViewController.swift; sourceTree = "<group>"; };
 		9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestionOverviewViewController.swift; sourceTree = "<group>"; };
-		9C81312F1B330DD600D9CE24 /* ShiftControllerInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftControllerInterface.swift; sourceTree = "<group>"; };
+		9C81312F1B330DD600D9CE24 /* ShiftViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShiftViewController.swift; sourceTree = "<group>"; };
 		9C8131311B3433DD00D9CE24 /* ContentInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentInterface.swift; sourceTree = "<group>"; };
 		9C8131331B34509400D9CE24 /* CustomPFLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomPFLoginViewController.swift; sourceTree = "<group>"; };
 		9C9A672B1B2060A100E31CBB /* Shift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shift.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 		9C2EF5591B1CB1E20067F689 /* Shifty */ = {
 			isa = PBXGroup;
 			children = (
-				9C81312F1B330DD600D9CE24 /* ShiftControllerInterface.swift */,
+				9C81312F1B330DD600D9CE24 /* ShiftViewController.swift */,
 				9CBA579D1B1E362900B1F708 /* LogInViewController.swift */,
 				9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */,
 				9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */,
@@ -402,7 +402,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9C8131281B31770600D9CE24 /* ActionSheet.swift in Sources */,
-				9C8131301B330DD600D9CE24 /* ShiftControllerInterface.swift in Sources */,
+				9C8131301B330DD600D9CE24 /* ShiftViewController.swift in Sources */,
 				9C9A672E1B20649D00E31CBB /* SubmitRoosterViewController.swift in Sources */,
 				9C81312C1B31BC9600D9CE24 /* SuggestionViewController.swift in Sources */,
 				9CF5E9061B30320E002B7DD6 /* SelectRequestsViewController.swift in Sources */,

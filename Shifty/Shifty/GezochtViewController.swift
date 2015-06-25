@@ -13,7 +13,7 @@ import UIKit
 import Parse
 import SwiftDate
 
-class GezochtViewController: ShiftControllerInterface
+class GezochtViewController: ShiftViewController
 {
     // outlet for programmatic styling
     @IBOutlet weak var makeRequestButton: UIButton!
@@ -60,7 +60,7 @@ class GezochtViewController: ShiftControllerInterface
 
 extension GezochtViewController: UITableViewDataSource
 {
-    // information needs to come from another property than other ShiftControllerInterfaces
+    // information needs to come from another property than other ShiftViewControllers
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return rooster.requestedShifs[section].count

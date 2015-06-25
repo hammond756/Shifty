@@ -1,5 +1,5 @@
 //
-//  ShiftControllerInterface.swift
+//  ShiftViewController.swift
 //  Shifty
 //
 //  Created by Aron Hammond on 18/06/15.
@@ -13,7 +13,7 @@
 import UIKit
 import Parse
 
-class ShiftControllerInterface: UIViewController, UITableViewDataSource
+class ShiftViewController: UIViewController, UITableViewDataSource
 {
     // outlets
     @IBOutlet weak var tableView: UITableView! = nil
@@ -71,7 +71,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDataSource
     }
 }
 
-extension ShiftControllerInterface: UITableViewDataSource
+extension ShiftViewController: UITableViewDataSource
 {
     // get number of rows for a section
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int

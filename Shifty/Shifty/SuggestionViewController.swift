@@ -11,7 +11,7 @@
 import UIKit
 import Parse
 
-class SuggestionViewController: ShiftControllerInterface
+class SuggestionViewController: ShiftViewController
 {
     @IBOutlet weak var submitButton: UIButton!
     
