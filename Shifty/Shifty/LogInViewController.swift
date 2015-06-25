@@ -22,6 +22,7 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
             var loginController = CustomPFLoginViewController()
             loginController.signUpController?.delegate = self
             loginController.delegate = self
+            
             presentViewController(loginController, animated: true, completion: nil)
         }
         else
@@ -44,5 +45,4 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
         PFUser.logInWithUsername(user.username!, password: user.password!)
         dismissViewControllerAnimated(false, completion: nil)
     }
-    
 }

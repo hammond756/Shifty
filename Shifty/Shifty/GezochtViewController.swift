@@ -15,6 +15,7 @@ import SwiftDate
 
 class GezochtViewController: ShiftControllerInterface
 {
+    // outlet for programmatic styling
     @IBOutlet weak var makeRequestButton: UIButton!
     
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
