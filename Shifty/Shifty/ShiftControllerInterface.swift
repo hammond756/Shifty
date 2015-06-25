@@ -11,7 +11,7 @@
 import UIKit
 import Parse
 
-class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableViewDataSource
+class ShiftControllerInterface: UIViewController, UITableViewDataSource
 {
     // outlets
     @IBOutlet weak var tableView: UITableView! = nil
@@ -24,34 +24,6 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
     
     // stores the section header titles (eg. Week 34)
     var sectionsInTable = [String]()
-        
-    // get number of rows for a section
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return rooster.ownedShifts[section].count
-    }
-    
-    // generate cell with commonly shared properties
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        let cell = tableView.dequeueReusableCellWithIdentifier(Constant.reuseCell, forIndexPath: indexPath) as! UITableViewCell
-        cell.backgroundColor = UIColor.clearColor()
-        cell.textLabel?.textAlignment = NSTextAlignment.Center
-        
-        return cell
-    }
-    
-    // get titles from sectionsInTable and put them in the section headers
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
-    {
-        return sectionsInTable[section]
-    }
-    
-    // return number of sections
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    {
-        return sectionsInTable.count
-    }
     
     // toggle activity indicator view on (true) off (false)
     func switchStateOfActivityView(on: Bool)
@@ -67,5 +39,36 @@ class ShiftControllerInterface: UIViewController, UITableViewDelegate, UITableVi
         sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
         tableView.reloadData()
         switchStateOfActivityView(false)
+    }
+}
+
+extension ShiftControllerInterface: UITableViewDataSource
+{
+    // get number of rows for a section
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return rooster.ownedShifts[section].count
+    }
+    
+    // return number of sections
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int
+    {
+        return sectionsInTable.count
+    }
+    
+    // get titles from sectionsInTable and put them in the section headers
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
+    {
+        return sectionsInTable[section]
+    }
+    
+    // generate cell with commonly shared properties
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier(Constant.reuseCell, forIndexPath: indexPath) as! UITableViewCell
+        cell.backgroundColor = UIColor.clearColor()
+        cell.textLabel?.textAlignment = NSTextAlignment.Center
+        
+        return cell
     }
 }

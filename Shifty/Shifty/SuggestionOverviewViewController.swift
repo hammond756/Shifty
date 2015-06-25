@@ -18,15 +18,34 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
     override func viewDidLoad()
     {
         getData()
+        
         let parseObject = PFQuery(className: ParseClass.requests).getObjectWithId(requestID)
         request = Request(parseObject: parseObject!)
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        getData()
+    // BUG: doesn't remove objectID of accepted suggest from replies
+    func getData()
+    {
+        switchStateOfActivityView(true)
+        rooster.requestSuggestions(requestID) { suggestions -> Void in
+            self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
+                self.suggestions = shifts
+                shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
+                self.tableView.reloadData()
+                self.switchStateOfActivityView(false)
+            }
+        }
     }
     
+    func popViewController()
+    {
+        navigationController?.popViewControllerAnimated(false)
+    }
+}
+
+extension SuggestionOverviewViewController: UITableViewDataSource
+{
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return suggestions.count
@@ -37,6 +56,7 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
         return 1
     }
     
+    // override from parent. SuggestionOverviewView has no section titles
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return nil
@@ -52,14 +72,15 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
         
         if shiftForCell.status == Status.awaittingFromSug
         {
-            cell.backgroundColor = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
+            cell.backgroundColor = Highlight.awaitting
         }
-        
-        println("deque")
         
         return cell
     }
-    
+}
+
+extension SuggestionOverviewViewController: UITableViewDelegate
+{
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
         let selectedShift = suggestions[indexPath.row]
@@ -79,25 +100,5 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
         presentViewController(alertController, animated: true, completion: nil)
         
         return indexPath
-    }
-    
-    // BUG: doesn't remove objectID of accepted suggest from replies
-    func getData()
-    {
-        switchStateOfActivityView(true)
-        rooster.requestSuggestions(requestID) { suggestions -> Void in
-            self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
-                self.suggestions = shifts
-                println(shifts)
-                shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
-                self.tableView.reloadData()
-                self.switchStateOfActivityView(false)
-            }
-        }
-    }
-    
-    func popViewController()
-    {
-        navigationController?.popViewControllerAnimated(false)
     }
 }

@@ -29,20 +29,18 @@ class Shift: ContentInterface
         
         self.createdFrom.fetchIfNeededInBackground()
         self.acceptedBy?.fetchIfNeededInBackground()
-        
-        println(self.acceptedBy)
-        
+                
         super.init(date: date, owner: owner, objectID: objectID)
     }
     
     convenience required init(parseObject: PFObject)
     {
-        let date = parseObject["Date"] as! NSDate
-        let status = parseObject["Status"] as! String
-        let owner = parseObject["Owner"] as! PFUser
-        let createdFrom = parseObject["createdFrom"] as! PFObject
-        let suggestedTo = parseObject["suggestedTo"] as? PFObject
-        var acceptedBy = parseObject["acceptedBy"] as? PFUser
+        let date = parseObject[ParseKey.date] as! NSDate
+        let status = parseObject[ParseKey.status] as! String
+        let owner = parseObject[ParseKey.owner] as! PFUser
+        let createdFrom = parseObject[ParseKey.createdFrom] as! PFObject
+        let suggestedTo = parseObject[ParseKey.suggestedTo] as? PFObject
+        var acceptedBy = parseObject[ParseKey.acceptedBy] as? PFUser
         
         self.init(date: date, owner: owner, objectID: parseObject.objectId!, status: status, acceptedBy: acceptedBy, createdFrom: createdFrom, suggestedTo: suggestedTo)
     }

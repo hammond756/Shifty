@@ -45,8 +45,8 @@ class ContentInterface: HasDate, ExistsInParse, Equatable
     
     convenience required init(parseObject: PFObject)
     {
-        let date = parseObject["Date"] as! NSDate
-        let owner = parseObject["Owner"] as! PFUser
+        let date = parseObject[ParseKey.date] as! NSDate
+        let owner = parseObject[ParseKey.owner] as! PFUser
         let objectID = parseObject.objectId!
         
         self.init(date: date, owner: owner, objectID: objectID)

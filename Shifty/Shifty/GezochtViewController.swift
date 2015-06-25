@@ -14,6 +14,11 @@ class GezochtViewController: ShiftControllerInterface
 {
     @IBOutlet weak var makeRequestButton: UIButton!
     
+    @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
+    {
+        helper.logOut(self)
+    }
+    
     var selectedRequestID = ""
     
     override func viewDidLoad()
@@ -29,6 +34,14 @@ class GezochtViewController: ShiftControllerInterface
         super.viewWillAppear(animated)
     }
     
+    func getData()
+    {
+        activityIndicator.startAnimating()
+        rooster.requestRequests() { sections -> Void in
+            self.refresh(sections)
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
         if segue.identifier == Segue.makeSuggestion
@@ -42,24 +55,10 @@ class GezochtViewController: ShiftControllerInterface
             sovc.requestID = selectedRequestID
         }
     }
-    
-    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
-    {
-        let request = rooster.requestedShifs[indexPath.section][indexPath.row]
-        selectedRequestID = request.objectID
-        
-        if request.owner == PFUser.currentUser()
-        {
-            self.performSegueWithIdentifier(Segue.seeSuggestions, sender: nil)
-        }
-        else
-        {
-            self.performSegueWithIdentifier(Segue.makeSuggestion, sender: nil)
-        }
-        
-        return indexPath
-    }
-    
+}
+
+extension GezochtViewController: UITableViewDataSource
+{
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return rooster.requestedShifs[section].count
@@ -79,17 +78,24 @@ class GezochtViewController: ShiftControllerInterface
         
         return cell
     }
-    
-    func getData()
+}
+
+extension GezochtViewController: UITableViewDelegate
+{
+    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
-        activityIndicator.startAnimating()
-        rooster.requestRequests() { sections -> Void in
-            self.refresh(sections)
+        let request = rooster.requestedShifs[indexPath.section][indexPath.row]
+        selectedRequestID = request.objectID
+        
+        if request.owner == PFUser.currentUser()
+        {
+            self.performSegueWithIdentifier(Segue.seeSuggestions, sender: nil)
         }
-    }
-    
-    @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
-    {
-        helper.logOut(self)
+        else
+        {
+            self.performSegueWithIdentifier(Segue.makeSuggestion, sender: nil)
+        }
+        
+        return indexPath
     }
 }

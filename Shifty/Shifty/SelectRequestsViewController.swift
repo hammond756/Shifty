@@ -56,7 +56,7 @@ class SelectRequestsViewController: ShiftControllerInterface
         }
     }
     
-    func getDates(callback: (possibleDates: [NSDate]) -> Void)
+    func getPossibleDates(callback: (possibleDates: [NSDate]) -> Void)
     {
         let today = NSDate()
         var possibleDates = [NSDate]()
@@ -85,7 +85,6 @@ class SelectRequestsViewController: ShiftControllerInterface
         let query = PFQuery(className: ParseClass.requests)
         query.whereKey(ParseKey.requestedBy, equalTo: PFUser.currentUser()!)
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
-            
             if let requests = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 for request in requests
@@ -93,19 +92,19 @@ class SelectRequestsViewController: ShiftControllerInterface
                     let date = request[ParseKey.date] as! NSDate
                     self.previousRequests.append(date)
                 }
+                self.getPossibleDates() { possibleDates -> Void in
+                    self.sectionsInTable = self.helper.getSections(possibleDates)
+                    self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
+                    self.tableView.reloadData()
+                    self.switchStateOfActivityView(false)
+                }
             }
-            
-            self.getDates() { possibleDates -> Void in
-                self.sectionsInTable = self.helper.getSections(possibleDates)
-                self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
-                self.tableView.reloadData()
-                self.switchStateOfActivityView(false)
-            }
-            
         }
     }
-    
-    // tableView delegate fuctions
+}
+
+extension SelectRequestsViewController: UITableViewDataSource
+{
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return sectionedDates[section].count
@@ -120,7 +119,10 @@ class SelectRequestsViewController: ShiftControllerInterface
         
         return cell
     }
-    
+}
+
+extension SelectRequestsViewController: UITableViewDelegate
+{
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedDate = sectionedDates[indexPath.section][indexPath.row]
@@ -136,5 +138,4 @@ class SelectRequestsViewController: ShiftControllerInterface
             selectedDates.removeAtIndex(index)
         }
     }
-    
 }

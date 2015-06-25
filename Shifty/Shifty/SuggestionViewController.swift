@@ -13,24 +13,11 @@ class SuggestionViewController: ShiftControllerInterface
 {
     @IBOutlet weak var submitButton: UIButton!
     
-    // objectID's of shifts
-    var selectedShifts = [String]()
-    
-    // objectID of associated request
-    var requestID = ""
-    var request: Request? = nil
-    var parseObject: PFObject? = nil
-    
-    override func viewWillAppear(animated: Bool) {
-        getData()
-        super.viewWillAppear(animated)
-    }
-    
     @IBAction func finishedSuggesting(sender: UIBarButtonItem)
     {
         let query = PFQuery(className: ParseClass.requests)
         query.getObjectInBackgroundWithId(requestID) { (request: PFObject?, error: NSError?) -> Void in
-
+            
             if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
                 request.addUniqueObjectsFromArray(self.selectedShifts, forKey: ParseKey.replies)
@@ -47,15 +34,20 @@ class SuggestionViewController: ShiftControllerInterface
         helper.updateShiftStatuses(selectedShifts, newStatus: Status.suggested, suggestedTo: parseObject) { }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
-        let shiftForCell = rooster.ownedShifts[indexPath.section][indexPath.row]
-        
-        cell.textLabel?.text = shiftForCell.dateString
-        cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
-        
-        return cell
+    // objectID's of shifts
+    var selectedShifts = [String]()
+    
+    // objectID of associated request
+    var requestID = ""
+    var request: Request? = nil
+    var parseObject: PFObject? = nil
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        getData()
+        super.viewWillAppear(animated)
     }
+    
     override func viewDidLoad()
     {
         submitButton.layer.cornerRadius = 10
@@ -67,6 +59,31 @@ class SuggestionViewController: ShiftControllerInterface
         super.viewDidLoad()
     }
     
+    func getData()
+    {
+        switchStateOfActivityView(true)
+        rooster.requestShifts(Status.owned) { sections -> Void in
+            self.refresh(sections)
+        }
+    }
+}
+
+extension SuggestionViewController: UITableViewDataSource
+{
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
+        let shiftForCell = rooster.ownedShifts[indexPath.section][indexPath.row]
+        
+        cell.textLabel?.text = shiftForCell.dateString
+        cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
+        
+        return cell
+    }
+}
+
+extension SuggestionViewController: UITableViewDelegate
+{
     // everything to do with the table view
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
@@ -76,7 +93,10 @@ class SuggestionViewController: ShiftControllerInterface
         {
             selectedShifts.append(selectedShift.objectID)
         }
-        // else: "Je hebt diensten geselecteerd die al in behandeling zijn"
+        else
+        {
+            // showAlert("Deze dienst is in al in behandeling")
+        }
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
@@ -86,14 +106,6 @@ class SuggestionViewController: ShiftControllerInterface
         if let index = find(selectedShifts, deselectedShift.objectID)
         {
             selectedShifts.removeAtIndex(index)
-        }
-    }
-    
-    func getData()
-    {
-        switchStateOfActivityView(true)
-        rooster.requestShifts(Status.owned) { sections -> Void in
-            self.refresh(sections)
         }
     }
 }

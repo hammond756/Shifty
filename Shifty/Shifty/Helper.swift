@@ -13,7 +13,7 @@ import SwiftDate
 
 class Helper
 {
-    // log out current user and show the loginViewController
+    // log out current user and show the LoginViewController
     func logOut(viewController: UIViewController)
     {
         PFUser.logOut()
@@ -38,7 +38,7 @@ class Helper
     {
         if error != nil
         {
-            println("\(object?.description), \(error?.description)")
+            println(error?.description)
             return nil
         }
         
@@ -81,14 +81,15 @@ class Helper
     
     func checkDoubleEntries(day: String, callback: (noDoubleEntries: Bool) -> Void)
     {
-        let query = PFQuery(className: "FixedShifts")
-        query.whereKey("Owner", equalTo: PFUser.currentUser()!)
+        let query = PFQuery(className: ParseClass.fixed)
+        query.whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
+        
         query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
             if let ownedShifts = self.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {
                 for shift in ownedShifts
                 {
-                    if shift["Day"] as! String == day
+                    if shift[ParseKey.day] as! String == day
                     {
                         callback(noDoubleEntries: false)
                         return
@@ -104,24 +105,20 @@ class Helper
     {
         var query = PFQuery()
         
-        if status == "Owned"
+        if status == Status.owned
         {
-            let isOwner = PFQuery(className: "Shifts").whereKey("Owner", equalTo: PFUser.currentUser()!)
-            let hasAccepted = PFQuery(className: "Shifts").whereKey("acceptedBy", equalTo: PFUser.currentUser()!)
+            let isOwner = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
+            let hasAccepted = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.acceptedBy, equalTo: PFUser.currentUser()!)
             
             query = PFQuery.orQueryWithSubqueries([isOwner, hasAccepted])
         }
-        else if status == "Supplied"
+        else if status == Status.supplied
         {
-            query = PFQuery(className: "Shifts").whereKey("Status", equalTo: "Supplied")
+            query = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.status, equalTo: Status.supplied)
         }
-        else if status == "Requested"
+        else if status == Status.requested
         {
-            query = PFQuery(className: "RequestedShifts")
-        }
-        else if status == "Suggested"
-        {
-            query = PFQuery(className: "RequestedShifts")
+            query = PFQuery(className: ParseClass.requests)
         }
         
         return query
@@ -130,14 +127,15 @@ class Helper
     // <T: HasDate> for consistency?
     func checkIfDateIsTaken(dateToCheck: NSDate, callback: (taken: Bool) -> Void)
     {
-        let query = PFQuery(className: "Shifts")
-        query.whereKey("Owner", equalTo: PFUser.currentUser()!)
+        let query = PFQuery(className: ParseClass.shifts)
+        query.whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
+        
         query.findObjectsInBackgroundWithBlock() { (shifts: [AnyObject]?, error: NSError?) -> Void in
             if let shifts = self.returnObjectAfterErrorCheck(shifts, error: error) as? [PFObject]
             {
                 for shift in shifts
                 {
-                    let date = shift["Date"] as! NSDate
+                    let date = shift[ParseKey.date] as! NSDate
                     if date.day == dateToCheck.day && date.month == dateToCheck.date.month
                     {
                         callback(taken: true)
@@ -157,18 +155,18 @@ class Helper
     {
         for ID in shiftIDs
         {
-            PFQuery(className: "Shifts").getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
+            let query = PFQuery(className: ParseClass.shifts)
+            
+            query.getObjectInBackgroundWithId(ID) { (shift: PFObject?, error: NSError?) -> Void in
                 if let shift = self.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
-                    let Owner = "Owner"
-                    println("\(ID): \(shift[Owner])")
-                    shift["Status"] = newStatus
+                    shift[ParseKey.status] = newStatus
                     switch newStatus
                     {
-                    case "Suggested": shift["suggestedTo"] = suggestedTo!
-                    case "idle": shift.removeObjectForKey("suggestedTo")
-                    case "Supplied": shift.removeObjectForKey("acceptedBy")
-                    default: break
+                        case Status.suggested:  shift[ParseKey.suggestedTo] = suggestedTo!
+                        case Status.idle:       shift.removeObjectForKey(ParseKey.suggestedTo)
+                        case Status.supplied:   shift.removeObjectForKey(ParseKey.acceptedBy)
+                        default: break
                     }
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         callback()
@@ -181,7 +179,15 @@ class Helper
     // function that calculates on which date the next occurence is of a given weekday
     func nextOccurenceOfDay(day: String) -> NSDate
     {
-        let dayDict = ["Maandag": 2, "Dinsdag": 3, "Woensdag": 4, "Donderdag": 5, "Vrijdag": 6, "Zaterdag": 7, "Zondag": 1]
+        let dayDict = [
+            Weekdays.monday:    2,
+            Weekdays.tuesday:   3,
+            Weekdays.wednesday: 4,
+            Weekdays.thursday:  5,
+            Weekdays.friday:    6,
+            Weekdays.saturday:  7,
+            Weekdays.sunday:    1
+        ]
         
         let today = NSDate()
         var daysAhead = dayDict[day]! - today.weekday

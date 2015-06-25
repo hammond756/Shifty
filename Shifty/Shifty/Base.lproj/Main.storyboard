@@ -222,7 +222,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="goToSubmitView" destination="WOK-3g-UMK" eventType="touchUpInside" id="IaZ-St-0u4"/>
+                                    <segue destination="EbF-JY-d39" kind="show" id="2I4-n6-2yS"/>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="V2i-ei-9II">
@@ -288,7 +288,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Ab-gM-mOp">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="goToSubmitView" destination="WOK-3g-UMK" id="6M3-mg-x3m"/>
+                                <segue destination="EbF-JY-d39" kind="show" id="3Zp-8K-9MK"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -297,7 +297,6 @@
                         <outlet property="activityView" destination="0sM-i5-pD1" id="M6a-kY-Glm"/>
                         <outlet property="submitButton" destination="svV-hJ-sdZ" id="3u6-nB-9Ex"/>
                         <outlet property="tableView" destination="V2i-ei-9II" id="62S-ST-o9g"/>
-                        <segue destination="EbF-JY-d39" kind="show" identifier="Submit Rooster" id="orp-Ff-R5L"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fnh-Gp-ebO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -847,8 +846,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="2I4-n6-2yS"/>
         <segue reference="fvl-DS-WnA"/>
-        <segue reference="YFu-oa-XcF"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
 </document>

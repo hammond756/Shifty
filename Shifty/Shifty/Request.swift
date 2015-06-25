@@ -13,8 +13,8 @@ class Request: ContentInterface
 {
     convenience required init(parseObject: PFObject)
     {
-        let date = parseObject["date"] as! NSDate
-        let requestedBy = parseObject["requestedBy"] as! PFUser
+        let date = parseObject[ParseKey.date] as! NSDate
+        let requestedBy = parseObject[ParseKey.requestedBy] as! PFUser
         
         self.init(date: date, owner: requestedBy, objectID: parseObject.objectId!)
     }

@@ -41,15 +41,15 @@ class ActionSheet
     // add a action the the action sheet that supplies a shift to the marketplace and save the changes in the database
     func createSupplyAction()
     {
-        let supplyAction = UIAlertAction(title: "Aanbieden", style: .Default) { action -> Void in
+        let supplyAction = UIAlertAction(title: Label.supply, style: .Default) { action -> Void in
             
-            self.selectedShift.status = "Supplied"
+            self.selectedShift.status = Status.supplied
             
-            let query = PFQuery(className: "Shifts")
+            let query = PFQuery(className: ParseClass.shifts)
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
-                    shift["Status"] = "Supplied"
+                    shift[ParseKey.status] = Status.supplied
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
                         succes ? self.delegate.getData() : println(error?.description)
@@ -76,8 +76,8 @@ class ActionSheet
     {
         approveShiftChange()
         
-        let approveSuggestionAction = UIAlertAction(title: "Goedkeuren, sug", style: .Default) { action -> Void in
-            let query = PFQuery(className: "RequestedShifts")
+        let approveSuggestionAction = UIAlertAction(title: Label.approve, style: .Default) { action -> Void in
+            let query = PFQuery(className: ParseClass.requests)
             let associatedRequestID = self.selectedShift.suggestedTo!.objectId
             query.getObjectInBackgroundWithId(associatedRequestID!) { (request: PFObject?, error: NSError?) -> Void in
                 
@@ -87,7 +87,7 @@ class ActionSheet
                     request.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         self.delegate.popViewController?()
                         self.delegate.getData()
-                        self.helper.updateShiftStatuses(suggestedShiftIDs, newStatus: "idle", suggestedTo: nil) { }
+                        self.helper.updateShiftStatuses(suggestedShiftIDs, newStatus: Status.idle, suggestedTo: nil) { }
                     }
                 }
             }
@@ -98,10 +98,10 @@ class ActionSheet
     
     func createDisapproveAction()
     {
-        let disapproveAction = UIAlertAction(title: "Afkeuren", style: .Default) { action -> Void in
+        let disapproveAction = UIAlertAction(title: Label.disapprove, style: .Default) { action -> Void in
             // =nil may be irrelevant
             self.selectedShift.acceptedBy = nil
-            self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: "Supplied", suggestedTo: nil) { () -> Void in
+            self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: Status.supplied, suggestedTo: nil) { () -> Void in
                 self.delegate.getData()
             }
         }
@@ -112,11 +112,10 @@ class ActionSheet
     // WAAROM?????? Owner verandert out of the blue
     func createDisapproveSuggestionAction()
     {
-        let disapproveAction = UIAlertAction(title: "Afkeuren, sug", style: .Default) { action -> Void in
-            // =nil may be irrelevant
+        let disapproveAction = UIAlertAction(title: Label.disapprove, style: .Default) { action -> Void in
+            // acceptedBy=nil may be irrelevant
             self.selectedShift.acceptedBy = nil
-            println(self.selectedShift.owner)
-            self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: "idle", suggestedTo: nil) { () -> Void in
+            self.helper.updateShiftStatuses([self.selectedShift.objectID], newStatus: Status.idle, suggestedTo: nil) { () -> Void in
                 self.delegate.getData()
             }
         }
@@ -126,19 +125,19 @@ class ActionSheet
     
     func createAcceptSuggestionAction()
     {
-        let acceptSuggestionAction = UIAlertAction(title: "Accepteren", style: .Default) { action -> Void in
+        let acceptSuggestionAction = UIAlertAction(title: Label.accept, style: .Default) { action -> Void in
             
-            let query = PFQuery(className: "Shifts")
+            let query = PFQuery(className: ParseClass.shifts)
             
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
                 
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     // check whether the shift is already accepted by another user
-                    if shift["acceptedBy"] == nil
+                    if shift[ParseKey.acceptedBy] == nil
                     {
-                        shift["acceptedBy"] = PFUser.currentUser()
-                        shift["Status"] = "Awaitting Approval, sug"
+                        shift[ParseKey.acceptedBy] = PFUser.currentUser()
+                        shift[ParseKey.status] = Status.awaittingFromSug
                         shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
                             
                             succes ? self.delegate.getData() : println(error?.description)
@@ -154,17 +153,17 @@ class ActionSheet
     // update properties in application and in the database
     private func approveShiftChange()
     {
-        let query = PFQuery(className: "Shifts")
+        let query = PFQuery(className: ParseClass.shifts)
         query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
             
             if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
             {
-                shift["Status"] = "idle"
-                shift["Owner"] = shift["acceptedBy"]
-                shift.removeObjectForKey("acceptedBy")
-                shift.removeObjectForKey("suggestedTo")
+                shift[ParseKey.status] = Status.idle
+                shift[ParseKey.owner] = shift[ParseKey.acceptedBy]
+                shift.removeObjectForKey(ParseKey.acceptedBy)
+                shift.removeObjectForKey(ParseKey.suggestedTo)
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                    // self.selectedShift.status = "idle"
+                    // self.selectedShift.status = Status.idle
                     succes ? self.delegate.getData() : println(error?.description)
                 }
             }
@@ -174,16 +173,16 @@ class ActionSheet
     // add a action the the action sheet that revokes a shift from the marketplace and save change in the database
     func createRevokeAction()
     {
-        let revokeAction = UIAlertAction(title: "Terugtrekken", style: .Default) { action -> Void in
+        let revokeAction = UIAlertAction(title: Label.revoke, style: .Default) { action -> Void in
             
-            self.selectedShift.status = "idle"
+            self.selectedShift.status = Status.idle
             
-            let query = PFQuery(className: "Shifts")
+            let query = PFQuery(className: ParseClass.shifts)
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
                 
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
-                    shift["Status"] = "idle"
+                    shift[ParseKey.status] = Status.idle
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                         
                         succes ? self.delegate.getData() : println(error?.description)
@@ -198,9 +197,9 @@ class ActionSheet
     // add a action the the action sheet that accepts a supplied shift and save change in the database
     func createAcceptAction()
     {
-        let acceptAction = UIAlertAction(title: "Accepteren", style: .Default) { action -> Void in
+        let acceptAction = UIAlertAction(title: Label.accept, style: .Default) { action -> Void in
             
-            let query = PFQuery(className: "Shifts")
+            let query = PFQuery(className: ParseClass.shifts)
             
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
                 
@@ -213,16 +212,16 @@ class ActionSheet
                             self.delegate.showAlert?(self.getAlertViewForImpossibleAcceptAction())
                             return
                         }
-                        else if (shift["acceptedBy"] == nil) && (shift["Owner"] as? PFUser != PFUser.currentUser())
+                        else if (shift[ParseKey.acceptedBy] == nil) && (shift[ParseKey.owner] as? PFUser != PFUser.currentUser())
                         {
-                            shift["acceptedBy"] = PFUser.currentUser()
-                            shift["Status"] = "Awaitting Approval"
+                            shift[ParseKey.acceptedBy] = PFUser.currentUser()
+                            shift[ParseKey.status] = Status.awaitting
                             shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
                                 
                                 succes ? self.delegate.getData() : println(error?.description)
                             }
                         }
-                        else if shift["acceptedBy"] != nil
+                        else if shift[ParseKey.acceptedBy] != nil
                         {
                             self.delegate.showAlert?(self.getAlertViewForMissedOppurtunity())
                         }
@@ -237,7 +236,7 @@ class ActionSheet
     // destructive button on the actionsheet
     func createDeleteAction()
     {
-        let deleteAction = UIAlertAction(title: "Verwijderen", style: .Destructive) { action -> Void in
+        let deleteAction = UIAlertAction(title: Label.delete, style: .Destructive) { action -> Void in
             self.delegate.showAlert?(self.getConfirmationAlertView())
         }
         
@@ -254,7 +253,7 @@ class ActionSheet
             actionSheetController.addAction(action)
         }
         
-        let cancelAction = UIAlertAction(title: "Annuleren", style: .Cancel) { action -> Void in
+        let cancelAction = UIAlertAction(title: Label.cancel, style: .Cancel) { action -> Void in
             actionSheetController.dismissViewControllerAnimated(true, completion: nil)
         }
         
@@ -267,7 +266,7 @@ class ActionSheet
     {
         let alertView = UIAlertController(title: nil, message: "Helaas, deze dienst is net voor je weggekaapt.", preferredStyle: .Alert)
         
-        let cancelAction = UIAlertAction(title: "Oke, jammer", style: .Cancel) { action -> Void in
+        let cancelAction = UIAlertAction(title: Label.cancel, style: .Cancel) { action -> Void in
             alertView.dismissViewControllerAnimated(true, completion: nil)
             self.delegate.getData()
         }
@@ -280,7 +279,7 @@ class ActionSheet
     {
         let alertView = UIAlertController(title: nil, message: "Je werkt al op deze dag", preferredStyle: .Alert)
         
-        let cancelAction = UIAlertAction(title: "Weet ik toch", style: .Cancel) { action -> Void in
+        let cancelAction = UIAlertAction(title: Label.cancel, style: .Cancel) { action -> Void in
             alertView.dismissViewControllerAnimated(true, completion: nil)
         }
     
@@ -293,19 +292,19 @@ class ActionSheet
     {
         let alertView = UIAlertController(title: nil, message: "Je staat op het punt je diensten te verwijderen.", preferredStyle: .Alert)
         
-        let cancelAction = UIAlertAction(title: "Laat maar", style: .Cancel) { action -> Void in
+        let cancelAction = UIAlertAction(title: Label.cancel, style: .Cancel) { action -> Void in
             alertView.dismissViewControllerAnimated(true, completion: nil)
         }
         
         // prefroms the actual deletion.
-        let confirmAction = UIAlertAction(title: "I know", style: .Destructive) { action -> Void in
+        let confirmAction = UIAlertAction(title: Label.delete, style: .Destructive) { action -> Void in
             self.delegate.switchStateOfActivityView(true)
             
-            let shiftQuery = PFQuery(className: "Shifts")
-                .whereKey("createdFrom", equalTo: self.selectedShift.createdFrom)
-                .whereKey("Owner", equalTo: PFUser.currentUser()!)
+            let shiftQuery = PFQuery(className: ParseClass.shifts)
+                .whereKey(ParseKey.createdFrom, equalTo: self.selectedShift.createdFrom)
+                .whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
                 // remove this constraint?
-                .whereKey("Status", notContainedIn: ["Awaitting Approval", "Supplied"])
+                .whereKey(ParseKey.status, notContainedIn: [Status.awaitting, Status.supplied])
             
             shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
                 
@@ -325,7 +324,7 @@ class ActionSheet
                 }
             }
             
-            let fixedShift = PFQuery(className: "FixedShifts").getObjectWithId(self.selectedShift.createdFrom.objectId!)
+            let fixedShift = PFQuery(className: ParseClass.fixed).getObjectWithId(self.selectedShift.createdFrom.objectId!)
             fixedShift?.deleteInBackground()
         }
         
@@ -341,16 +340,16 @@ class ActionSheet
         {
             switch action
             {
-            case "Supply": createSupplyAction()
-            case "Revoke": createRevokeAction()
-            case "Approve": createApproveAction()
-            case "Accept": createAcceptAction()
-            case "Delete": createDeleteAction()
-            case "Approve Suggestion": createApproveSuggestionAction()
-            case "Accept Suggestion": createAcceptSuggestionAction()
-            case "Disapprove": createDisapproveAction()
-                case "Disapprove Suggestion": createDisapproveSuggestionAction()
-            default: break
+                case Action.supply:         createSupplyAction()
+                case Action.revoke:         createRevokeAction()
+                case Action.approve:        createApproveAction()
+                case Action.accept:         createAcceptAction()
+                case Action.delete:         createDeleteAction()
+                case Action.approveSug:     createApproveSuggestionAction()
+                case Action.acceptSug:      createAcceptSuggestionAction()
+                case Action.disapprove:     createDisapproveAction()
+                case Action.disapproveSug:  createDisapproveSuggestionAction()
+                default: break
             }
         }
     }

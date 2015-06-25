@@ -24,7 +24,7 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
         }
         else
         {
-            self.performSegueWithIdentifier("Logged In", sender: nil)
+            self.performSegueWithIdentifier(Segue.logIn, sender: nil)
         }
         
         super.viewDidAppear(animated)
