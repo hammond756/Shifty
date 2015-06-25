@@ -3,10 +3,10 @@
 ## Structure
 
 ##### ViewControllers
-<img align="left" src="docs/screens/RoosterViewController.png" width="200" hspace="7">
-<img align="left" src="docs/screens/SupplyAction.png" width="200" hspace="7">
-<img align="left" src="docs/screens/ApproveAction.png" width="200" hspace="7">
-<img align="left" src="docs/screens/RevokeAction.png" width="200" hspace="7"><br><br><br>
+<img src="docs/screens/RoosterViewController.png" width="200" hspace="7">
+<img src="docs/screens/SupplyAction.png" width="200" hspace="7">
+<img src="docs/screens/ApproveAction.png" width="200" hspace="7">
+<img src="docs/screens/RevokeAction.png" width="200" hspace="7"><br><br>
 
 ###### RoosterViewController
 This is the main view of the application. It consists of a UITableView that shows all shifts that are owned  
@@ -20,7 +20,10 @@ status of the shift. The "+" sign in the upper right corner triggers a segue to 
 ###### AangebodenViewController
 This is the marketplace. All shift that are supplied by users are displayed. Also for this view goes, that selections prompts
 a UIALertController Shifts owned (ergo supplied) by the current userare highlighted in red and can be revoked. Once a shift
-has been revoked or accepted, it dissapears from the marketplace. This means that accepting a supplied shift is final.
+has been revoked or accepted, it dissapears from the marketplace. This means that accepting a supplied shift is final. The
+accept action makes the shift go through a set of checks to make sure it is a legal action (eg. whether the user already owns
+a shift on that day).
+
 ##### Classes
 
 
