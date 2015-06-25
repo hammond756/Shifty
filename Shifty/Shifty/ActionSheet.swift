@@ -74,26 +74,43 @@ class ActionSheet
     // appriving a suggestion needs extra behaviour on top of approveShiftChange, namely removing the request
     func createApproveSuggestionAction()
     {
-        approveShiftChange()
-        
         let approveSuggestionAction = UIAlertAction(title: Label.approve, style: .Default) { action -> Void in
-            let query = PFQuery(className: ParseClass.requests)
-            let associatedRequestID = self.selectedShift.suggestedTo!.objectId
-            query.getObjectInBackgroundWithId(associatedRequestID!) { (request: PFObject?, error: NSError?) -> Void in
-                
-                if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
+            self.approveShiftChange()
+            self.deleteAssociatedRequest()
+            
+            // find all shifts that were suggested to the resolved request
+            let query = PFQuery(className: ParseClass.shifts)
+            query.whereKey(ParseKey.suggestedTo, equalTo: self.selectedShift.suggestedTo!)
+            query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+                if let associatedShifts = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
                 {
-                    let suggestedShiftIDs = request["replies"] as! [String]
-                    request.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        self.delegate.popViewController?()
-                        self.delegate.getData()
-                        self.helper.updateShiftStatuses(suggestedShiftIDs, newStatus: Status.idle, suggestedTo: nil) { }
+                    for (i,shift) in enumerate(associatedShifts)
+                    {
+                        shift.removeObjectForKey(ParseKey.suggestedTo)
+                        shift[ParseKey.status] = Status.idle
+                        shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
+                            if succes && i == associatedShifts.count - 1
+                            {
+                                self.delegate.getData()
+                                self.delegate.popViewController!()
+                            }
+                        }
                     }
                 }
             }
         }
         
         actionList.append(approveSuggestionAction)
+    }
+    
+    func deleteAssociatedRequest()
+    {
+        self.selectedShift.suggestedTo!.fetchIfNeededInBackgroundWithBlock() { (object: PFObject?, error: NSError?) -> Void in
+            if let request = self.helper.returnObjectAfterErrorCheck(object, error: error) as? PFObject
+            {
+                request.deleteInBackground()
+            }
+        }
     }
     
     func createDisapproveAction()

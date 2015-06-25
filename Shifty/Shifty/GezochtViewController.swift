@@ -5,7 +5,9 @@
 //  Created by Aron Hammond on 01/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
-//
+//  Shows an overview of Requests. It shows all requests known. Those owned by the
+//  current user are highlighted. Users can send suggestions or view an overview
+//  of suggestions depening if they are owner of that request.
 
 import UIKit
 import Parse
@@ -24,6 +26,7 @@ class GezochtViewController: ShiftControllerInterface
     
     override func viewDidLoad()
     {
+        // round edges of UIButton
         makeRequestButton.layer.cornerRadius = 10
         makeRequestButton.clipsToBounds = true
         super.viewDidLoad()
@@ -89,6 +92,7 @@ extension GezochtViewController: UITableViewDelegate
 {
     func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath?
     {
+        // set selectedRequestID to selected request's id (get's passed on the next view controller)
         let request = rooster.requestedShifs[indexPath.section][indexPath.row]
         selectedRequestID = request.objectID
         

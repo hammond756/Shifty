@@ -13,6 +13,7 @@ import UIKit
 import SwiftDate
 import Parse
 
+// extension to have NSDate conform to HasDate (duh..)
 extension NSDate: HasDate
 {
     func getWeekOfYear() -> String
@@ -26,11 +27,9 @@ extension NSDate: HasDate
 class SelectRequestsViewController: ShiftControllerInterface
 {
     let amountOfDaysToGenerate = 31
-
     var sectionedDates = [[NSDate]]()
     var selectedDates = [NSDate]()
-    var previousRequests = [NSDate]()
-        
+    
     override func viewDidLoad()
     {
         switchStateOfActivityView(true)
@@ -38,7 +37,7 @@ class SelectRequestsViewController: ShiftControllerInterface
         super.viewDidLoad()
     }
     
-    // create Requests objects in parse (from selected dates)
+    // create Requests objects in parse (from selected dates) and pop viewcontroller
     @IBAction func finishedSelecting(sender: UIBarButtonItem)
     {
         for (i,date) in enumerate(selectedDates)
@@ -54,7 +53,7 @@ class SelectRequestsViewController: ShiftControllerInterface
                 }
                 else if succes && i == self.selectedDates.count - 1
                 {
-                    self.navigationController?.popViewControllerAnimated(false)
+                    self.navigationController?.popViewControllerAnimated(true)
                 }
             }
         }
@@ -75,19 +74,6 @@ class SelectRequestsViewController: ShiftControllerInterface
                     previousRequests.append(date)
                 }
                 callback(previousRequests)
-            }
-        }
-    }
-    
-    // call getUserRuests, feed result into getPossibleDates, section dates and dispaly
-    func showOptionsForCurrentUser()
-    {
-        getUserRequests() { dates -> Void in
-            self.getPossibleDates(dates) { possibleDates -> Void in
-                self.sectionsInTable = self.helper.getSections(possibleDates)
-                self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
-                self.tableView.reloadData()
-                self.switchStateOfActivityView(false)
             }
         }
     }
@@ -113,6 +99,19 @@ class SelectRequestsViewController: ShiftControllerInterface
                 {
                     callback(possibleDates: possibleDates)
                 }
+            }
+        }
+    }
+    
+    // call getUserRuests, feed result into getPossibleDates, section dates and dispaly
+    func showOptionsForCurrentUser()
+    {
+        getUserRequests() { dates -> Void in
+            self.getPossibleDates(dates) { possibleDates -> Void in
+                self.sectionsInTable = self.helper.getSections(possibleDates)
+                self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
+                self.tableView.reloadData()
+                self.switchStateOfActivityView(false)
             }
         }
     }

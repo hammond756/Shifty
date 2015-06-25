@@ -18,9 +18,6 @@ class SuggestionOverviewViewController: ShiftControllerInterface
     override func viewDidLoad()
     {
         getData()
-        
-        let parseObject = PFQuery(className: ParseClass.requests).getObjectWithId(requestID)
-        request = Request(parseObject: parseObject!)
         super.viewDidLoad()
     }
     
@@ -29,14 +26,13 @@ class SuggestionOverviewViewController: ShiftControllerInterface
     {
         switchStateOfActivityView(true)
         rooster.requestSuggestions(requestID) { suggestions -> Void in
-            self.rooster.requestShiftsFromIDs(suggestions) { shifts -> Void in
-                self.suggestions = shifts
-                shifts.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
-                self.tableView.reloadData()
-                self.switchStateOfActivityView(false)
-            }
+            self.suggestions = suggestions
+            suggestions.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
+            self.tableView.reloadData()
+            self.switchStateOfActivityView(false)
         }
     }
+
 }
 
 extension SuggestionOverviewViewController: ActionSheetDelegate

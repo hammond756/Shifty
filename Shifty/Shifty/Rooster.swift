@@ -148,24 +148,37 @@ class Rooster
         }
     }
     
-    func requestSuggestions(associatedWith: String, callback: (suggestions: [String]) -> Void)
+    func requestSuggestions(associatedWith: String, callback: (suggestions: [Shift]) -> Void)
     {
-        helper.getQueryForStatus(Status.suggested).getObjectInBackgroundWithId(associatedWith) { (request: PFObject?, error: NSError?) -> Void in
+        PFQuery(className: ParseClass.requests).getObjectInBackgroundWithId(associatedWith) { (request: PFObject?, error: NSError?) -> Void in
             
             if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
             {
-                if let suggestions = request[ParseKey.replies] as? [String]
-                {
-                    callback(suggestions: suggestions)
-                }
-                else
-                {
-                    callback(suggestions: [])
+                self.requestShiftsFromRequest(request) { shifts -> Void in
+                    callback(suggestions: shifts)
                 }
             }
             else
             {
                 return
+            }
+        }
+    }
+    
+    func requestShiftsFromRequest(request: PFObject, callback: (shifts: [Shift]) -> Void)
+    {
+        var shifts = [Shift]()
+        
+        let query = PFQuery(className: ParseClass.shifts).whereKey(ParseKey.suggestedTo, equalTo: request)
+        query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
+            
+            if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
+            {
+                for object in objects
+                {
+                    shifts.append(Shift(parseObject: object))
+                }
+                callback(shifts: shifts)
             }
         }
     }
