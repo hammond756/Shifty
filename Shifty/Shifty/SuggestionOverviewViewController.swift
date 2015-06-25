@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class SuggestionOverviewViewController: ShiftViewController
+class SuggestionOverviewViewController: ContentViewController
 {
     var suggestions = [Shift]()
     var requestID = ""

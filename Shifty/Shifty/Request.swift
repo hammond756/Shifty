@@ -12,7 +12,7 @@
 import Foundation
 import Parse
 
-class Request: ContentInterface
+class Request: Content
 {
     // initialize instance from PFObject
     convenience required init(parseObject: PFObject)

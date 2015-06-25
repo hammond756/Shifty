@@ -12,7 +12,7 @@ import UIKit
 import Parse
 import SwiftDate
 
-class AangebodenViewController: ShiftViewController
+class AangebodenViewController: ContentViewController
 {
     @IBAction func logOutCurrentUser(sender: UIBarButtonItem)
     {
@@ -41,7 +41,7 @@ extension AangebodenViewController: ActionSheetDelegate
 
 extension AangebodenViewController: UITableViewDataSource
 {
-    // information needs to come from another property than other ShiftViewControllers
+    // information needs to come from another property than other ContentViewControllers
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return rooster.suppliedShifts[section].count

@@ -24,7 +24,7 @@ extension NSDate: HasDate
     var date: NSDate { get { return self } }
 }
 
-class SelectRequestsViewController: ShiftViewController
+class SelectRequestsViewController: ContentViewController
 {
     let amountOfDaysToGenerate = 31
     var sectionedDates = [[NSDate]]()

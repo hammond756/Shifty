@@ -134,8 +134,8 @@ class Rooster
         }
     }
     
-    // genarilized function to get data from Parse database (works with ContentInterface subclasses)
-    func doRequest<T: ContentInterface>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
+    // genarilized function to get data from Parse database (works with Content subclasses)
+    func doRequest<T: Content>(withStatus: String, callback: (sections: [String], objects: [T]) -> Void)
     {
         requestParseObjects(withStatus) { objects -> Void in
             var tempObjects = [T]()

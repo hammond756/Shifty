@@ -13,7 +13,7 @@ import Foundation
 import SwiftDate
 import Parse
 
-class Shift: ContentInterface
+class Shift: Content
 {
     // additional properties for Shift
     var timeString: String

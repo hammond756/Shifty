@@ -1,5 +1,5 @@
 //
-//  ShiftViewController.swift
+//  ContentViewController.swift
 //  Shifty
 //
 //  Created by Aron Hammond on 18/06/15.
@@ -13,7 +13,7 @@
 import UIKit
 import Parse
 
-class ShiftViewController: UIViewController, UITableViewDataSource
+class ContentViewController: UIViewController, UITableViewDataSource
 {
     // outlets
     @IBOutlet weak var tableView: UITableView! = nil
@@ -71,7 +71,7 @@ class ShiftViewController: UIViewController, UITableViewDataSource
     }
 }
 
-extension ShiftViewController: UITableViewDataSource
+extension ContentViewController: UITableViewDataSource
 {
     // get number of rows for a section
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int

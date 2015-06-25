@@ -13,7 +13,7 @@
 import UIKit
 import Parse
 
-class RoosterViewController: ShiftViewController
+class RoosterViewController: ContentViewController
 {
     // UIButton outlet for programmatic styling
     @IBOutlet weak var submitButton: UIButton!

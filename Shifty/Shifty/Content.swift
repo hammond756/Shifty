@@ -1,5 +1,5 @@
 //
-//  ContentInterface.swift
+//  Content.swift
 //  Shifty
 //
 //  Created by Aron Hammond on 19/06/15.
@@ -24,12 +24,12 @@ protocol ExistsInParse
 }
 
 // conform to Equatable
-func == (lhs: ContentInterface, rhs: ContentInterface) -> Bool
+func == (lhs: Content, rhs: Content) -> Bool
 {
     return lhs.objectID == rhs.objectID
 }
 
-class ContentInterface: HasDate, ExistsInParse, Equatable
+class Content: HasDate, ExistsInParse, Equatable
 {
     var date: NSDate
     var owner: PFUser
