@@ -32,7 +32,7 @@ class SelectRequestsViewController: ShiftControllerInterface
     
     override func viewDidLoad()
     {
-        switchStateOfActivityView(true)
+        setActivityViewActive(true)
         showOptionsForCurrentUser()
         super.viewDidLoad()
     }
@@ -111,7 +111,7 @@ class SelectRequestsViewController: ShiftControllerInterface
                 self.sectionsInTable = self.helper.getSections(possibleDates)
                 self.sectionedDates = self.helper.splitIntoSections(possibleDates, sections: self.sectionsInTable)
                 self.tableView.reloadData()
-                self.switchStateOfActivityView(false)
+                self.setActivityViewActive(false)
             }
         }
     }
@@ -130,6 +130,7 @@ extension SelectRequestsViewController: UITableViewDataSource
         let dateForCell = sectionedDates[indexPath.section][indexPath.row]
         
         cell.textLabel?.text = dateForCell.toString(format: DateFormat.Custom("EEEE dd MMM"))
+        cell.selectionStyle = .Default
         
         return cell
     }

@@ -26,7 +26,7 @@ class SubmitRoosterViewController: UIViewController
     // set properties of UI elements and asign the delegate/datasource of the UIPickerView
     override func viewDidLoad()
     {
-        switchStateOfActivityView(false)
+        setActivityViewActive(false)
         submitButton.layer.cornerRadius = 10
         submitButton.clipsToBounds = true
         shiftPicker.delegate = self
@@ -48,7 +48,7 @@ class SubmitRoosterViewController: UIViewController
     {
         if dayField.text != "" && timeField.text != ""
         {
-            switchStateOfActivityView(true)
+            setActivityViewActive(true)
             
             let day = dayField.text
             var time = extractTimeComponents(timeField.text)
@@ -58,14 +58,14 @@ class SubmitRoosterViewController: UIViewController
                 if let shift = shift
                 {
                     self.rooster.generateInitialShifts(shift) { () -> Void in
-                        self.switchStateOfActivityView(false)
+                        self.setActivityViewActive(false)
                         self.navigationController?.popViewControllerAnimated(true)
                     }
                 }
                     // else show message to alert user that the shift wasn't registered
                 else
                 {
-                    self.switchStateOfActivityView(false)
+                    self.setActivityViewActive(false)
                     self.showAlertMessage("Je hebt al een dienst op deze dag")
                 }
             }
@@ -90,7 +90,7 @@ class SubmitRoosterViewController: UIViewController
     }
     
     // toggle activity indicator view on (true) off (false)
-    private func switchStateOfActivityView(on: Bool)
+    private func setActivityViewActive(on: Bool)
     {
         on ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
         activityView.hidden = !on

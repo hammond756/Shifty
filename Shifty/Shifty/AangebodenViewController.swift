@@ -19,17 +19,10 @@ class AangebodenViewController: ShiftControllerInterface
         helper.logOut(self)
     }
     
-    // update data when view appears to stay up to date with database
-    override func viewWillAppear(animated: Bool)
-    {
-        getData()
-        super.viewWillAppear(animated)
-    }
-    
     // actions on ActionSheet call getData() when the corresponding changes are saved, so the view can reload properly
-    func getData()
+    override func getData()
     {
-        switchStateOfActivityView(true)
+        setActivityViewActive(true)
         rooster.requestShifts(Status.supplied) { sections -> Void in
             self.refresh(sections)
         }

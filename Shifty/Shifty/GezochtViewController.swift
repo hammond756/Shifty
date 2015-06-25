@@ -32,16 +32,10 @@ class GezochtViewController: ShiftControllerInterface
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(animated: Bool)
-    {
-        getData()
-        super.viewWillAppear(animated)
-    }
-    
     // actions on ActionSheet call getData() when the corresponding changes are saved, so the view can reload properly
-    func getData()
+    override func getData()
     {
-        activityIndicator.startAnimating()
+        setActivityViewActive(true)
         rooster.requestRequests() { sections -> Void in
             self.refresh(sections)
         }

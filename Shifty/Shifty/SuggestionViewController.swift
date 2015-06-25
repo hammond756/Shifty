@@ -49,7 +49,7 @@ class SuggestionViewController: ShiftControllerInterface
     
     func getData()
     {
-        switchStateOfActivityView(true)
+        setActivityViewActive(true)
         rooster.requestShifts(Status.owned) { sections -> Void in
             self.refresh(sections)
         }
@@ -65,6 +65,7 @@ extension SuggestionViewController: UITableViewDataSource
         
         cell.textLabel?.text = shiftForCell.dateString
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
+        cell.selectionStyle = .Default
         
         if shiftForCell.date.day != request!.date.day
         {
@@ -86,12 +87,9 @@ extension SuggestionViewController: UITableViewDelegate
         {
             selectedShifts.append(selectedShift.objectID)
         }
-        else
-        {
-            // showAlert("Deze dienst is in al in behandeling")
-        }
     }
     
+    // remove shift from selectedShifts when deselected
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath)
     {
         let deselectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]

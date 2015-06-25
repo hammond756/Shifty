@@ -24,12 +24,12 @@ class SuggestionOverviewViewController: ShiftControllerInterface
     // BUG: doesn't remove objectID of accepted suggest from replies
     func getData()
     {
-        switchStateOfActivityView(true)
+        setActivityViewActive(true)
         rooster.requestSuggestions(requestID) { suggestions -> Void in
             self.suggestions = suggestions
             suggestions.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
             self.tableView.reloadData()
-            self.switchStateOfActivityView(false)
+            self.setActivityViewActive(false)
         }
     }
 
@@ -84,6 +84,7 @@ extension SuggestionOverviewViewController: UITableViewDelegate
         let selectedShift = suggestions[indexPath.row]
         let actionSheet = ActionSheet(shift: selectedShift, delegate: self, request: requestID)
         
+        // set actions depending on status
         if selectedShift.status == Status.awaittingFromSug
         {
             actionSheet.includeActions([Action.approveSug, Action.disapproveSug])
@@ -96,6 +97,7 @@ extension SuggestionOverviewViewController: UITableViewDelegate
         let alertController = actionSheet.getAlertController()
         alertController.presentingViewController?.view = self.view
         presentViewController(alertController, animated: true, completion: nil)
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
         
         return indexPath
     }

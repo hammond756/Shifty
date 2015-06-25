@@ -16,7 +16,7 @@ import Darwin
 @objc protocol ActionSheetDelegate
 {
     func getData()
-    func switchStateOfActivityView(on: Bool)
+    func setActivityViewActive(on: Bool)
     optional func popViewController()
     optional func showAlert(alertView: UIAlertController)
 }
@@ -321,7 +321,7 @@ class ActionSheet
         
         // prefroms the actual deletion.
         let confirmAction = UIAlertAction(title: Label.delete, style: .Destructive) { action -> Void in
-            self.delegate.switchStateOfActivityView(true)
+            self.delegate.setActivityViewActive(true)
             
             let shiftQuery = PFQuery(className: ParseClass.shifts)
                 .whereKey(ParseKey.createdFrom, equalTo: self.selectedShift.createdFrom)

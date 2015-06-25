@@ -7,6 +7,8 @@
 //
 //  Parent class for ViewControllers that show TableViews with shifts. They share common
 //  properties and outlets. This saves having duplicate functions/property initialization
+//
+//  NOTE: subclasses are less thoroughly commented, scince a lot of behavior is similar to parent
 
 import UIKit
 import Parse
@@ -25,11 +27,23 @@ class ShiftControllerInterface: UIViewController, UITableViewDataSource
     // stores the section header titles (eg. Week 34)
     var sectionsInTable = [String]()
     
+    override func viewWillAppear(animated: Bool)
+    {
+        getData()
+        super.viewWillAppear(animated)
+    }
+    
     // toggle activity indicator view on (true) off (false)
-    func switchStateOfActivityView(on: Bool)
+    func setActivityViewActive(on: Bool)
     {
         on ? activityIndicator.startAnimating() : activityIndicator.stopAnimating()
         activityView.hidden = !on
+    }
+    
+    // subclasses all have slightly different implementations of getData()
+    func getData()
+    {
+        return
     }
     
     // reload the table view
@@ -38,7 +52,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDataSource
         sectionsInTable = sections
         sections.count == 0 ? (self.tableView.hidden = true) : (self.tableView.hidden = false)
         tableView.reloadData()
-        switchStateOfActivityView(false)
+        setActivityViewActive(false)
     }
 }
 
