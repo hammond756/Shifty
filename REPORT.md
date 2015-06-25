@@ -53,11 +53,33 @@ Shows a `UITableView` with shifts that are suggested the the request by other us
 
 ##### Classes
 
-###### Content
+###### Content: HasDate, ExistsInParse, Equatable
+Superclass for all data that is displayed in the application.
+- date: NSDate
+- owner: PFUser
+- objectID: String
+- dateString: String
+- init(date: NSDate, owner: PFUser, objectID: String)
+- conveniece init(parseObject: PFObject)
+- func getWeekOfYear() -> String
+- func isOnSameDayAs(other: NSDate) -> Bool
+
+###### Request: Content
+Most related subclass of Content. Only implements its own convenience init to get values from PFObject and then calls super.init
+
 ###### Shift: Content
-###### Request: Contnet
+More elaborate subclass of Content. Adds the following properties and adapted initializers
+- var timeString: String
+- var status: String
+- var createdFrom: PFObject
+- var acceptedBy: PFUser?
+- var suggestedTo: PFObject?
+
 ###### Helper
+Strictly called by other classes/viewcontrollers. This class is a collection of frequently used fuctions. It was a challenge to 
+
 ###### Rooster
+Gets the information needed for the Content subclasses from the database and stores it locally. This is the model of the application. All information displayed by the view controllers comes from the Rooster class.
 ###### ActionSheet
 ###### Constants (not a class)
 
