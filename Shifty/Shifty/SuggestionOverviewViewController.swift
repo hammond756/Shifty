@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDelegate
+class SuggestionOverviewViewController: ShiftControllerInterface
 {
     var suggestions = [Shift]()
     var requestID = ""
@@ -37,7 +37,10 @@ class SuggestionOverviewViewController: ShiftControllerInterface, ActionSheetDel
             }
         }
     }
-    
+}
+
+extension SuggestionOverviewViewController: ActionSheetDelegate
+{
     func popViewController()
     {
         navigationController?.popViewControllerAnimated(false)
@@ -56,7 +59,6 @@ extension SuggestionOverviewViewController: UITableViewDataSource
         return 1
     }
     
-    // override from parent. SuggestionOverviewView has no section titles
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
         return nil

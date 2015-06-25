@@ -5,7 +5,7 @@
 //  Created by Aron Hammond on 03/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
-//  ViewController for the user's personal schedule. This view shows all shifts owned
+//  Shows the user's personal schedule. This view shows all shifts owned
 //  by the current user and shifts he/she accepted but still await approval. Also
 //  all actions corresponding to these shifts can be performed from here by selecting 
 //  the corresponding cell
@@ -13,7 +13,7 @@
 import UIKit
 import Parse
 
-class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
+class RoosterViewController: ShiftControllerInterface
 {
     // UIButton outlet for programmatic styling
     @IBOutlet weak var submitButton: UIButton!
@@ -45,19 +45,23 @@ class RoosterViewController: ShiftControllerInterface, ActionSheetDelegate
         super.viewWillAppear(animated)
     }
     
-    func showAlert(alertView: UIAlertController)
-    {
-        alertView.popoverPresentationController?.sourceView = self.view
-        presentViewController(alertView, animated: true, completion: nil)
-    }
-    
-    // actions on action sheet getData() when the corresponding changes are saved, so the view can reload properly
+    // actions on ActionSheet call getData() when the corresponding changes are saved, so the view can reload properly
     func getData()
     {
         switchStateOfActivityView(true)
         rooster.requestShifts(Status.owned) { sections -> Void in
             self.refresh(sections)
         }
+    }
+}
+
+extension RoosterViewController: ActionSheetDelegate
+{
+    // show UIAlerView that is created by a ActionSheet instance
+    func showAlert(alertView: UIAlertController)
+    {
+        alertView.popoverPresentationController?.sourceView = self.view
+        presentViewController(alertView, animated: true, completion: nil)
     }
 }
 
@@ -102,11 +106,13 @@ extension RoosterViewController: UITableViewDelegate
         }
         if selectedShift.status == Status.awaitting && selectedShift.owner == PFUser.currentUser()
         {
+            // alternative message
             message = selectedShift.acceptedBy!.username! + " wil jouw dienst overnemen."
             actionSheet.includeActions([Action.approve, Action.disapprove])
         }
         else if selectedShift.status == Status.awaitting && selectedShift.owner != PFUser.currentUser()
         {
+            // alternative message
             message = "Je wil " + selectedShift.owner.username! + " zijn/haar dienst overnemen."
             actionSheet.includeActions([Action.approve, Action.disapprove])
         }
@@ -116,6 +122,7 @@ extension RoosterViewController: UITableViewDelegate
         }
         if selectedShift.status == Status.suggested
         {
+            // alternative message
             message = "Je hebt deze dienst voorgesteld aan een collega"
         }
         if selectedShift.status == Status.awaittingFromSug

@@ -5,6 +5,9 @@
 //  Created by Aron Hammond on 03/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
+//  Let's the user select a day and time for one of their fixed shifts via
+//  a UIPickerView. This can be done one at a time. Automatically pop off the
+//  UINavigationController's stack when done uploading.
 
 import UIKit
 import Parse

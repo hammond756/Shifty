@@ -5,6 +5,7 @@
 //  Created by Aron Hammond on 01/06/15.
 //  Copyright (c) 2015 Aron Hammond. All rights reserved.
 //
+//
 
 import UIKit
 import Parse
@@ -34,6 +35,7 @@ class GezochtViewController: ShiftControllerInterface
         super.viewWillAppear(animated)
     }
     
+    // actions on ActionSheet call getData() when the corresponding changes are saved, so the view can reload properly
     func getData()
     {
         activityIndicator.startAnimating()
@@ -42,6 +44,7 @@ class GezochtViewController: ShiftControllerInterface
         }
     }
     
+    // assign the destinationViewController's requestID property to the selected Request's ID
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
         if segue.identifier == Segue.makeSuggestion
@@ -59,11 +62,13 @@ class GezochtViewController: ShiftControllerInterface
 
 extension GezochtViewController: UITableViewDataSource
 {
+    // information needs to come from another property than other ShiftControllerInterfaces
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return rooster.requestedShifs[section].count
     }
     
+    // set labels and highlighting for cell
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
@@ -73,7 +78,7 @@ extension GezochtViewController: UITableViewDataSource
         
         if requestForCell.owner == PFUser.currentUser()
         {
-            cell.backgroundColor = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
+            cell.backgroundColor = Highlight.owner
         }
         
         return cell
@@ -87,6 +92,7 @@ extension GezochtViewController: UITableViewDelegate
         let request = rooster.requestedShifs[indexPath.section][indexPath.row]
         selectedRequestID = request.objectID
         
+        // trigger segue depending on ownership
         if request.owner == PFUser.currentUser()
         {
             self.performSegueWithIdentifier(Segue.seeSuggestions, sender: nil)
