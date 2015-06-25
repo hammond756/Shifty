@@ -40,6 +40,7 @@ class ShiftControllerInterface: UIViewController, UITableViewDataSource
         activityView.hidden = !on
     }
     
+    // retrieves relevant data from the database and reloads the view.
     // subclasses all have slightly different implementations of getData()
     func getData()
     {

@@ -52,6 +52,7 @@ extension SuggestionOverviewViewController: UITableViewDataSource
         return nil
     }
     
+    // set cell properties and highlighting
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath) as UITableViewCell
