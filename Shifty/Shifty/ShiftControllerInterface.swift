@@ -68,6 +68,7 @@ extension ShiftControllerInterface: UITableViewDataSource
         let cell = tableView.dequeueReusableCellWithIdentifier(Constant.reuseCell, forIndexPath: indexPath) as! UITableViewCell
         cell.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textAlignment = NSTextAlignment.Center
+        cell.selectionStyle = .None
         
         return cell
     }

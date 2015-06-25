@@ -93,7 +93,8 @@ extension AangebodenViewController: UITableViewDelegate
         let alertController = actionSheet.getAlertController()
         alertController.popoverPresentationController?.sourceView = self.view
         presentViewController(alertController, animated: true, completion: nil)
-        
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+
         return indexPath
     }
 }

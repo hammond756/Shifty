@@ -134,8 +134,8 @@ extension RoosterViewController: UITableViewDelegate
         
         alertController.message = message
         alertController.popoverPresentationController?.sourceView = self.view
-        
         self.presentViewController(alertController, animated: true, completion: nil)
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
         
         return indexPath
     }

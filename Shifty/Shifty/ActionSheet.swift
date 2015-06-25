@@ -225,11 +225,8 @@ class ActionSheet
     func createAcceptAction()
     {
         let acceptAction = UIAlertAction(title: Label.accept, style: .Default) { action -> Void in
-            
             let query = PFQuery(className: ParseClass.shifts)
-            
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
-                
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
                     // check whether the shift is already accepted by another user
@@ -244,7 +241,6 @@ class ActionSheet
                             shift[ParseKey.acceptedBy] = PFUser.currentUser()
                             shift[ParseKey.status] = Status.awaitting
                             shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
-                                
                                 succes ? self.delegate.getData() : println(error?.description)
                             }
                         }

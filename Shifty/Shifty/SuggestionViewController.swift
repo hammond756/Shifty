@@ -15,26 +15,11 @@ class SuggestionViewController: ShiftControllerInterface
 {
     @IBOutlet weak var submitButton: UIButton!
     
-    
+    // set the selected shifts to suggested and pop viewcontroller
     @IBAction func finishedSuggesting(sender: UIBarButtonItem)
     {
-//        let query = PFQuery(className: ParseClass.requests)
-//        query.getObjectInBackgroundWithId(requestID) { (request: PFObject?, error: NSError?) -> Void in
-//            
-//            if let request = self.helper.returnObjectAfterErrorCheck(request, error: error) as? PFObject
-//            {
-//                request.addUniqueObjectsFromArray(self.selectedShifts, forKey: ParseKey.replies)
-//                request.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-//                    
-//                    if succes
-//                    {
-//                        self.navigationController?.popViewControllerAnimated(true)
-//                    }
-//                }
-//            }
-//        }
-        
         helper.updateShiftStatuses(selectedShifts, newStatus: Status.suggested, suggestedTo: parseObject) { }
+        navigationController?.popViewControllerAnimated(true)
     }
     
     // objectID's of shifts
@@ -80,6 +65,11 @@ extension SuggestionViewController: UITableViewDataSource
         
         cell.textLabel?.text = shiftForCell.dateString
         cell.accessoryView = helper.createTimeLabel(shiftForCell.timeString)
+        
+        if shiftForCell.date.day != request!.date.day
+        {
+            cell.backgroundColor = UIColor.blackColor()
+        }
         
         return cell
     }
