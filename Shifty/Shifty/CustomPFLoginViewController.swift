@@ -33,6 +33,7 @@ class CustomPFLoginViewController: PFLogInViewController
         self.logInView?.passwordField?.backgroundColor = .grayColor()
         self.logInView?.usernameField?.separatorColor = .darkGrayColor()
         self.logInView?.passwordField?.separatorColor = .darkGrayColor()
+        self.logInView?.signUpButton?.backgroundColor = .grayColor()
         
         // set style for signUpController
         self.signUpController?.signUpView?.emailField?.backgroundColor = .grayColor()

@@ -37,7 +37,7 @@ class Rooster
                 shift[ParseKey.owner] = PFUser.currentUser()
                 // the date of the next 'day' where 'day' is a weekday (eg. the  date of next monday)
                 let firstEntry = self.helper.nextOccurenceOfDay(day).set(componentsDict: ["hour": hour, "minute": minute])
-                shift[ParseKey.lastEntry] = firstEntry
+                shift[ParseKey.lastEntry] = firstEntry! - 1.week
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                     if succes
                     {
@@ -57,14 +57,15 @@ class Rooster
     {
         for week in 0..<amountOfRecurringWeeks
         {
-            generateAdditionalShift(fixedShift, weeksAhead: week) { callback() }
+            generateAdditionalShift(fixedShift) { callback() }
         }
     }
     
     // generate an extra shift weeksAhead weeks ahead
-    func generateAdditionalShift(fixedShift: PFObject, weeksAhead: Int, callback: () -> Void)
+    func generateAdditionalShift(fixedShift: PFObject, callback: () -> Void)
     {
-        let date = fixedShift[ParseKey.lastEntry] as! NSDate + weeksAhead.week
+        let date = fixedShift[ParseKey.lastEntry] as! NSDate + 1.week
+        println(date)
         
         let shift = PFObject(className: ParseClass.shifts)
         shift[ParseKey.date] = date
@@ -76,7 +77,7 @@ class Rooster
         
         // check if shift is the last of the initial shifts
         shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-            if weeksAhead == self.amountOfRecurringWeeks - 1
+            if date - self.amountOfRecurringWeeks.week > NSDate()
             {
                 callback()
             }
@@ -97,7 +98,7 @@ class Rooster
                     // is the last generated shift is less than amountOfRecurringWeeks weeks ahead:
                     if fixed[ParseKey.lastEntry] as! NSDate - self.amountOfRecurringWeeks.weeks < NSDate()
                     {
-                        self.generateAdditionalShift(fixed, weeksAhead: 1) { }
+                        self.generateAdditionalShift(fixed) { }
                     }
                 }
             }
