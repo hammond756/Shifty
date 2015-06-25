@@ -18,6 +18,7 @@ import Parse
     func setActivityViewActive(on: Bool)
     optional func popViewController()
     optional func showAlert(alertView: UIAlertController)
+    optional func showAlertMessage(message: String)
 }
 
 // handles the creation of UIAlertControllers throughout the application
@@ -184,18 +185,21 @@ class ActionSheet
     // update properties in application and in the database
     private func approveShiftChange()
     {
+        // ask for shift with specific objectID
         let query = PFQuery(className: ParseClass.shifts)
         query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-            
             if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
             {
+                // set properties
                 shift[ParseKey.status] = Status.idle
                 shift[ParseKey.owner] = shift[ParseKey.acceptedBy]
                 shift.removeObjectForKey(ParseKey.acceptedBy)
                 shift.removeObjectForKey(ParseKey.suggestedTo)
                 shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                    // self.selectedShift.status = Status.idle
-                    succes ? self.delegate.getData() : println(error?.description)
+                    if succes
+                    {
+                        self.delegate.getData()
+                    }
                 }
             }
         }
@@ -205,18 +209,18 @@ class ActionSheet
     func createRevokeAction()
     {
         let revokeAction = UIAlertAction(title: Label.revoke, style: .Default) { action -> Void in
-            
-            self.selectedShift.status = Status.idle
-            
+            // ask for shift met specific ID
             let query = PFQuery(className: ParseClass.shifts)
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError?) -> Void in
-                
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
+                    // set back to "idle"
                     shift[ParseKey.status] = Status.idle
                     shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                        
-                        succes ? self.delegate.getData() : println(error?.description)
+                        if succes
+                        {
+                            self.delegate.getData()
+                        }
                     }
                 }
             }
@@ -229,15 +233,16 @@ class ActionSheet
     func createAcceptAction()
     {
         let acceptAction = UIAlertAction(title: Label.accept, style: .Default) { action -> Void in
+            //
             let query = PFQuery(className: ParseClass.shifts)
             query.getObjectInBackgroundWithId(self.selectedShift.objectID) { (shift: PFObject?, error: NSError? ) -> Void in
                 if let shift = self.helper.returnObjectAfterErrorCheck(shift, error: error) as? PFObject
                 {
-                    // check whether the shift is already accepted by another user
+                    // check whether the shift conflicts with an owned one
                     self.helper.checkIfDateIsTaken(self.selectedShift.date) { taken -> Void in
                         if taken
                         {
-                            self.delegate.showAlert?(self.getAlertViewForImpossibleAcceptAction())
+                            self.delegate.showAlertMessage?("Je werkt al op deze dag")
                             return
                         }
                         else if (shift[ParseKey.acceptedBy] == nil) && (shift[ParseKey.owner] as? PFUser != PFUser.currentUser())
@@ -245,9 +250,13 @@ class ActionSheet
                             shift[ParseKey.acceptedBy] = PFUser.currentUser()
                             shift[ParseKey.status] = Status.awaitting
                             shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
-                                succes ? self.delegate.getData() : println(error?.description)
+                                if succes
+                                {
+                                    self.delegate.getData()
+                                }
                             }
                         }
+                        // shift was already accepted, but data wasn't updated yet
                         else if shift[ParseKey.acceptedBy] != nil
                         {
                             self.delegate.showAlert?(self.getAlertViewForMissedOppurtunity())
@@ -302,18 +311,6 @@ class ActionSheet
         return alertView
     }
     
-    func getAlertViewForImpossibleAcceptAction() -> UIAlertController
-    {
-        let alertView = UIAlertController(title: nil, message: "Je werkt al op deze dag", preferredStyle: .Alert)
-        
-        let cancelAction = UIAlertAction(title: Label.cancel, style: .Cancel) { action -> Void in
-            alertView.dismissViewControllerAnimated(true, completion: nil)
-        }
-    
-        alertView.addAction(cancelAction)
-        return alertView
-    }
-    
     // shows UIAlertView warning user that he/she is about to delete something
     func getConfirmationAlertView() -> UIAlertController
     {
@@ -327,22 +324,25 @@ class ActionSheet
         let confirmAction = UIAlertAction(title: Label.delete, style: .Destructive) { action -> Void in
             self.delegate.setActivityViewActive(true)
             
+            // ask for shifts that are created from the same fixed shift, owned by the user and not pending
             let shiftQuery = PFQuery(className: ParseClass.shifts)
                 .whereKey(ParseKey.createdFrom, equalTo: self.selectedShift.createdFrom)
                 .whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
-                // remove this constraint?
                 .whereKey(ParseKey.status, notContainedIn: [Status.awaitting, Status.supplied])
             
             shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
-                
                 if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
                 {
                     for (i,object) in enumerate(objects)
                     {
+                        // refresh after deleting the last object
                         if i == objects.count - 1
                         {
                             object.deleteInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-                                succes ? self.delegate.getData() : println(error?.description)
+                                if succes
+                                {
+                                    self.delegate.getData()
+                                }
                             }
                             return
                         }
@@ -351,6 +351,7 @@ class ActionSheet
                 }
             }
             
+            // delete entry in FixedShifts
             PFQuery(className: ParseClass.fixed).getObjectInBackgroundWithId(self.selectedShift.createdFrom.objectId!) { (fixedShift: PFObject?, error: NSError?) -> Void in
                 fixedShift?.deleteInBackground()
             }
@@ -358,6 +359,7 @@ class ActionSheet
         
         alertView.addAction(confirmAction)
         alertView.addAction(cancelAction)
+        
         return alertView
     }
     

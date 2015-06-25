@@ -54,6 +54,20 @@ class ShiftControllerInterface: UIViewController, UITableViewDataSource
         tableView.reloadData()
         setActivityViewActive(false)
     }
+    
+    // create and present alertView with supplied message and cancel button
+    func showAlertMessage(message: String)
+    {
+        let alertView = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
+        
+        let cancelAction = UIAlertAction(title: "Ohja", style: .Cancel) { action -> Void in
+            alertView.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        alertView.addAction(cancelAction)
+        alertView.popoverPresentationController?.sourceView = self.view
+        self.presentViewController(alertView, animated: true, completion: nil)
+    }
 }
 
 extension ShiftControllerInterface: UITableViewDataSource
