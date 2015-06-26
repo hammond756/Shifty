@@ -39,12 +39,13 @@ In the *Rooster* tab, shifts that sent to the market place will be highlighted i
 <img src="/docs/screens/GezochtViewController.png" width="200" hspace="7">
 
 ##### More Views
-Left: SubmitRoosterView, middle: SuggestionView, right: SuggestionOverviewView
-The submit view is used to fill in a fixed shifts  that will be loaded into a user's personal schedule. The Suggestionview is used to select one or more shift to suggest to a request (and in the future to propose for a trade). The SuggestionOverviewView shows suggestion made to the selected request from the GezochtView
+Left: SubmitRoosterView, middle-left: SuggestionView, middle-right: SuggestionOverviewView, right: SelectRequestView
+The submit view is used to fill in a fixed shifts  that will be loaded into a user's personal schedule. The Suggestionview is used to select one or more shift to suggest to a request (and in the future to propose for a trade). The SuggestionOverviewView shows suggestion made to the selected request from the GezochtView. A user can posts its own request via the SelectRequestView
 
-<img src="/docs/screens/SubmitRoosterViewController.png" width="200" hspace="7">
-<img src="/docs/screens/SuggestionViewController.png" width="200" hspace="7">
-<img src="/docs/screens/SuggestionOverviewViewController.png" width="200" hspace="7">
+<img src="/docs/screens/SubmitRoosterViewController.png" width="200">
+<img src="/docs/screens/SuggestionViewController.png" width="200">
+<img src="/docs/screens/SuggestionOverviewViewController.png" width="200">
+<img src="/docs/screens/SelectRequestViewController.png" width="200">
 
 ##### Interaction
 The `UIAlertController` displays actions corresponding with the status of the shift.
