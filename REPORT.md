@@ -107,22 +107,22 @@ A collection of structs that declacre constants commonly used in the code. This 
 |User|objectId|username|password|authData|emailVerified|email|createdAt|updatedAt|ACL|
 |----|--------|--------|--------|--------|-------------|-----|---------|---------|---|
 |    |String|String|String(hidden)|authData|Boolean|String|Date|Date|ACL|
+After signing up with a username, password and email adress, a user object gets created in the database. As for now there is not yet email verification or a group identifier. But this can be of use in the future to verify and distinguish between groups of employees.
 
 |FixedShifts|objectId|Day|Hour|Minute|Owner|lastEntry|createdAt|updatedAt|ACL|
 |-----------|--------|---|----|------|-----|---------|---------|---------|---|
 |           |String|String|Number|Number|Pointer<_User>|Date|Date|Date   |ACL|
+When a user registers a fixed shift, the day and time get stored in FixedShifts allong with a pointer the the user that created it. the lastEntry key is used for keeping shifts generated for enough weeks ahead
 
 |RequestedShifts|objectId|Date|requestedBy|createdAt|updatedAt|ACL|
 |---------------|--------|----|-----------|---------|---------|---|
 |               |String  |Date|Pointer<_User>|Date  |Date     |ACL|
+This table saves all the request made by user (relevant data are Date andt requestedBy)
 
 |Shifts|objectId|Date|Owner|Satus|acceptedBy|suggestedTo|createdFrom|createdAt|updatedAt|ACL|
 |------|--------|----|-----|-----|----------|-----------|-----------|---------|---------|---|
 ||String|Date|Pointer<_User>|String|Pointer<_User>|Pointer<_RequestedShift>|Pointer<_FixedShift>|Date|Date|ACL|
-
-
-
-
+Shifts is the main table in the database. All shifts get stored here, with information about ownership and status. When the status is Suggested or Awaitting approval, suggestedTo and acceptedBy indicate either the related Request or User respectively. createdFrom is a pointer to the fixed shift that corresponds with the date and user.
 
 
 ## Experience
