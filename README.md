@@ -13,24 +13,8 @@ Shifty is a marketplace for shifts whithin small businesses. The app alows emplo
 - Overview of personal scheduele
 - Overview of submitted requests/supplies shifts
 
-## Possible complications ##
-For this app to be usefull, it must have networking functionality. This is something that is new to me, but very willing to figure out. However, this may proof itself to be more complicated than expected.  
-A real world issue is that the app will only be available on iOS devices and it won't reach it's full potential until the data can be shared between all (or the most common) platforms. In the future, I will write a web based application to compliment the by existing iOS app and overcome this problem.
-
-## Planning ##
-
-| Week | Goal | Description |
-|:------:|:------:|---------|
-|1     | Interface and documentations | Proposal + Design document. And also implement a working interface in the Xcode storyboard. Working segues (with hard-coded content) |
-|2     | User profiles | Let new users create a profile and fill in their weekly schedule |
-|3     | Interaction | User can engage with the weekly schedule and reply to requests |
-|4     | Refactoring | Clean up de code and optimize performance and interaction |
-
-## Sketches ##
-
 ##### Log in/Sign up
 This is provided by the Parse framework. New users can sign up via the "SIGN UP" button. The right screen is a sketch of the sign up screen (minimum info required). A returning user can log in.  
-![Log in](/docs/login.png)
 
 ##### Main view
 This is where all the app functionality takes place. The main view consists of a tab controller with three subviews. *Rooster* where the user's personal schedule can be viewed (left). From here the user can send requests to the marketplace. The market place is split up into two sections: *Gezocht* (middle) and *Aangeboden* (right). In these sections a user can view requests from either poeple who are looking for a replacement and volunteering to fill-in shifts respectively.
@@ -38,15 +22,12 @@ In the *Rooster* tab, shifts that sent to the market place will be highlighted i
 
 | Color | Status |
 |-------|--------|
-| Orange| Open request |
-| Green | Awaiting approval |
+| Red | Supplied |
+| Gold | Awaiting approval |
 
-![Main view](/docs/tab_view.png)
+<img src="docs/screens/RoosterViewController.png" width="200" hspace="7">
+<img src="docs/screens/AangebodenViewController.png" width="200" hspace="7">
+<img src="/docs/screens/GezochtViewController.png" width="200" hspace="7">
 
-If their is no schedule known, the *Rooster* subview will show a text to let the user know it has to submit their fixed schedule.  
-<img src="docs/empty.png" height=300px/> <img src="docs/nieuw_rooster.png" height=300px/>
 
-##### Options
-To send or reply to a request, the user has to swipe left on a table cell. This wil cause a button to appear that can be tapped to preform the approprate action. For now, this is either sending (left) or accepting (right) a request.
-![Swipe options](/docs/swipe_options.png)
 
