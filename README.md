@@ -1,5 +1,6 @@
 # Shifty
-My submission for the course Programming Project 2015.
+This project is licenced under the MIT licence  
+Copyright (c) 2015 Aron Hammond
 
 ###### Language disclaimer
 This proposal and all other documentation will be written in English. However, the UI of the app will be in Dutch. For this reason, sometimes Dutch words will appear in either the code, the comments and the documentation. I will be consistent and do my best to distinguish them from the rest as good as possible.
@@ -13,8 +14,16 @@ Shifty is a marketplace for shifts whithin small businesses. The app alows emplo
 - Overview of personal scheduele
 - Overview of submitted requests/supplies shifts
 
+##### External libraries:
+- ParseFramework: used to handle database interaction
+- SwiftDate: used for date calculations and manipulations
+
 ##### Log in/Sign up
-This is provided by the Parse framework. New users can sign up via the "SIGN UP" button. The right screen is a sketch of the sign up screen (minimum info required). A returning user can log in.  
+This is provided by the Parse framework. New users can sign up via the "SIGN UP" button. The right screen is a sketch of the sign up screen (minimum info required). A returning user can log in. 
+
+<img align="center" src="/docs/screens/LoginViewController.png" width="200" hspace="7">
+<img align="center" src="/docs/screens/SignUpViewController.png" width="200" hspace="7">
+
 
 ##### Main view
 This is where all the app functionality takes place. The main view consists of a tab controller with three subviews. *Rooster* where the user's personal schedule can be viewed (left). From here the user can send requests to the marketplace. The market place is split up into two sections: *Gezocht* (middle) and *Aangeboden* (right). In these sections a user can view requests from either poeple who are looking for a replacement and volunteering to fill-in shifts respectively.
