@@ -26,8 +26,8 @@ Whenever a user has free time on his/her hands and want to work some extra shift
 ###### SubmitRoosterViewController
 Simple View with two `UITextField` and a `UIButton` to submit. One textfield is for the day of the week, one textfield is for the starting time of the shift. The inputfield of the textfields is a `UIPickerView` with two components: day and  time. Pressing the button will save the shift to the FixedShift class in the database. Also, a function will be called to generate Shift objects in the database for eight weeks ahead.
 
-###### CustomPFLoginViewController: PFLoginViewController
-Has an empty view that is the intial viewcontroller. In the `viewDidAppear` method of the view controller, a `PFLoginViewController` is created. This handles all login and signup functionality of the application.
+###### LoginViewController
+Has an empty view that is the intial viewcontroller. In the `viewDidAppear` method of the view controller, an instance of a customized subclass of `PFLoginViewController` is created. This handles all login and signup functionality of the application. That code is predefined in the object.
 
 ###### SelectRequestViewController, UITableViewDelegate
 `UITableView` that shows dates on which the user is able to take on an extra shift. The table view allows multiple selection so the user can post a request for multiple dates at once. Loading time is fairly long. Seperate queries has to be made to the database and those results have to be checked againt a set of generated dates. I have an idea to already retrieve this information in the previous viewcontroller, and have it ready when needed. But I didn't have the time to implement this.
@@ -76,14 +76,49 @@ More elaborate subclass of Content. Adds the following properties and adapted in
 - var suggestedTo: PFObject?
 
 ###### Helper
-Strictly called by other classes/viewcontrollers. This class is a collection of frequently used fuctions. It was a challenge to 
+Strictly called by other classes/viewcontrollers. This class is a collection of frequently used fuctions. Because there many similar operation that need to be preformed on different datatypes and that data has to be stored in a different proprety. For this  reason the code started out with a lot of semi-ducplicate function. It was a challenge to comprise them into general functions. Finally found a fix by using protocals and generic argument types.
 
 ###### Rooster
-Gets the information needed for the Content subclasses from the database and stores it locally. This is the model of the application. All information displayed by the view controllers comes from the Rooster class.
+Gets the information needed for the Content subclasses from the database and stores it locally. This is the model of the application. All information displayed by the view controllers comes from the Rooster class. Its properties are:
+- ownedShifts: [[Shift]]
+- suppliedShifts: [[Shift]]
+- requestedShifts: [[Request]]
+The data is stored in two-dimensional arrays, in which each sub-array consists of shifts/requets in a certain week. This matches well with the way a `UITableView` loads its data.
+
 ###### ActionSheet
+This class is dedicated to the creation of `UIAlertController` instances. Because the definition of some `UIAlertActions` are very long and those actions are used in more than one place in the code, I decided to group them all in a single class. Each action has it's own function creating it. That function stores it in an array called actionList: [UIAlertAction]. Then there is a function called includeActions(actions: [String]) that iterates over the supplied actions. In each iteration a switch statement is checked and the creation function corresponding to the action string is executed. Finally, to create the 'UIAlertController', a viewcontroller calls the getAlertController() method which includes all the created actions.
+Some ations may show a `UIAlertView` in some cases. These are also defined in the class.
+
 ###### Constants (not a class)
+A collection of structs that declacre constants commonly used in the code. This was a practical and stylistic decision. I encountered a lot of errors due to typo's in strings. This fixed that, since the string-literal only has to be typed one. The constants are seperated into catogories:
+
+- constant (uncategorized)
+- weekday ("Maandag" tm/ "Zondag")
+- segue (Segue identifiers)
+- status (Possible shift statusses)
+- action (strings used to include `UIAlertAction`)
+- label (labels vor `UIAlertController` butttons)
+- highlight (color definitions)
+- parseClass (names of database classes)
+- parseKey (titles of database keys)
 
 ##### Database
+
+|User|objectId|username|password|authData|emailVerified|email|createdAt|updatedAt|ACL|
+|----|--------|--------|--------|--------|-------------|-----|---------|---------|---|
+|    |String|String|String(hidden)|authData|Boolean|String|Date|Date|ACL|
+
+|FixedShifts|objectId|Day|Hour|Minute|Owner|lastEntry|createdAt|updatedAt|ACL|
+|-----------|--------|---|----|------|-----|---------|---------|---------|---|
+|           |String|String|Number|Number|Pointer<_User>|Date|Date|Date   |ACL|
+
+|RequestedShifts|objectId|Date|requestedBy|createdAt|updatedAt|ACL|
+|---------------|--------|----|-----------|---------|---------|---|
+|               |String  |Date|Pointer<_User>|Date  |Date     |ACL|
+
+|Shifts|objectId|Date|Owner|Satus|acceptedBy|suggestedTo|createdFrom|createdAt|updatedAt|ACL|
+|------|--------|----|-----|-----|----------|-----------|-----------|---------|---------|---|
+||String|Date|Pointer<_User>|String|Pointer<_User>|Pointer<_RequestedShift>|Pointer<_FixedShift>|Date|Date|ACL|
 
 
 
