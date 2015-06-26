@@ -71,8 +71,8 @@ extension RoosterViewController: UITableViewDataSource
         
         switch shiftForCell.status
         {
-            case Status.awaitting:          cell.backgroundColor = Highlight.awaitting
-            case Status.awaittingFromSug:   cell.backgroundColor = Highlight.awaitting
+            case Status.awaiting:          cell.backgroundColor = Highlight.awaiting
+            case Status.awaittingFromSug:   cell.backgroundColor = Highlight.awaiting
             case Status.supplied:           cell.backgroundColor = Highlight.supplied
             case Status.suggested:          cell.backgroundColor = Highlight.supplied
             default: break
@@ -97,13 +97,13 @@ extension RoosterViewController: UITableViewDelegate
         {
             actionSheet.includeActions([Action.supply, Action.delete])
         }
-        if selectedShift.status == Status.awaitting && selectedShift.owner == PFUser.currentUser()
+        if selectedShift.status == Status.awaiting && selectedShift.owner == PFUser.currentUser()
         {
             // alternative message
             message = selectedShift.acceptedBy!.username! + " wil jouw dienst overnemen."
             actionSheet.includeActions([Action.approve, Action.disapprove])
         }
-        else if selectedShift.status == Status.awaitting && selectedShift.owner != PFUser.currentUser()
+        else if selectedShift.status == Status.awaiting && selectedShift.owner != PFUser.currentUser()
         {
             // alternative message
             message = "Je wil " + selectedShift.owner.username! + " zijn/haar dienst overnemen."

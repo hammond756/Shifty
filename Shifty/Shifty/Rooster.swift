@@ -14,9 +14,6 @@ import Foundation
 
 class Rooster
 {
-    // constant for duration of fixed schedule
-    let amountOfRecurringWeeks = 8
-
     var ownedShifts = [[Shift]]()
     var suppliedShifts = [[Shift]]()
     var requestedShifs = [[Request]]()
@@ -52,10 +49,10 @@ class Rooster
         }
     }
     
-    // generate amountOfRecurringWeeks weeks in the database
+    // generate Constant.amountOfWeeksToGenerate weeks in the database
     func generateInitialShifts(fixedShift: PFObject, callback: () -> Void)
     {
-        for week in 0..<amountOfRecurringWeeks
+        for week in 0..<Constant.amountOfWeeksToGenerate
         {
             generateAdditionalShift(fixedShift) { callback() }
         }
@@ -77,14 +74,14 @@ class Rooster
         
         // check if shift is the last of the initial shifts
         shift.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
-            if date - self.amountOfRecurringWeeks.week > NSDate()
+            if date - Constant.amountOfWeeksToGenerate.week > NSDate()
             {
                 callback()
             }
         }
     }
     
-    // used to alsways keep the database stocked with shifts amountOfRecurringWeeks weeks ahead
+    // used to alsways keep the database stocked with shifts Constant.amountOfWeeksToGenerate weeks ahead
     func updateSchedule()
     {
         // ask for fixed shifts owned by the current user
@@ -95,8 +92,8 @@ class Rooster
             {
                 for fixed in fixedShifts
                 {
-                    // is the last generated shift is less than amountOfRecurringWeeks weeks ahead:
-                    if fixed[ParseKey.lastEntry] as! NSDate - self.amountOfRecurringWeeks.weeks < NSDate()
+                    // is the last generated shift is less than Constant.amountOfWeeksToGenerate weeks ahead:
+                    if fixed[ParseKey.lastEntry] as! NSDate - Constant.amountOfWeeksToGenerate.weeks < NSDate()
                     {
                         self.generateAdditionalShift(fixed) { }
                     }
@@ -152,8 +149,8 @@ class Rooster
     // function to get PFObjects associated with withStatus
     func requestParseObjects(withStatus: String, callback: (objects: [PFObject]) -> Void)
     {
+        // get query corresponding to withStatus
         let query = helper.getQueryForStatus(withStatus)
-        
         query.findObjectsInBackgroundWithBlock { (objects: [AnyObject]?, error: NSError?) -> Void in
             if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
             {

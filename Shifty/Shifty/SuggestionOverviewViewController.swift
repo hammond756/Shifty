@@ -63,7 +63,7 @@ extension SuggestionOverviewViewController: UITableViewDataSource
         
         if shiftForCell.status == Status.awaittingFromSug
         {
-            cell.backgroundColor = Highlight.awaitting
+            cell.backgroundColor = Highlight.awaiting
         }
         
         return cell

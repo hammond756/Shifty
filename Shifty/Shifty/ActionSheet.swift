@@ -248,7 +248,7 @@ class ActionSheet
                         else if (shift[ParseKey.acceptedBy] == nil) && (shift[ParseKey.owner] as? PFUser != PFUser.currentUser())
                         {
                             shift[ParseKey.acceptedBy] = PFUser.currentUser()
-                            shift[ParseKey.status] = Status.awaitting
+                            shift[ParseKey.status] = Status.awaiting
                             shift.saveInBackgroundWithBlock() { (succes, error) -> Void in
                                 if succes
                                 {
@@ -328,7 +328,7 @@ class ActionSheet
             let shiftQuery = PFQuery(className: ParseClass.shifts)
                 .whereKey(ParseKey.createdFrom, equalTo: self.selectedShift.createdFrom)
                 .whereKey(ParseKey.owner, equalTo: PFUser.currentUser()!)
-                .whereKey(ParseKey.status, notContainedIn: [Status.awaitting, Status.supplied])
+                .whereKey(ParseKey.status, notContainedIn: [Status.awaiting, Status.supplied])
             
             shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
                 if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]

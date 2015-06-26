@@ -26,7 +26,6 @@ extension NSDate: HasDate
 
 class SelectRequestsViewController: ContentViewController
 {
-    let amountOfDaysToGenerate = 31
     var sectionedDates = [[NSDate]]()
     var selectedDates = [NSDate]()
     
@@ -78,14 +77,14 @@ class SelectRequestsViewController: ContentViewController
         }
     }
     
-    // check for amountOfDaysToGenerate days if it is relevant for the user to request
+    // check for Constant.amountOfDaysToGenerate days if it is relevant for the user to request
     func getPossibleDates(previousRequests: [NSDate], callback: (possibleDates: [NSDate]) -> Void)
     {
         let today = NSDate()
         var possibleDates = [NSDate]()
         let alreadySubmitted = previousRequests.map() { String($0.day) + String($0.month) }
         
-        for days in 0..<amountOfDaysToGenerate
+        for days in 0..<Constant.amountOfDaysToGenerate
         {
             let date = today + days.day
             helper.checkIfDateIsTaken(date) { taken -> Void in
@@ -95,7 +94,7 @@ class SelectRequestsViewController: ContentViewController
                 {
                     possibleDates.append(date)
                 }
-                if days == self.amountOfDaysToGenerate - 1
+                if days == Constant.amountOfDaysToGenerate - 1
                 {
                     callback(possibleDates: possibleDates)
                 }

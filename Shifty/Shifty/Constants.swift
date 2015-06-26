@@ -14,7 +14,8 @@ import UIKit
 struct constant
 {
     let reuseCell = "cell"
-    
+    let amountOfWeeksToGenerate = 8
+    let amountOfDaysToGenerate = 31
     let pickerData = [
         [
             Weekday.monday,
@@ -55,8 +56,8 @@ let Segue = segue()
 // all possible statusses
 struct status
 {
-    let awaitting = "Awaitting Approval"
-    let awaittingFromSug = "Awaitting Approval, sug"
+    let awaiting = "Awaiting Approval"
+    let awaittingFromSug = "Awaiting Approval, sug"
     let idle = "idle"
     let owned = "Owned"
     let requested = "Requested"
@@ -97,7 +98,7 @@ let Label = label()
 struct highlight
 {
     let supplied = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
-    let awaitting = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
+    let awaiting = UIColor(red: 255.0/255.0, green: 208.0/255.0, blue: 50.0/255.0, alpha: 1.0)
     let owner = UIColor(red: 255.0/255.0, green: 119.0/255.0, blue: 80.0/255.0, alpha: 1.0)
 }
 let Highlight = highlight()
