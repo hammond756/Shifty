@@ -8,7 +8,7 @@
 This is the main view of the application. It consists of a `UITableView` that shows all shifts that are owned  
 by the user. The class has an upadateSchedule() method that ensures the user's fixed shifts are always preloaded  
 eight weeks ahead. Cells are highlighted to indicate their status. Selecting a row in the UITableView summons a `UIActionController` with actions related to the  
-status of the shift. The `+` sign in the upper right corner triggers a segue to the SubmitRoosterViewController. 
+status of the shift. 
    - Has segue to: SubmitRoosterViewController
 
 ###### AangebodenViewController: ContentViewController, UITableViewDelegate, ActionSheetDelegate
