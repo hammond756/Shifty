@@ -99,7 +99,6 @@
 		9CBA579B1B1E308900B1F708 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		9CBA579D1B1E362900B1F708 /* LogInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		9CCD9FDF1B3C4A26003EB50B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		9CF5E8FE1B26DA7C002B7DD6 /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		9CF5E9051B30320E002B7DD6 /* SelectRequestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectRequestsViewController.swift; sourceTree = "<group>"; };
 		9CF5E9091B307E1A002B7DD6 /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		9CFB6DE81B2072EF0010393E /* Rooster.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rooster.swift; sourceTree = "<group>"; };
@@ -154,7 +153,6 @@
 		9C2EF54E1B1CB1E20067F689 = {
 			isa = PBXGroup;
 			children = (
-				9CF5E8FE1B26DA7C002B7DD6 /* Bridging-Header.h */,
 				9C2EF5591B1CB1E20067F689 /* Shifty */,
 				9C2EF56F1B1CB1E30067F689 /* ShiftyTests */,
 				9C2EF5581B1CB1E20067F689 /* Products */,
@@ -175,24 +173,9 @@
 		9C2EF5591B1CB1E20067F689 /* Shifty */ = {
 			isa = PBXGroup;
 			children = (
-				9C81312F1B330DD600D9CE24 /* ContentViewController.swift */,
-				9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */,
-				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
-				9CF5E9051B30320E002B7DD6 /* SelectRequestsViewController.swift */,
-				9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */,
-				9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */,
-				9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */,
-				9CBA579D1B1E362900B1F708 /* LogInViewController.swift */,
-				9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */,
-				9C8131331B34509400D9CE24 /* CustomPFLoginViewController.swift */,
 				9C2EF5601B1CB1E30067F689 /* Main.storyboard */,
-				9C8131271B31770600D9CE24 /* ActionSheet.swift */,
-				9CF5E9091B307E1A002B7DD6 /* Request.swift */,
-				9C9A672B1B2060A100E31CBB /* Shift.swift */,
-				9C2D7B0C1B3ACF52005146DE /* Constants.swift */,
-				9C8131291B31A1BE00D9CE24 /* Helper.swift */,
-				9CFB6DE81B2072EF0010393E /* Rooster.swift */,
-				9C8131311B3433DD00D9CE24 /* Content.swift */,
+				9CCD9FE11B3D53F4003EB50B /* ViewControllers */,
+				9CCD9FE21B3D5401003EB50B /* Classes */,
 				9C2EF55A1B1CB1E20067F689 /* Supporting Files */,
 			);
 			path = Shifty;
@@ -248,6 +231,37 @@
 				522CDEC5F1F741F7B49AE007 /* Pods_Shifty.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9CCD9FE11B3D53F4003EB50B /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9C81312F1B330DD600D9CE24 /* ContentViewController.swift */,
+				9CFB6DEA1B23B1910010393E /* RoosterViewController.swift */,
+				9C2EF5821B1CF1550067F689 /* AangebodenViewController.swift */,
+				9CF5E9051B30320E002B7DD6 /* SelectRequestsViewController.swift */,
+				9C2EF5801B1CF13E0067F689 /* GezochtViewController.swift */,
+				9C81312B1B31BC9600D9CE24 /* SuggestionViewController.swift */,
+				9C81312D1B3308AC00D9CE24 /* SuggestionOverviewViewController.swift */,
+				9CBA579D1B1E362900B1F708 /* LogInViewController.swift */,
+				9C9A672D1B20649D00E31CBB /* SubmitRoosterViewController.swift */,
+				9C8131331B34509400D9CE24 /* CustomPFLoginViewController.swift */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9CCD9FE21B3D5401003EB50B /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				9C8131271B31770600D9CE24 /* ActionSheet.swift */,
+				9CF5E9091B307E1A002B7DD6 /* Request.swift */,
+				9C9A672B1B2060A100E31CBB /* Shift.swift */,
+				9C2D7B0C1B3ACF52005146DE /* Constants.swift */,
+				9C8131291B31A1BE00D9CE24 /* Helper.swift */,
+				9CFB6DE81B2072EF0010393E /* Rooster.swift */,
+				9C8131311B3433DD00D9CE24 /* Content.swift */,
+			);
+			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
