@@ -128,5 +128,25 @@ Shifts is the main table in the database. All shifts get stored here, with infor
 ## Experience
 
 ##### Hurdles
+- Asynchronous operations (getting/saving data)
+- Corner cases (consistent data)
+
+This was the first time working with a database. But luckily, thanks to Parse.com, that wasn't such a big issue. The issue was that the retrieving and saving of data happens asynchonously. Therefore it wasn't so clear cut as wat to do with respects to modularization. At first, all code that retrieved data for a certain view was inside that views controller. But I soon found that unworkable and verry messy. Then I found out about callbacks, which gave me the capablities to seperate the retrieving of the data and the loading of the views. Although I find this a good solution, it still feels off. There is a somewhat intricate web of callbacks that makes it somewhat tougher to see what's going on under the hood.
+Another issue, that I only found out this week, was that my application was very leaky with respects to the data. Jaap did a stress test to find bugs, and he did. So I've spent some time torture proofing the app. In this process I found out that it is like a game of wack-a-mole. Fix something, another thing pops up. In the future it will be wise to list all the corner cases I can think of beforehand, and base the design on that list.
+
 ##### Gained insights
+- Delegation
+- Callback functions
+- Generic types
+
+The good thing about hurdles is that they give you the opportunity to learn. Because the database and all related issue are critical to my application, I had to find a way to solve the problems and this helped shape my understanding of them. During the AppStudio course, there was a lecture about delegation but I never really understood it's use. But, while implementing the ActionSheet class I ran in to the problem of wanting to reload a `UITableView` with no reference to in inside the class. First I passed the `UIViewController` instance as an agrument to the initializer (that was dumb, I know). But then a classmate (Elias) suggested delegation and it was the perfect solution for my issue. As mentioned above, I also started using callbacks for the first time. I first encountered them in the findObjectsInBackgroundWithBlock() { } functions, but didn't know what they were exactly. Later, I started defining my own functions with callbacks (still not knowing what's really going on). One moment, it just snapped and I got the hang of it. I might have gone overboard though..
+Another feauture of swift (and maybe of other laguages as well) I was exited about finding is the use of generics. Because I had some function that did exactly the same operations on different data types, I could delete dozens of lines of code by just defining a protocol an writing the function for a generic type with that protocol.
+
 ##### Recommendations to self
+I came up with the idea for this app because of the unorganized way that my colleauges and I trade our shifts. In the four weeks we had for this project, I think I've made incrediple progress and built a good application. However, it is not yet fit for the real world. The functionality that has to be added in order for this to be viable are:
+- Direct shift-for-shift trading
+- Administrator access to approve shifts remotely and manuge the fixed shifts
+- Web-based acces for non-iOS users
+- Streamlining the UI
+
+This was the last course of the minor programming (which I really enjoyed). I signed up because I've always been interested in programming, but never got to really doing it on my own. Now I think I have reached a level of skill that is sufficient to keep on building things on my own and improve myself. I hope to continue work on Shifty and roll-out a real-world test at the restaurant where I work.
