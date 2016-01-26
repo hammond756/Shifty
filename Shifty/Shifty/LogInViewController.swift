@@ -19,7 +19,7 @@ class LogInViewController: UIViewController, PFLogInViewControllerDelegate, PFSi
         // if there is no user logged-in, show the loginController, else go to tab bar controller
         if (PFUser.currentUser() == nil)
         {
-            var loginController = CustomPFLoginViewController()
+            let loginController = CustomPFLoginViewController()
             loginController.signUpController?.delegate = self
             loginController.delegate = self
             

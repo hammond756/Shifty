@@ -94,7 +94,7 @@ extension SuggestionViewController: UITableViewDelegate
     {
         let deselectedShift = rooster.ownedShifts[indexPath.section][indexPath.row]
         
-        if let index = find(selectedShifts, deselectedShift.objectID)
+        if let index = selectedShifts.indexOf(deselectedShift.objectID)
         {
             selectedShifts.removeAtIndex(index)
         }

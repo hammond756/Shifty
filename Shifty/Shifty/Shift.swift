@@ -46,7 +46,7 @@ class Shift: Content
         let owner = parseObject[ParseKey.owner] as! PFUser
         let createdFrom = parseObject[ParseKey.createdFrom] as! PFObject
         let suggestedTo = parseObject[ParseKey.suggestedTo] as? PFObject
-        var acceptedBy = parseObject[ParseKey.acceptedBy] as? PFUser
+        let acceptedBy = parseObject[ParseKey.acceptedBy] as? PFUser
         
         self.init(date: date, owner: owner, objectID: parseObject.objectId!, status: status, acceptedBy: acceptedBy, createdFrom: createdFrom, suggestedTo: suggestedTo)
     }

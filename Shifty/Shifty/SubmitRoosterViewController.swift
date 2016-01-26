@@ -99,8 +99,8 @@ class SubmitRoosterViewController: UIViewController
     // get two integers [hour, minute] from string format HH:mm
     func extractTimeComponents(time: String) -> [Int]
     {
-        let timeArray = split(time) { $0 == ":" }
-        return timeArray.map { $0.toInt()! }
+        let timeArray = time.characters.split { $0 == ":" }.map { String($0) }
+        return timeArray.map { Int($0)! }
     }
     
     // put info on selected picker rows in the textfields
@@ -111,7 +111,7 @@ class SubmitRoosterViewController: UIViewController
     }
     
     // tap outside textfield to end editing
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent)
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?)
     {
         view.endEditing(true)
         super.touchesBegan(touches, withEvent: event)

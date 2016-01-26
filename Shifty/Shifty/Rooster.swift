@@ -52,7 +52,7 @@ class Rooster
     // generate Constant.amountOfWeeksToGenerate weeks in the database
     func generateInitialShifts(fixedShift: PFObject, callback: () -> Void)
     {
-        for week in 0..<Constant.amountOfWeeksToGenerate
+        for week in 0...Constant.amountOfWeeksToGenerate
         {
             generateAdditionalShift(fixedShift) { callback() }
         }
@@ -62,7 +62,6 @@ class Rooster
     func generateAdditionalShift(fixedShift: PFObject, callback: () -> Void)
     {
         let date = fixedShift[ParseKey.lastEntry] as! NSDate + 1.week
-        println(date)
         
         let shift = PFObject(className: ParseClass.shifts)
         shift[ParseKey.date] = date

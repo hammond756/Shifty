@@ -88,7 +88,7 @@ class ActionSheet
             query.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
                 if let associatedShifts = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
                 {
-                    for (i,shift) in enumerate(associatedShifts)
+                    for (i,shift) in associatedShifts.enumerate()
                     {
                         shift.removeObjectForKey(ParseKey.suggestedTo)
                         shift[ParseKey.status] = Status.idle
@@ -332,7 +332,7 @@ class ActionSheet
             shiftQuery.findObjectsInBackgroundWithBlock() { (objects: [AnyObject]?, error: NSError?) -> Void in
                 if let objects = self.helper.returnObjectAfterErrorCheck(objects, error: error) as? [PFObject]
                 {
-                    for (i,object) in enumerate(objects)
+                    for (i,object) in objects.enumerate()
                     {
                         // refresh after deleting the last object
                         if i == objects.count - 1

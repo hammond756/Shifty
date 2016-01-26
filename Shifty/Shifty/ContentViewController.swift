@@ -94,7 +94,7 @@ extension ContentViewController: UITableViewDataSource
     // generate cell with commonly shared properties
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier(Constant.reuseCell, forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(Constant.reuseCell, forIndexPath: indexPath) 
         cell.backgroundColor = UIColor.clearColor()
         cell.textLabel?.textAlignment = NSTextAlignment.Center
         cell.selectionStyle = .None

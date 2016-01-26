@@ -39,7 +39,7 @@ class SelectRequestsViewController: ContentViewController
     // create Requests objects in parse (from selected dates) and pop viewcontroller
     @IBAction func finishedSelecting(sender: UIBarButtonItem)
     {
-        for (i,date) in enumerate(selectedDates)
+        for (i,date) in selectedDates.enumerate()
         {
             let request = PFObject(className: ParseClass.requests)
             request[ParseKey.date] = date
@@ -48,7 +48,7 @@ class SelectRequestsViewController: ContentViewController
             request.saveInBackgroundWithBlock() { (succes: Bool, error: NSError?) -> Void in
                 if error != nil
                 {
-                    println(error?.description)
+                    print(error?.description)
                 }
                 else if succes && i == self.selectedDates.count - 1
                 {
@@ -90,7 +90,7 @@ class SelectRequestsViewController: ContentViewController
             helper.checkIfDateIsTaken(date) { taken -> Void in
                 let check = String(date.day) + String(date.month)
                 
-                if !taken && !contains(alreadySubmitted, check)
+                if !taken && !alreadySubmitted.contains(check)
                 {
                     possibleDates.append(date)
                 }
@@ -147,7 +147,7 @@ extension SelectRequestsViewController: UITableViewDelegate
     {
         let deselectedDate = sectionedDates[indexPath.section][indexPath.row]
         
-        if let index = find(selectedDates, deselectedDate)
+        if let index = selectedDates.indexOf(deselectedDate)
         {
             selectedDates.removeAtIndex(index)
         }
